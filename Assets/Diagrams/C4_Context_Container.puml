@@ -1,0 +1,14 @@
+@startuml C4 Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_LEFT_RIGHT()
+System_Boundary(l1, "System Context Diagram")
+    Person(personAlias, "Usuário", "Cliente que realiza o acesso via web")
+
+    System(systemAlias, "Conta", "Permite fazer contas")
+
+    Rel(personAlias, systemAlias, "Usa")
+
+    note "teste"
+
+@enduml
