@@ -1,0 +1,56 @@
+@startuml C4 Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+!$ICONURL = "https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v3.0.0/icons"
+!include $ICONURL/common.puml
+!include $ICONURL/devicons/java.puml
+!include $ICONURL/devicons/react.puml
+!include $ICONURL/devicons/postgresql.puml
+!include $ICONURL/devicons/chrome.puml
+!include $ICONURL/devicons2/arduino.puml
+!include $ICONURL/font-awesome-6/gear.puml
+
+'Tags IoT e Física
+AddElementTag(machineTag, $bgColor="#2D2D2A", $sprite="gear", $legendText="Máquina Injetora de Plástico (Equipamento)")
+AddElementTag(operatorTag, $bgColor="#1168bd", $sprite="person", $legendText="Operador de Injetora de Plástico")
+
+'Tags Sistema
+AddElementTag(NJPlastic, $sprite="chrome", $bgColor="#80807a", $legendText="Sistema principal")
+
+'Tags Negócio
+AddElementTag(adminTag, $bgColor="#296274", $sprite="person", $legendText="Administradorde Produção")
+AddElementTag(erpTag, $bgColor="#2D2D2A", $sprite="person", $legendText="Operador de Injetora de Plástico")
+
+Boundary(l1, "Camada de IoT/Física") {
+    Person(operator, "Operador de Injetora", "Faz o controle sobre a Injetora de Plástico e averigua a produção", $tags="operatorTag")
+    System_Ext(machine, "Injetora de Plástico", "A cada ciclo de produção que acontece em um intervalo de alguns segundos, gera um sinal elétrico", $sprite="gear", $tags="machineTag")
+    System(microcontroller, "Microcontrolador", "Captará o sinal elétrico e registrará a hora de sua captação", $sprite="arduino", $tags="NJPlastic")
+}
+
+System_Boundary(l2, "Camada de Sistema Web") {
+    System(backend, "API", "Cálcula tempo entre ciclos, comunica-se com ERP e grava informações", $sprite="java", $tags="NJPlastic")
+    SystemDb(database, "PostgreSQL", "Armazena dados históricos de ciclos por máquina, usuários, e registros de produção", $sprite="postgresql", $tags="NJPlastic")
+    System(frontend, "Front-End", "Apresenta dados de produção da máquina", $sprite="react", $tags="NJPlastic")
+}
+
+Boundary(l3, "Camada de Negócio") {
+    Person(admin, "Administrador de Produção", "Averigua no ERP da empresa, os dados cadastrados pelos operadores", $tags="adminTag")
+    System_Ext(erp, "ERP", "Contém todas informações de produção, paradas, refugos...", $sprite="java", $tags="erpTag")
+}
+
+Rel(operator, frontend, "Cadastra produção e refugos")
+Rel_R(operator, machine, "Opera Injetora")
+Rel_R(machine, microcontroller, "Envia sinal elétrico")
+
+Rel_D(microcontroller, backend, "Comunica recebimento do sinal via MQTT")
+
+Rel_L(backend, frontend, "Envia dados de produção cálculados")
+Rel_L(frontend, backend, "Envia dados de produção para cadastro")
+Rel_R(backend, database, "Envia e consulta dados")
+
+Rel_D(backend, erp, "Cadastra e busca dados do ERP")
+
+Rel_R(admin, erp, "Confere dados cadastrados no ERP")
+
+SHOW_LEGEND()
+@enduml
