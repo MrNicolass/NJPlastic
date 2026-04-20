@@ -18,7 +18,7 @@ AddElementTag(njplasticTag, $bgColor="#80807a", $sprite="chrome", $legendText="S
 
 'Tags Negócio
 AddElementTag(adminTag, $bgColor="#296274", $sprite="person", $legendText="Administrador de Produção")
-AddElementTag(erpTag, $bgColor="#C14953", $sprite="server", $legendText="Sistema ERP")
+AddElementTag(erpTag, $bgColor="#C14953", $sprite="server", $legendText="Sistema Externo - ERP")
 
 'Tags Camadas
 AddBoundaryTag(layersTag, $legendSprite="border_top_left,scale=0.30", $legendText="Limitação das Camadas")
@@ -55,4 +55,5 @@ Rel_U(admin, njplastic, "Confere dados de produção em tempo real")
 
 SetDefaultLegendEntries("")
 SHOW_LEGEND()
+footer Versão 1.0.0 do diagrama de contexto, feito com C4-PlantUML %version()
 @enduml

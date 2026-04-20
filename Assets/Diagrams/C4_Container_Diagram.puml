@@ -1,5 +1,5 @@
-@startuml C4 Diagram
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+@startuml C4 Container Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 !$ICONURL = "https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v3.0.0/icons"
 !include $ICONURL/common.puml
@@ -9,48 +9,59 @@
 !include $ICONURL/devicons/chrome.puml
 !include $ICONURL/devicons2/arduino.puml
 !include $ICONURL/font-awesome-6/gear.puml
+!include $ICONURL/font-awesome-6/server.puml
+!include $ICONURL/font-awesome-6/border_top_left.puml
 
 'Tags IoT e Física
 AddElementTag(machineTag, $bgColor="#2D2D2A", $sprite="gear", $legendText="Máquina Injetora de Plástico (Equipamento)")
 AddElementTag(operatorTag, $bgColor="#1168bd", $sprite="person", $legendText="Operador de Injetora de Plástico")
 
 'Tags Sistema
-AddElementTag(NJPlastic, $sprite="chrome", $bgColor="#80807a", $legendText="Sistema principal")
+AddElementTag(njplasticTag, $bgColor="#80807a", $sprite="chrome", $legendText="Sistemas principais")
+AddElementTag(mqttTag, $bgColor="#C14953", $sprite="server", $legendText="Serviço MQTT Externo")
 
 'Tags Negócio
-AddElementTag(adminTag, $bgColor="#296274", $sprite="person", $legendText="Administradorde Produção")
-AddElementTag(erpTag, $bgColor="#2D2D2A", $sprite="person", $legendText="Operador de Injetora de Plástico")
+AddElementTag(adminTag, $bgColor="#296274", $sprite="person", $legendText="Administrador de Produção")
+AddElementTag(erpTag, $bgColor="#C14953", $sprite="server", $legendText="Sistema ERP")
 
-Boundary(l1, "Camada de IoT/Física") {
+'Tags Camadas
+AddBoundaryTag(layersTag, $legendSprite="border_top_left,scale=0.30", $legendText="Limitação das Camadas")
+
+Boundary(l1, "Camada de IoT/Física", $tags="layersTag") {
     Person(operator, "Operador de Injetora", "Faz o controle sobre a Injetora de Plástico e averigua a produção", $tags="operatorTag")
     System_Ext(machine, "Injetora de Plástico", "A cada ciclo de produção que acontece em um intervalo de alguns segundos, gera um sinal elétrico", $sprite="gear", $tags="machineTag")
-    System(microcontroller, "Microcontrolador", "Captará o sinal elétrico e registrará a hora de sua captação", $sprite="arduino", $tags="NJPlastic")
+    Container(microcontroller, "Microcontrolador", "Arduino", "Captará o sinal elétrico e registrará a hora de sua captação", $sprite="arduino", $tags="njplasticTag")
 }
 
-System_Boundary(l2, "Camada de Sistema Web") {
-    System(backend, "API", "Cálcula tempo entre ciclos, comunica-se com ERP e grava informações", $sprite="java", $tags="NJPlastic")
-    SystemDb(database, "PostgreSQL", "Armazena dados históricos de ciclos por máquina, usuários, e registros de produção", $sprite="postgresql", $tags="NJPlastic")
-    System(frontend, "Front-End", "Apresenta dados de produção da máquina", $sprite="react", $tags="NJPlastic")
+System_Boundary(l2, "Camada de Sistema Web", $tags="layersTag") {
+    Container_Ext(mqtt_broker, "MQTT Free Server", "Broker MQTT (Ex: Mosquitto/HiveMQ)", "Intermedeia mensagens de pub/sub entre os dispositivos IoT e a API", $sprite="server", $tags="mqttTag")
+    Container(backend, "API", "Java", "Cálcula tempo entre ciclos, comunica-se com ERP e grava informações de início de produção e paradas", $sprite="java", $tags="njplasticTag")
+    ContainerDb(database, "Banco de Dados", "PostgreSQL", "Armazena dados históricos de ciclos por máquina, usuários, e registros de produção", $sprite="postgresql", $tags="njplasticTag")
+    Container(frontend, "Front-End", "React", "Apresenta dados de produção da(s) máquina(s) conectada(s)", $sprite="react", $tags="njplasticTag")
 }
 
-Boundary(l3, "Camada de Negócio") {
+Boundary(l3, "Camada de Negócio", $tags="layersTag") {
     Person(admin, "Administrador de Produção", "Averigua no ERP da empresa, os dados cadastrados pelos operadores", $tags="adminTag")
-    System_Ext(erp, "ERP", "Contém todas informações de produção, paradas, refugos...", $sprite="java", $tags="erpTag")
+    System_Ext(erp, "ERP", "Contém todas informações de produção, paradas, refugos...", $sprite="server", $tags="erpTag")
 }
 
 Rel(operator, frontend, "Cadastra produção e refugos")
-Rel_R(operator, machine, "Opera Injetora")
-Rel_R(machine, microcontroller, "Envia sinal elétrico")
+Rel_L(operator, machine, "Opera Injetora")
+Rel_L(machine, microcontroller, "Envia sinal elétrico")
 
-Rel_D(microcontroller, backend, "Comunica recebimento do sinal via MQTT")
+Rel_D(microcontroller, mqtt_broker, "Publica sinal recebido (Publish)", "MQTT")
+Rel_D(mqtt_broker, backend, "Encaminha sinal / API escuta", "MQTT / Subscribe")
 
-Rel_L(backend, frontend, "Envia dados de produção cálculados")
-Rel_L(frontend, backend, "Envia dados de produção para cadastro")
-Rel_R(backend, database, "Envia e consulta dados")
+Rel_R(backend, frontend, "Envia dados de produção calculados")
+Rel_R(frontend, backend, "Envia dados de produção para cadastro", "JSON/HTTPS")
+Rel_L(backend, database, "Lê e escreve dados de produção", "JDBC")
 
 Rel_D(backend, erp, "Cadastra e busca dados do ERP")
 
 Rel_R(admin, erp, "Confere dados cadastrados no ERP")
+Rel_U(admin, frontend, "Confere dados de produção em tempo real")
 
+SetDefaultLegendEntries("")
 SHOW_LEGEND()
+footer Versão 1.0.0 do diagrama de container, feito com C4-PlantUML %version()
 @enduml

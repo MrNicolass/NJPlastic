@@ -1,14 +1,71 @@
-@startuml C4 Diagram
+@startuml C4 Component Diagram
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-LAYOUT_LEFT_RIGHT()
-System_Boundary(l1, "System Context Diagram")
-    Person(personAlias, "Usuário", "Cliente que realiza o acesso via web")
+!$ICONURL = "https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v3.0.0/icons"
+!include $ICONURL/common.puml
+!include $ICONURL/devicons/java.puml
+!include $ICONURL/devicons/react.puml
+!include $ICONURL/devicons/postgresql.puml
+!include $ICONURL/devicons/chrome.puml
+!include $ICONURL/font-awesome-6/server.puml
+!include $ICONURL/font-awesome-6/border_top_left.puml
 
-    System(systemAlias, "Conta", "Permite fazer contas")
+'Tags Manutenção da Identidade Visual (Iguais aos diagramas de Contexto e Container)
+AddElementTag(njplasticTag, $bgColor="#80807a", $sprite="chrome", $legendText="Sistemas principais")
+AddElementTag(mqttTag, $bgColor="#C14953", $sprite="server", $legendText="Serviço MQTT Externo")
+AddElementTag(erpTag, $bgColor="#C14953", $sprite="server", $legendText="Sistema ERP")
 
-    Rel(personAlias, systemAlias, "Usa")
+AddBoundaryTag(layersTag, $legendSprite="border_top_left,scale=0.30", $legendText="Limitação de Contêiner")
 
-    note "teste"
+'Contêineres e Sistemas Externos (Somente o entorno da API)
+Container(frontend, "Front-End", "React", "Apresenta painéis de dados da produção e tela de login", $sprite="react", $tags="njplasticTag")
 
+Container_Ext(mqtt_broker, "MQTT Free Server", "Broker MQTT (Ex: Mosquitto/HiveMQ)", "Intermedeia mensagens de pub/sub entre os dispositivos IoT e a API", $sprite="server", $tags="mqttTag")
+
+ContainerDb(database, "Banco de Dados", "PostgreSQL", "Armazena dados históricos de ciclos por máquina, usuários e registros de produção", $sprite="postgresql", $tags="njplasticTag")
+
+System_Ext(erp, "Banco de Dados ERP", "SQL Server / Oracle / Postgres", "Contém todas informações de produção, paradas, refugos...", $sprite="server", $tags="erpTag")
+
+Container_Boundary(api_boundary, "API (Backend)", $tags="layersTag") {
+    
+    'Componentes de Autenticação
+    Component(auth_controller, "Authentication Controller", "Java / Spring Security", "Recebe credenciais e controla os acessos ao sistema", $sprite="java")
+    Component(auth_service, "Authentication Service", "Java", "Valida login e senha básicos", $sprite="java")
+    Component(user_repository, "User Repository", "Java / JPA", "Isola o acesso à tabela de usuários no banco de dados", $sprite="java")
+    
+    'Componentes de Produção/MQTT
+    Component(mqtt_listener, "MQTT Consumer / Listener", "Java", "Se inscreve nos tópicos do broker e recebe eventos de sinais das máquinas", $sprite="java")
+    Component(rest_controller, "Production Controller", "Java / Spring Web", "Provê endpoints REST para os dados de apontamento", $sprite="java")
+    Component(business_service, "Production Service", "Java", "Orquestra regras de negócio: calcula tempos entre ciclos e paradas", $sprite="java")
+    Component(db_repository, "Production Repository", "Java / JPA", "Isola as queries da produção no PostgreSQL", $sprite="java")
+    
+    'Componentes do ERP
+    Component(erp_repository, "ERP Database Repository", "Java / JDBC", "Conecta e realiza as queries diretamente no banco de dados do corporativo", $sprite="java")
+}
+
+'Relacionamentos Externos para Internos
+Rel_D(frontend, auth_controller, "Envia credenciais de login básico", "JSON/HTTPS")
+Rel_D(frontend, rest_controller, "Faz requisições HTTP REST", "JSON/HTTPS")
+Rel_D(mqtt_broker, mqtt_listener, "Notifica pulso elétrico", "MQTT Sub")
+
+'Relacionamentos Internos (Dentro da API - Auth)
+Rel_D(auth_controller, auth_service, "Solicita validação", "Metódo")
+Rel_D(auth_service, user_repository, "Busca dados cadastrais do usuário", "Metódo")
+
+'Relacionamentos Internos (Dentro da API - Produção)
+Rel_D(rest_controller, business_service, "Delega requisições de Front", "Metódo")
+Rel_D(mqtt_listener, business_service, "Delega pulso para cálculo", "Metódo")
+Rel_D(business_service, db_repository, "Usa banco para ler/escrever estado da máquina", "Metódo")
+
+'Relacionamentos Internos (Dentro da API - ERP)
+Rel_D(business_service, erp_repository, "Aciona leitura/gravação em sync com o ERP", "Metódo")
+
+'Relacionamentos Internos para Externos
+Rel_D(user_repository, database, "Verifica usuários cadastrados", "JDBC")
+Rel_D(db_repository, database, "Executa queries de produção", "JDBC")
+Rel_D(erp_repository, erp, "Consulta e grava via conexão de banco de dados", "JDBC/TCP")
+
+SetDefaultLegendEntries("")
+SHOW_LEGEND()
+footer Versão 1.0.0 do diagrama de componentes, feito com C4-PlantUML %version()
 @enduml
