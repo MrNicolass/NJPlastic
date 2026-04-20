@@ -1,0 +1,59 @@
+@startuml C4 Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+!$ICONURL = "https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v3.0.0/icons"
+!include $ICONURL/common.puml
+!include $ICONURL/devicons/chrome.puml
+!include $ICONURL/devicons2/arduino.puml
+!include $ICONURL/font-awesome-6/gear.puml
+!include $ICONURL/font-awesome-6/server.puml
+!include $ICONURL/font-awesome-6/border_top_left.puml
+
+'Tags IoT/Física
+AddElementTag(machineTag, $bgColor="#2D2D2A", $sprite="gear", $legendText="Máquina Injetora de Plástico (Equipamento)")
+AddElementTag(operatorTag, $bgColor="#1168bd", $sprite="person", $legendText="Operador de Injetora de Plástico")
+
+'Tags Sistema
+AddElementTag(njplasticTag, $bgColor="#80807a", $sprite="chrome", $legendText="Sistema principal")
+
+'Tags Negócio
+AddElementTag(adminTag, $bgColor="#296274", $sprite="person", $legendText="Administrador de Produção")
+AddElementTag(erpTag, $bgColor="#C14953", $sprite="server", $legendText="Sistema Externo - ERP")
+
+'Tags Camadas
+AddBoundaryTag(layersTag, $legendSprite="border_top_left,scale=0.30", $legendText="Limitação das Camadas")
+
+Boundary(l1, "Camada de IoT/Física", $tags="layersTag") {
+    Person(operator, "Operador de Injetora", "Faz o controle sobre a Injetora de Plástico e averigua a produção", $tags="operatorTag")
+    System_Ext(machine, "Injetora de Plástico", "A cada ciclo de produção que acontece num intervalo de segundos, gera um sinal elétrico", $sprite="gear", $tags="machineTag")
+    System(microcontroller, "Microcontrolador", "Capta o sinal elétrico e registra a hora exata da captação", $sprite="arduino", $tags="njplasticTag")
+}
+
+System_Boundary(l2, "Camada de Sistema Web", $tags="layersTag") {
+    System(njplastic, "Sistema NJPlastic", "Plataforma central que monitora ciclos de máquinas via IoT, recebe apontamentos de produção e sincroniza dados com o ERP", $sprite="chrome", $tags="njplasticTag")
+}
+
+Boundary(l3, "Camada de Negócio", $tags="layersTag") {
+    Person(admin, "Administrador de Produção", "Averigua no ERP da empresa os dados cadastrados pelos operadores", $tags="adminTag")
+    System_Ext(erp, "ERP", "Contém todas as informações de produção, paradas e refugos da empresa.", $sprite="server", $tags="erpTag")
+}
+
+'Relações IoT/Física
+Rel(operator, njplastic, "Cadastra produção e refugos")
+Rel_R(operator, machine, "Opera Injetora")
+Rel_R(machine, microcontroller, "Envia sinal elétrico")
+
+'Relações camada de IoT/Física e camada de Sistema
+Rel_D(microcontroller, njplastic, "Comunica recebimento do sinal via MQTT")
+
+'Relações camada de Sistema e camada de Negócio
+Rel_D(njplastic, erp, "Cadastra e busca dados do ERP")
+
+'Relações Negócio 
+Rel_R(admin, erp, "Confere dados de produção cadastrados no ERP")
+Rel_U(admin, njplastic, "Confere dados de produção em tempo real")
+
+SetDefaultLegendEntries("")
+SHOW_LEGEND()
+footer Versão 1.0.0 do diagrama de contexto, feito com C4-PlantUML %version()
+@enduml
