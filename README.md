@@ -30,15 +30,20 @@
 
 # 1. Visão do Produto e Impacto (O Problema)
 
-O objetivo desta seção é responder uma pergunta fundamental:
+<!-- O objetivo desta seção é responder uma pergunta fundamental:
+**Este projeto resolve um problema real ou é apenas um exercício técnico?** -->
+A NJPlastic tem como objetivo, integrar máquinas injetoras de plástico com equipamentos de IoT, processar dados de produção, e por fim, integrar tais dados nos ERPs (_Enterprise Resource Planning_) diversos que usuários adquirentes usem. Tem como intuíto resolver três problemas reais:
+- Cruzar a retirada de um dado analógico das injetoras com dados de produção cadastrados no ERP (agora, cadastrados na NJPlastic primeiro);
+- Permitir a visualização de produção para gestores em tempo real;
+- Desenvolver um sistema integrado completo, fácil de utilizar e barato de implementar.
 
-**Este projeto resolve um problema real ou é apenas um exercício técnico?**
+Atualmente já existem sistemas parecidos, porém não fazem integração com ERPs (ou fazem pouca integração - geralmente apenas leituras), são caros (comparado com o quê entregam), não são intuitivos e apresentam serem feitos com IA (meramente especulativo).
 
 ---
 
 ## 1.1 Contexto e Problema
 
-Descreva claramente o problema que motivou o projeto.
+<!-- Descreva claramente o problema que motivou o projeto.
 
 Explique:
 
@@ -51,7 +56,13 @@ Sempre que possível apresente:
 
 - exemplos reais
 - prints de processos atuais
-- descrições de fluxos existentes
+- descrições de fluxos existentes -->
+
+Com a escalada da IA (Inteligência Artificial) no mercado de T.I. como um todo, desenvolver aplicações em quase qualquer linguagem de programação que seja, deixou de ser um diferencial, podendo até se dizer, que o desenvolvimento de código virou uma _commodity_<sup>[[1]](#ref-1)</sup> (produto bruto, de "fácil acesso", com pouco valor agregado). Assim, o mercado de _softwares_ foi inundado com milhares de aplicações "desenvolvidas" com o intuito de ganhar "dinheiro fácil" (única e exclusivamente), feitas por meio de IAs, sem que as pessoas tenham conhecimento algum de arquitetura, segurança, escalabilidade ou demais boas práticas de desenvolvimento.
+
+Conforme a lei da oferta e demanda, quanto mais quantidade temos de alguma coisa, menos essa coisa tende a valer, no caso da "inundação de _softwares_" gerados com IA, isso não ocorreu explicitamente. Tal caso, ocorre como ponto fora da curva pois a ganância das pessoas as levou a inflar preços por meio de "_marketing_ agressivo"<sup>[[2]](#ref-2)</sup>, causando medo e desespero em pessoas com menos conhecimento, que precisam (ou não) de determinados _softwares_.
+
+Empreendedores brasileiros do setor de produtos plásticos enfrentam um mercado fragmentado e oneroso, onde até a aquisição de sistemas "especializados" em controle de produção, exige investimentos adicionais em customizações para que os mesmos se encaixem com o processo. Esses sistemas conhecidos como MES (_Manufacturing Execution System_)<sup>[[3]](#ref-3)</sup>
 
 ---
 
@@ -511,14 +522,20 @@ Defina os principais marcos de desenvolvimento.
 
 # 8. Referências
 
-Inclua:
+<!-- Inclua:
 
 - artigos
 - documentação técnica
 - ferramentas utilizadas
 - repositórios
 
----
+--- -->
+
+1. <a id="ref-1">BRASIL ESCOLA.</a> <i>Commodities</i>. Brasil Escola, 2025. Disponível em: [https://brasilescola.uol.com.br/geografia/commodities.htm](https://brasilescola.uol.com.br/geografia/commodities.htm). Acesso em: 29 abr. 2026.
+2. <a id="ref-2">AGÊNCIA CRAB.</a> <i>Marketing agressivo: o que é?</i> Agência Crab, [s.d.]. Disponível em: [https://agenciacrab.com/marketing-agressivo-o-que-e/](https://agenciacrab.com/marketing-agressivo-o-que-e/). Acesso em: 29 abr. 2026.
+3. <a id="ref-3">EGA SISTEMAS.</a> <i>Sistema MES na indústria de plástico injetado</i>. EGA, [s.d.]. Disponível em: [https://ega.com.br/sistema-mes-na-industria-de-plastico-injetado/](https://ega.com.br/sistema-mes-na-industria-de-plastico-injetado/). Acesso em: 29 abr. 2026.
+
+
 
 # 9. Apêndices
 
