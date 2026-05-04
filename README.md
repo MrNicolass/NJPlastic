@@ -30,114 +30,140 @@
 
 # 1. Visão do Produto e Impacto (O Problema)
 
-<!-- O objetivo desta seção é responder uma pergunta fundamental:
-**Este projeto resolve um problema real ou é apenas um exercício técnico?** -->
-A NJPlastic tem como objetivo, integrar máquinas injetoras de plástico com equipamentos de IoT, processar dados de produção, e por fim, integrar tais dados nos ERPs (_Enterprise Resource Planning_) diversos que usuários adquirentes usem. Tem como intuíto resolver três problemas reais:
-- Cruzar a retirada de um dado analógico das injetoras com dados de produção cadastrados no ERP (agora, cadastrados na NJPlastic primeiro);
-- Permitir a visualização de produção para gestores em tempo real;
-- Desenvolver um sistema integrado completo, fácil de utilizar e barato de implementar.
+Empreendedores do setor de plásticos injetados brasileiro, operam máquinas predominantemente analógicas e dependem de processos manuais ou sistemas legados para acompanhar a produção. O controle preciso dos ciclos produtivos é crítico nessa indústria: a matéria-prima derivada do petróleo tem custo elevado e qualquer perda não monitorada impacta diretamente a margem. Ainda assim, encontrar um sistema que integre o chão de fábrica aos ERPs corporativos a um custo acessível é uma lacuna real no mercado.
 
-Atualmente já existem sistemas parecidos, porém não fazem integração com ERPs (ou fazem pouca integração - geralmente apenas leituras), são caros (comparado com o quê entregam), não são intuitivos e apresentam serem feitos com IA (meramente especulativo).
+Com isso em mente, a NJPlastic vem com com objetivo de integrar máquinas injetoras de plástico com equipamentos de IoT, processar dados de produção, e por fim, integrar tais dados nos ERPs (_Enterprise Resource Planning_) diversos que usuários adquirentes usem. Tem como intuíto resolver três problemas reais:
+- Cruzar a retirada de um dado analógico das injetoras com dados de produção cadastrados no ERP (agora, cadastrados na NJPlastic primeiro);
+- Permitir a visualização de produção para gestores em tempo real.
+
+Atualmente já existem sistemas parecidos, porém não fazem integração com ERPs (ou fazem pouca integração - geralmente apenas leituras), são caros (comparado com o quê entregam), não são intuitivos e aparentam ter sido desenvolvidos com auxílio de IA puramente, o que pode ser um problema.
 
 ---
 
 ## 1.1 Contexto e Problema
 
-<!-- Descreva claramente o problema que motivou o projeto.
+Empreendedores brasileiros do setor de produtos plásticos enfrentam um mercado fragmentado e oneroso, onde até a aquisição de sistemas "especializados" em controle de produção, exige investimentos adicionais em customizações para que os mesmos se encaixem com o processo, sistemas conhecidos como _MES_ (_Manufacturing Execution System_)<sup>[[1]](#ref-1)</sup>. Como não há escapatória, as empresas recorrem a customização de _softwares_ de controle de produção, utilização de ferramentas não especializadas e "datadas" (como Excel), ou, desenvolvimento interno de um _software_ (específico para empresas que tenham bastente capital).
 
-Explique:
+Os sistemas _MES_ disponíveis para pequenas e médias empresas apresentam limitações críticas: a integração com _ERPs_ é rara ou superficial (geralmente apenas leitura de dados), a usabilidade é baixa e o custo de implementação e manutenção é alto. Alternativas mais baratas surgiram com a escalada da IA no mercado de _software_, porém, desenvolvidas sem rigor de arquitetura ou segurança, não entregam as garantias necessárias para um ambiente de produção industrial.
 
-- Quem sofre com esse problema
-- Em que contexto ele ocorre
-- Como esse problema é resolvido atualmente
-- Quais são as limitações das soluções atuais
+Como exemplo, vamos nos basear no processo produtivo da empresa Meplas<sup>[[2]](#ref-2)</sup>:
 
-Sempre que possível apresente:
+![Diagrama de produção Meplas](Assets/Images/Diagrams/Meplas_Production_Diagram.png)
+<p align="center"><em>Figura 1. Diagrama de produção da empresa Meplas.</em></p>
 
-- exemplos reais
-- prints de processos atuais
-- descrições de fluxos existentes -->
+Esse cenário deixa o empreendedor do setor plástico sem opção viável, ou ele investe em um _MES_ caro e genérico que ainda exigirá customização, ou, convive com ferramentas inadequadas que não eliminam o trabalho manual. A ausência de um sistema acessível, com integração real ao _ERP_ e calibrado para a realidade do setor, é a lacuna que a **NJPlastic** se propõe a preencher.
 
-Com a escalada da IA (Inteligência Artificial) no mercado de T.I. como um todo, desenvolver aplicações em quase qualquer linguagem de programação que seja, deixou de ser um diferencial, podendo até se dizer, que o desenvolvimento de código virou uma _commodity_<sup>[[1]](#ref-1)</sup> (produto bruto, de "fácil acesso", com pouco valor agregado). Assim, o mercado de _softwares_ foi inundado com milhares de aplicações "desenvolvidas" com o intuito de ganhar "dinheiro fácil" (única e exclusivamente), feitas por meio de IAs, sem que as pessoas tenham conhecimento algum de arquitetura, segurança, escalabilidade ou demais boas práticas de desenvolvimento.
-
-Conforme a lei da oferta e demanda, quanto mais quantidade temos de alguma coisa, menos essa coisa tende a valer, no caso da "inundação de _softwares_" gerados com IA, isso não ocorreu explicitamente. Tal caso, ocorre como ponto fora da curva pois a ganância das pessoas as levou a inflar preços por meio de "_marketing_ agressivo"<sup>[[2]](#ref-2)</sup>, causando medo e desespero em pessoas com menos conhecimento, que precisam (ou não) de determinados _softwares_.
-
-Empreendedores brasileiros do setor de produtos plásticos enfrentam um mercado fragmentado e oneroso, onde até a aquisição de sistemas "especializados" em controle de produção, exige investimentos adicionais em customizações para que os mesmos se encaixem com o processo. Esses sistemas conhecidos como MES (_Manufacturing Execution System_)<sup>[[3]](#ref-3)</sup>
 
 ---
 
 ## 1.2 Origem da Demanda e Evidências
 
-É necessário demonstrar que existe **interesse real pela solução**.
-
-Apresente pelo menos **uma evidência concreta**.
-
-### Demanda Externa
-
-Projeto solicitado por:
-
-- empresa
-- ONG
-- órgão público
-- grupo de usuários
-
-Inclua:
-
-- nome da organização
-- contexto da demanda
-- descrição do problema relatado
-
----
-
-### Pesquisa com Usuários
-
-Pode incluir:
-
-- entrevistas
-- questionários
-- observação de processos
-
-Inclua:
-
-- número de pessoas entrevistadas
-- principais dores identificadas
-- padrões observados
-
-Adicione **tabelas, gráficos ou prints**.
-
----
-
-### Evidência de Interesse
-
-Podem ser incluídos:
-
-- cartas de intenção
-- feedback de usuários
-- comentários de comunidades
-- resultados de formulários
-
----
+O projeto foi solicitado pela empresa Meplas, a pedido direto do sócio-proprietário Jair Sperandio. Assim como anteriormente, o mesmo relata que não há controle total do processo produtivo, possuindo os seguintes problemas:
+- Não consegue extrair dados concretos de produção em tempo real;
+    - Precisa cruzar os dados com diversas telas do ERP;
+    - Customização do ERP está fora de questão, pelas questões citados anteriormente;
+- Tem Perdas e/ou produção em excesso de 1 a cada 3 pedidos;
+- Precisa deslocar pessoal (líderes de turno) para montarem relatórios;
+- O processo produtivo não é integrado, utiliza várias ferramentas e processos manuais para registrar tudo.
 
 ## 1.3 Análise de Soluções Existentes (Benchmark)
 
-Investigue **3 a 5 soluções existentes** que tentam resolver o mesmo problema.
+Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPlastic pretende implementar.
 
-Para cada solução apresente:
+### Autoflex MES + Iniflex ERP (Projedata)<sup>[[3]](#ref-3)</sup>
 
-- nome do produto
-- link
-- público-alvo
-- funcionalidades principais
-- limitações
+**Público-alvo:** Fabricantes de plástico brasileiros de todos os portes. Oferece duas versões: *Iniflex PRO* para operações industriais de maior porte e *Iniflex SMART* voltada especificamente a micro e pequenas indústrias plásticas.
 
-Inclua **prints da interface ou diagramas simplificados**.
+**Funcionalidades principais:**
+- Coleta automática de ciclos produtivos, paradas e perdas diretamente das máquinas, sem apontamento manual;
+- Cálculo de OEE baseado em dados reais com *dashboards* por turno, setor e equipamento;
+- Ecossistema de quatro módulos integrados: *Autoflex* (MES chão de fábrica) + *Iniflex* (ERP) + *Iniflex.APS* (planejamento avançado) + *Iniflex.BI* (inteligência de dados);
+- Módulos de ERP específicos para plástico: controle de moldes e cavidades, rastreabilidade de lotes e gestão de *setups*;
+- Identificação de gargalos com interface voltada ao operador.
 
----
+**Limitações:**
+- Integração com ERPs de terceiros (SAP, TOTVS, etc.) requer consulta a especialistas — sem conectores prontos documentados publicamente;
+- Ecossistema proprietário fechado: a integração fluida ocorre apenas entre os próprios produtos Projedata;
+- Nenhuma informação de preço publicada — modelo comercial opaco para PMEs que precisam avaliar custo-benefício sem contato com o time de vendas;
+- Especificações técnicas da captura IoT (tipo de sensor, protocolo, *hardware* necessário) não estão publicadas.
+
+### Vedois MES (Vedois Tecnologia)<sup>[[4]](#ref-4)</sup>
+
+**Público-alvo:** Indústrias de médio porte no Brasil com foco declarado em injeção plástica, embalagens, móveis, metalurgia, têxtil e química.
+
+**Funcionalidades principais:**
+- *Suite* modular: *Vedois Produção* (rastreamento automático), *Vedois Qualidade* (CEP), *Vedois Manutenção* e *Vedois DNC* (carga automática de arquivos CAD/CAM em CNCs);
+- Monitoramento em tempo real de máquinas, operadores e processos com alertas via *e-mail*, *pop-up*, *mobile* e alarmes visuais e sonoros;
+- OEE com rastreabilidade de matéria-prima e IDs de produto;
+- Integração confirmada com TOTVS Protheus e compatibilidade declarada com qualquer ERP do mercado;
+- Interface responsiva para computadores, *tablets* e *smartphones*.
+
+**Limitações:**
+- Integração com ERPs externos é descrita como possível, mas sem conectores prontos — cada integração parece ser um projeto sob demanda;
+- Nenhum preço publicado e sem indicação de planos acessíveis para empresas de menor porte;
+- Documentação técnica da captura IoT ausente — sem especificação de *hardware*, protocolos ou método de captura de pulso elétrico;
+- Produto generalista por setor: sem funcionalidades específicas para injeção plástica como controle de moldes, cavidades ou gestão de OS de injeção.
+
+### LiveMES (LiveMES Tecnologia)<sup>[[5]](#ref-5)</sup>
+
+**Público-alvo:** Indústrias de manufatura discreta de todos os portes no Brasil, em setores como alimentos, automotivo, embalagens, farmacêutico, química e têxtil. Sem foco declarado em plástico.
+
+**Funcionalidades principais:**
+- Coletores IIoT instalados fisicamente nas máquinas, capazes de captar sinais variados para digitalizar equipamentos de qualquer tipo ou idade;
+- OEE em tempo real com análise de perdas e histórico de produtividade;
+- Análise de paradas com gráficos de Pareto e diagnóstico de causas raiz;
+- *LivIA*: módulo de IA para suporte a decisões operacionais;
+- *PMaaS* (*Production Manager as a Service*): engenheiros da própria LiveMES analisam os dados do cliente e entregam recomendações.
+
+**Limitações:**
+- Nenhuma especialização em injeção plástica — sem controle de moldes, cavidades, ciclos de injeção ou parâmetros específicos do processo;
+- Integração com ERP mencionada, mas sem detalhes técnicos — a integração parece ser avaliada caso a caso;
+- Nenhum preço publicado;
+- Modelo *PMaaS* pode representar custo recorrente adicional significativo para PMEs de menor porte.
+
+### Doeet MES (Doeet)<sup>[[6]](#ref-6)</sup>
+
+**Público-alvo:** Fabricantes de plástico em geral — injeção, extrusão, sopro, rotomoldagem e termoformagem. Empresa espanhola com interface em português e espanhol e clientes documentados na América Latina.
+
+**Funcionalidades principais:**
+- OEE em tempo real com monitoramento de parâmetros de máquina (temperatura, etc.) via IoT e sistema de alarmes;
+- Integração com ERP bidirecional, incluindo bloqueio de molde em uso diretamente no ERP;
+- Rastreabilidade de ordens de produção e lotes de matéria-prima;
+- Controle de moldes e ferramentas com rastreamento de uso — específico para plástico;
+- Gestão de *changeover* (SMED) e controle de qualidade integrado.
+
+**Limitações:**
+- Empresa espanhola — suporte, contrato e localização para o Brasil podem ser obstáculos para PMEs sem estrutura de TI interna;
+- Nenhuma informação de preço publicada;
+- Sem *cases* brasileiros documentados publicamente;
+- Abordagem IoT depende de sensores próprios cuja especificação técnica não está publicada.
+
+### EGA PCPMaster (EGA Sistemas)<sup>[[7]](#ref-7)</sup>
+
+**Público-alvo:** Indústrias de manufatura no Brasil — automotivo, alimentos, embalagens, plásticos, móveis e metalurgia. Produto generalista por setor.
+
+**Funcionalidades principais:**
+- Monitoramento em tempo real do chão de fábrica com coleta automática de dados e IHM (*Interface Homem-Máquina*) para interação do operador;
+- Cálculo de OEE e gestão de ordens de produção;
+- Integração com ERP via *WebAPI Rest* — abordagem técnica mais moderna e documentada publicamente entre os concorrentes avaliados;
+- Controle de qualidade com CEP (*Controle Estatístico de Processo*) e rastreabilidade;
+- Aplicativo *mobile* para gestão remota e notificações automáticas de parada de máquina.
+
+**Limitações:**
+- Injeção plástica é listada como setor atendido, mas sem funcionalidades específicas declaradas (controle de moldes, cavidades, ciclos de injeção);
+- Especificações técnicas da camada IoT (*hardware*, sensores, protocolo de captura) não estão publicadas;
+- Nenhum preço publicado;
+- Produto aparentemente posicionado para indústrias de médio porte com equipe de TI interna.
 
 ### Comparação
 
 | Solução | Pontos Fortes | Limitações |
 |---|---|---|
+| Autoflex + Iniflex (Projedata) | Único com ERP nativo para plástico; controle de moldes e cavidades; versão para micro e pequenas empresas | Ecossistema fechado; sem integração documentada com ERPs de terceiros; preço opaco |
+| Vedois MES | Foco em injeção plástica; integração confirmada com TOTVS; alertas multicanal | Integração com ERP externo sob demanda; sem especificidades de injeção (moldes, OS) |
+| LiveMES | Coletores IIoT para máquinas de qualquer tipo ou idade; escalável por porte | Sem especialização em plástico; integração com ERP caso a caso; custo do PMaaS |
+| Doeet | Bidirecional com ERP; controle de moldes; específico para plástico; multi-processo | Empresa espanhola; sem cases brasileiros; preço não publicado |
+| EGA PCPMaster | Integração via WebAPI Rest documentada; app mobile; CEP integrado | Sem funcionalidades específicas para injeção; IoT não documentado |
 
 ---
 
@@ -174,7 +200,8 @@ Descreva:
 
 ### Objetivo Geral
 
-Qual transformação o projeto pretende gerar.
+<!-- Qual transformação o projeto pretende gerar. -->
+Desenvolver um sistema integrado completo, fácil de utilizar e barato de implementar.
 
 ---
 
@@ -531,9 +558,16 @@ Defina os principais marcos de desenvolvimento.
 
 --- -->
 
-1. <a id="ref-1">BRASIL ESCOLA.</a> <i>Commodities</i>. Brasil Escola, 2025. Disponível em: [https://brasilescola.uol.com.br/geografia/commodities.htm](https://brasilescola.uol.com.br/geografia/commodities.htm). Acesso em: 29 abr. 2026.
-2. <a id="ref-2">AGÊNCIA CRAB.</a> <i>Marketing agressivo: o que é?</i> Agência Crab, [s.d.]. Disponível em: [https://agenciacrab.com/marketing-agressivo-o-que-e/](https://agenciacrab.com/marketing-agressivo-o-que-e/). Acesso em: 29 abr. 2026.
-3. <a id="ref-3">EGA SISTEMAS.</a> <i>Sistema MES na indústria de plástico injetado</i>. EGA, [s.d.]. Disponível em: [https://ega.com.br/sistema-mes-na-industria-de-plastico-injetado/](https://ega.com.br/sistema-mes-na-industria-de-plastico-injetado/). Acesso em: 29 abr. 2026.
+1. <a id="ref-1">EGA SISTEMAS.</a> <i>Sistema MES na indústria de plástico injetado</i>. EGA, [s.d.]. Disponível em: [https://ega.com.br/sistema-mes-na-industria-de-plastico-injetado/](https://ega.com.br/sistema-mes-na-industria-de-plastico-injetado/). Acesso em: 29 abr. 2026.
+2. <a id="ref-2">MEPLAS.</a> <i>Meplas</i>. [s.d.]. Disponível em: [https://meplas.com.br/](https://meplas.com.br/). Acesso em: 03 mai. 2026.
+3. <a id="ref-3">PROJEDATA.</a> <i>Autoflex MES</i>. Projedata, [s.d.]. Disponível em: [https://www.projedata.com.br/autoflex/](https://www.projedata.com.br/autoflex/). Acesso em: 03 mai. 2026.
+4. <a id="ref-4">VEDOIS TECNOLOGIA.</a> <i>Vedois MES</i>. Vedois, [s.d.]. Disponível em: [https://vedois.com.br/](https://vedois.com.br/). Acesso em: 03 mai. 2026.
+5. <a id="ref-5">LIVEMES TECNOLOGIA.</a> <i>LiveMES — Sistema MES para Monitoramento Online de Produtividade</i>. LiveMES, [s.d.]. Disponível em: [https://www.livemes.com/](https://www.livemes.com/). Acesso em: 03 mai. 2026.
+6. <a id="ref-6">DOEET.</a> <i>MES system for the plastics industry</i>. Doeet, [s.d.]. Disponível em: [https://doeet.com/en/industries/plastic-industry/](https://doeet.com/en/industries/plastic-industry/). Acesso em: 03 mai. 2026.
+7. <a id="ref-7">EGA SISTEMAS.</a> <i>EGA — Sistema MES Indústria 4.0</i>. EGA, [s.d.]. Disponível em: [https://ega.com.br/](https://ega.com.br/). Acesso em: 03 mai. 2026.
+
+- <a id="ref-xx">BRASIL ESCOLA.</a> <i>Commodities</i>. Brasil Escola, 2025. Disponível em: [https://brasilescola.uol.com.br/geografia/commodities.htm](https://brasilescola.uol.com.br/geografia/commodities.htm). Acesso em: 29 abr. 2026.
+- <a id="ref-x">AGÊNCIA CRAB.</a> <i>Marketing agressivo: o que é?</i> Agência Crab, [s.d.]. Disponível em: [https://agenciacrab.com/marketing-agressivo-o-que-e/](https://agenciacrab.com/marketing-agressivo-o-que-e/). Acesso em: 29 abr. 2026.
 
 
 
