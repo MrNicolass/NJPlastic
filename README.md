@@ -40,7 +40,7 @@ Atualmente já existem sistemas parecidos, porém não fazem integração com ER
 
 ---
 
-## 1.1 Contexto e Problema
+## 1.1. Contexto e Problema
 
 Empreendedores brasileiros do setor de produtos plásticos enfrentam um mercado fragmentado e oneroso, onde até a aquisição de sistemas "especializados" em controle de produção, exige investimentos adicionais em customizações para que os mesmos se encaixem com o processo, sistemas conhecidos como _MES_ (_Manufacturing Execution System_)<sup>[[1]](#ref-1)</sup>. Como não há escapatória, as empresas recorrem a customização de _softwares_ de controle de produção, utilização de ferramentas não especializadas e "datadas" (como Excel), ou, desenvolvimento interno de um _software_ (específico para empresas que tenham bastente capital).
 
@@ -53,10 +53,7 @@ Como exemplo, vamos nos basear no processo produtivo da empresa Meplas<sup>[[2]]
 
 Esse cenário deixa o empreendedor do setor plástico sem opção viável, ou ele investe em um _MES_ caro e genérico que ainda exigirá customização, ou, convive com ferramentas inadequadas que não eliminam o trabalho manual. A ausência de um sistema acessível, com integração real ao _ERP_ e calibrado para a realidade do setor, é a lacuna que a **NJPlastic** se propõe a preencher.
 
-
----
-
-## 1.2 Origem da Demanda e Evidências
+## 1.2. Origem da Demanda e Evidências
 
 O projeto foi solicitado pela empresa Meplas, a pedido direto do sócio-proprietário Jair Sperandio. Assim como anteriormente, o mesmo relata que não há controle total do processo produtivo, possuindo os seguintes problemas:
 - Não consegue extrair dados concretos de produção em tempo real;
@@ -66,19 +63,19 @@ O projeto foi solicitado pela empresa Meplas, a pedido direto do sócio-propriet
 - Precisa deslocar pessoal (líderes de turno) para montarem relatórios;
 - O processo produtivo não é integrado, utiliza várias ferramentas e processos manuais para registrar tudo.
 
-## 1.3 Análise de Soluções Existentes (Benchmark)
+## 1.3. Análise de Soluções Existentes (Benchmark)
 
 Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPlastic pretende implementar.
 
 ### Autoflex MES + Iniflex ERP (Projedata)<sup>[[3]](#ref-3)</sup>
 
-**Público-alvo:** Fabricantes de plástico brasileiros de todos os portes. Oferece duas versões: *Iniflex PRO* para operações industriais de maior porte e *Iniflex SMART* voltada especificamente a micro e pequenas indústrias plásticas.
+**Público-alvo:** Fabricantes de plástico brasileiros de todos os portes. Oferece duas versões: _Iniflex PRO_ para operações industriais de maior porte e _Iniflex SMART_ voltada especificamente a micro e pequenas indústrias plásticas.
 
 **Funcionalidades principais:**
 - Coleta automática de ciclos produtivos, paradas e perdas diretamente das máquinas, sem apontamento manual;
-- Cálculo de OEE baseado em dados reais com *dashboards* por turno, setor e equipamento;
-- Ecossistema de quatro módulos integrados: *Autoflex* (MES chão de fábrica) + *Iniflex* (ERP) + *Iniflex.APS* (planejamento avançado) + *Iniflex.BI* (inteligência de dados);
-- Módulos de ERP específicos para plástico: controle de moldes e cavidades, rastreabilidade de lotes e gestão de *setups*;
+- Cálculo de OEE baseado em dados reais com _dashboards_ por turno, setor e equipamento;
+- Ecossistema de quatro módulos integrados: _Autoflex_ (MES chão de fábrica) + _Iniflex_ (ERP) + _Iniflex.APS_ (planejamento avançado) + _Iniflex.BI_ (inteligência de dados);
+- Módulos de ERP específicos para plástico: controle de moldes e cavidades, rastreabilidade de lotes e gestão de _setups_;
 - Identificação de gargalos com interface voltada ao operador.
 
 **Limitações:**
@@ -92,16 +89,16 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 **Público-alvo:** Indústrias de médio porte no Brasil com foco declarado em injeção plástica, embalagens, móveis, metalurgia, têxtil e química.
 
 **Funcionalidades principais:**
-- *Suite* modular: *Vedois Produção* (rastreamento automático), *Vedois Qualidade* (CEP), *Vedois Manutenção* e *Vedois DNC* (carga automática de arquivos CAD/CAM em CNCs);
-- Monitoramento em tempo real de máquinas, operadores e processos com alertas via *e-mail*, *pop-up*, *mobile* e alarmes visuais e sonoros;
+- _Suite_ modular: _Vedois Produção_ (rastreamento automático), _Vedois Qualidade_ (CEP), _Vedois Manutenção_ e _Vedois DNC_ (carga automática de arquivos CAD/CAM em CNCs);
+- Monitoramento em tempo real de máquinas, operadores e processos com alertas via _e-mail_, _pop-up_, _mobile_ e alarmes visuais e sonoros;
 - OEE com rastreabilidade de matéria-prima e IDs de produto;
 - Integração confirmada com TOTVS Protheus e compatibilidade declarada com qualquer ERP do mercado;
-- Interface responsiva para computadores, *tablets* e *smartphones*.
+- Interface responsiva para computadores, _tablets_ e _smartphones_.
 
 **Limitações:**
 - Integração com ERPs externos é descrita como possível, mas sem conectores prontos — cada integração parece ser um projeto sob demanda;
 - Nenhum preço publicado e sem indicação de planos acessíveis para empresas de menor porte;
-- Documentação técnica da captura IoT ausente — sem especificação de *hardware*, protocolos ou método de captura de pulso elétrico;
+- Documentação técnica da captura IoT ausente — sem especificação de _hardware_, protocolos ou método de captura de pulso elétrico;
 - Produto generalista por setor: sem funcionalidades específicas para injeção plástica como controle de moldes, cavidades ou gestão de OS de injeção.
 
 ### LiveMES (LiveMES Tecnologia)<sup>[[5]](#ref-5)</sup>
@@ -112,8 +109,8 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Coletores IIoT instalados fisicamente nas máquinas, capazes de captar sinais variados para digitalizar equipamentos de qualquer tipo ou idade;
 - OEE em tempo real com análise de perdas e histórico de produtividade;
 - Análise de paradas com gráficos de Pareto e diagnóstico de causas raiz;
-- *LivIA*: módulo de IA para suporte a decisões operacionais;
-- *PMaaS* (*Production Manager as a Service*): engenheiros da própria LiveMES analisam os dados do cliente e entregam recomendações.
+- _LivIA_: módulo de IA para suporte a decisões operacionais;
+- _PMaaS_ (_Production Manager as a Service_): engenheiros da própria LiveMES analisam os dados do cliente e entregam recomendações.
 
 **Limitações:**
 - Nenhuma especialização em injeção plástica — sem controle de moldes, cavidades, ciclos de injeção ou parâmetros específicos do processo;
@@ -130,12 +127,12 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Integração com ERP bidirecional, incluindo bloqueio de molde em uso diretamente no ERP;
 - Rastreabilidade de ordens de produção e lotes de matéria-prima;
 - Controle de moldes e ferramentas com rastreamento de uso — específico para plástico;
-- Gestão de *changeover* (SMED) e controle de qualidade integrado.
+- Gestão de _changeover_ (SMED) e controle de qualidade integrado.
 
 **Limitações:**
 - Empresa espanhola — suporte, contrato e localização para o Brasil podem ser obstáculos para PMEs sem estrutura de TI interna;
 - Nenhuma informação de preço publicada;
-- Sem *cases* brasileiros documentados publicamente;
+- Sem _cases_ brasileiros documentados publicamente;
 - Abordagem IoT depende de sensores próprios cuja especificação técnica não está publicada.
 
 ### EGA PCPMaster (EGA Sistemas)<sup>[[7]](#ref-7)</sup>
@@ -143,11 +140,11 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 **Público-alvo:** Indústrias de manufatura no Brasil — automotivo, alimentos, embalagens, plásticos, móveis e metalurgia. Produto generalista por setor.
 
 **Funcionalidades principais:**
-- Monitoramento em tempo real do chão de fábrica com coleta automática de dados e IHM (*Interface Homem-Máquina*) para interação do operador;
+- Monitoramento em tempo real do chão de fábrica com coleta automática de dados e IHM (_Interface Homem-Máquina_) para interação do operador;
 - Cálculo de OEE e gestão de ordens de produção;
-- Integração com ERP via *WebAPI Rest* — abordagem técnica mais moderna e documentada publicamente entre os concorrentes avaliados;
-- Controle de qualidade com CEP (*Controle Estatístico de Processo*) e rastreabilidade;
-- Aplicativo *mobile* para gestão remota e notificações automáticas de parada de máquina.
+- Integração com ERP via _WebAPI Rest_ — abordagem técnica mais moderna e documentada publicamente entre os concorrentes avaliados;
+- Controle de qualidade com CEP (_Controle Estatístico de Processo_) e rastreabilidade;
+- Aplicativo _mobile_ para gestão remota e notificações automáticas de parada de máquina.
 
 **Limitações:**
 - Injeção plástica é listada como setor atendido, mas sem funcionalidades específicas declaradas (controle de moldes, cavidades, ciclos de injeção);
@@ -169,17 +166,27 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 
 ### Diferencial do Projeto
 
-Explique claramente:
+A análise dos concorrentes revela um padrão consistente: as soluções disponíveis resolvem partes do problema, mas nenhuma os resolve todos de forma acessível para pequenas e médias indústrias brasileiras de injeção plástica. A NJPlastic se posiciona a partir dessas lacunas.
 
-- por que criar algo novo
-- qual lacuna não foi resolvida pelas soluções existentes
-- qual nicho específico será atendido
+#### 1.3.1. Integração ERP real e bidirecional
 
----
+Todos os concorrentes analisados descrevem integração com ERPs como "possível" ou "sob demanda" — cada implementação é um projeto customizado, sem conectores prontos. A NJPlastic propõe integração estrutural desde o início, com acesso direto ao banco de dados do ERP via JDBC, suportando leitura e escrita em SQL Server, Oracle e PostgreSQL sem dependência de _middleware_ proprietário.
 
-## 1.4 Público-Alvo
+#### 1.3.2. Especialização em injeção plástica com suporte ao mercado brasileiro
 
-Defina quem usará o sistema.
+Dos concorrentes com especialização real em plástico, Projedata só integra com o próprio ERP e Doeet é uma empresa espanhola sem _cases_ documentados no Brasil. A NJPlastic combina foco no processo de injeção — captura de ciclos, detecção de pausas e controle de perdas — com integração direta aos ERPs já adotados pela indústria brasileira (como Consistem, SAP, TOTVS...).
+
+#### 1.3.3. Hardware acessível e sem _vendor lock-in_
+
+Nenhum concorrente publica especificações técnicas da camada IoT, enquanto a NJPlastic utiliza _hardware_ aberto e de baixo custo para captura dos sinais das máquinas via MQTT. No MVP, a captura será feita com Arduino, em versões posteriores, será migrada para um módulo ESP32<sup>[[8]](#ref-8)</sup> — que reduzirá custos, aumentará o processamento e armazenamento interno e permitirá sua atualização de código remotamente (CI/CD). Essa escolha elimina a dependência de sensores proprietários e mantém o custo de implementação acessível para PMEs sem equipe de TI interna.
+
+#### 1.3.4. Custo previsível e arquitetura com rigor de engenharia
+
+As soluções de menor custo que surgiram com a escalada da IA foram desenvolvidas sem uma arquitetura ou segurança sólida, não entregando garantias adequadas para ambientes de produção industrial. A NJPlastic é construída sobre decisões arquiteturais explícitas — separação de camadas, modelagem C4, protocolo aberto — o que garante manutenibilidade e credibilidade técnica sem o custo opaco dos sistemas estabelecidos.
+
+## 1.4. Público-Alvo
+
+<!-- Defina quem usará o sistema.
 
 Exemplos:
 
@@ -192,43 +199,71 @@ Descreva:
 
 - perfil do usuário
 - contexto de uso
-- nível de conhecimento técnico esperado
+- nível de conhecimento técnico esperado -->
 
----
+O sistema é destinado a **pequenas e médias indústrias brasileiras de injeção plástica** que já utilizam algum ERP corporativo e precisam integrar o chão de fábrica ao sistema de gestão sem investimento em customizações caras.
 
-## 1.5 Objetivos do Projeto
+Dentro dessas empresas, os perfis de usuário são:
+
+**Operador de máquina**
+- **Contexto:** Stua diretamente no chão de fábrica, acompanha o andamento da produção turno a turno;
+- **Objetivo:** Visualizar o status das máquinas e a contagem de ciclos em tempo real;
+- **Nível técnico:** Baixo — espera-se uma interface simples, sem necessidade de treinamento formal.
+
+**Líder de turno**
+- **Contexto:** Supervisiona a produção durante um turno, atualmente responsável por montar relatórios manualmente ao final de cada período;
+- **Objetivo:** Acessar relatórios de produção consolidados sem deslocamento físico ou retrabalho manual;
+- **Nível técnico:** Básico — familiarizado com uso de computador e planilhas, sem experiência em sistemas industriais.
+
+**Gestor / Sócio-proprietário**
+- **Contexto:** Acompanha indicadores de produção e perdas para tomada de decisão, precisando cruzar dados em diversas telas do ERP;
+- **Objetivo:** Ter visibilidade centralizada da produção integrada ao ERP, com dados confiáveis e em tempo real;
+- **Nível técnico:** Médio — usa o ERP corporativo com regularidade, mas não tem perfil técnico de TI.
+
+## 1.5. Objetivos do Projeto
 
 ### Objetivo Geral
 
-<!-- Qual transformação o projeto pretende gerar. -->
-Desenvolver um sistema integrado completo, fácil de utilizar e barato de implementar.
+<!-- Qual transformação o projeto pretende gerar.
+Desenvolver um sistema integrado completo, fácil de utilizar e barato de implementar. -->
 
----
+Desenvolver uma plataforma _Web-IoT_ que automatize a captura de ciclos produtivos de máquinas injetoras de plástico e sincronize esses dados com o ERP corporativo da empresa, eliminando apontamentos manuais e viabilizando o monitoramento da produção em tempo real para operadores, líderes de turno e gestores.
 
 ### Objetivos Específicos
 
-Liste **3 a 5 objetivos técnicos ou de produto**.
+<!-- Liste **3 a 5 objetivos técnicos ou de produto**.
 
 Exemplo:
 
 - automatizar um processo manual
 - permitir análise de dados
-- criar um sistema de recomendação
+- criar um sistema de recomendação -->
 
----
+- Implementar uma camada IoT de captura de pulsos elétricos das injetoras via MQTT, utilizando Arduino no MVP e módulo ESP32 em versões posteriores;
+- Desenvolver um _backend_ REST que processe os eventos MQTT, calcule tempos de ciclo, detecte pausas de máquina e persista os dados em PostgreSQL;
+- Criar um _dashboard_ web em tempo real com indicadores de produção (ciclos, OEE, paradas) acessível por perfil de usuário (operador, líder, gestor);
+- Implementar integração bidirecional com o ERP corporativo via JDBC direto, suportando SQL Server, Oracle e PostgreSQL sem dependência de _middleware_ proprietário;
+- Disponibilizar autenticação com controle de acesso por perfil, garantindo que cada usuário visualize apenas o escopo de informações pertinente à sua função.
 
-## 1.6 Métricas de Sucesso (KPIs)
+## 1.6. Métricas de Sucesso (KPIs)
 
-Como saberemos que o projeto foi bem sucedido?
+<!-- Como saberemos que o projeto foi bem sucedido?
 
 Exemplos:
 
 - latência inferior a 200ms
 - acurácia da IA superior a 85%
 - suporte a 100 usuários simultâneos
-- redução do tempo de um processo em 30%
+- redução do tempo de um processo em 30% -->
 
----
+| Métrica | Meta | Referência |
+|---|---|---|
+| Latência de registro de ciclo (pulso → banco) | < 5 segundos | Tempo aceitável para acompanhamento em tempo real |
+| Taxa de perda/excesso por pedido | Redução de 33% para < 10% | Problema declarado: 1 em cada 3 pedidos com desvio |
+| Tempo gasto por líder em relatórios de turno | Redução ≥ 80% | Atualmente exige deslocamento e montagem manual |
+| Disponibilidade do sistema | ≥ 99% em horário de produção | Ambiente industrial crítico — parada afeta monitoramento |
+| Sincronização com ERP | Dados disponíveis no ERP em até 1 minuto do registro | Latência aceitável para integração assíncrona |
+| Adoção pelos usuários | 100% dos líderes e gestores utilizando ativamente em até 30 dias após implantação | Indicador de usabilidade e aderência ao processo |
 
 # 2. Engenharia de Requisitos
 
@@ -238,7 +273,7 @@ Evite descrições vagas.
 
 ---
 
-## 2.1 Personas
+## 2.1. Personas
 
 Crie **1 a 3 personas principais**.
 
@@ -253,7 +288,7 @@ Adicionar **imagens ou ilustrações** pode ajudar na compreensão.
 
 ---
 
-## 2.2 Casos de Uso Principais
+## 2.2. Casos de Uso Principais
 
 Liste os principais fluxos do sistema.
 
@@ -268,7 +303,7 @@ Sempre que possível inclua **diagramas de caso de uso**.
 
 ---
 
-## 2.3 Requisitos Funcionais (RF)
+## 2.3. Requisitos Funcionais (RF)
 
 Use a estrutura:
 
@@ -284,7 +319,7 @@ RF03 — O sistema deve permitir que o usuário visualize dados registrados.
 
 ---
 
-## 2.4 Requisitos Não Funcionais (RNF)
+## 2.4. Requisitos Não Funcionais (RNF)
 
 Inclua requisitos relacionados a:
 
@@ -302,7 +337,7 @@ RNF03 — O sistema deve utilizar autenticação segura.
 
 ---
 
-## 2.5 Regras de Negócio
+## 2.5. Regras de Negócio
 
 Exemplos:
 
@@ -311,7 +346,7 @@ Exemplos:
 
 ---
 
-## 2.6 Fora do Escopo
+## 2.6. Fora do Escopo
 
 Liste explicitamente **o que o sistema não fará**.
 
@@ -327,7 +362,7 @@ Use diagramas sempre que possível.
 
 ---
 
-## 3.1 Fluxo Principal do Usuário
+## 3.1. Fluxo Principal do Usuário
 
 Apresente o fluxo principal do sistema.
 
@@ -341,7 +376,7 @@ Inclua **imagens dos diagramas**.
 
 ---
 
-## 3.2 Fluxos Alternativos
+## 3.2. Fluxos Alternativos
 
 Descreva cenários como:
 
@@ -372,7 +407,7 @@ Ferramentas sugeridas:
 
 ---
 
-## 4.1 Fluxo de Navegação
+## 4.1. Fluxo de Navegação
 
 Apresente um diagrama mostrando como o usuário navega entre telas.
 
@@ -384,7 +419,7 @@ Inclua **imagem do fluxo de navegação**.
 
 ---
 
-## 4.2 Wireframes ou Mockups das Telas
+## 4.2. Wireframes ou Mockups das Telas
 
 Apresente os principais mockups do sistema.
 
@@ -408,7 +443,7 @@ Sempre que possível:
 
 ---
 
-## 4.3 Fluxo de Interação do Usuário
+## 4.3. Fluxo de Interação do Usuário
 
 Demonstre passo a passo um fluxo importante.
 
@@ -423,7 +458,7 @@ Inclua **sequência de telas ou fluxo visual**.
 
 ---
 
-## 4.4 Feedback Inicial de Usuários (Opcional)
+## 4.4. Feedback Inicial de Usuários (Opcional)
 
 Se possível, inclua:
 
@@ -439,7 +474,7 @@ Esta seção demonstra **como o sistema será construído**.
 
 ---
 
-## 5.1 Diagrama C4
+## 5.1. Diagrama C4
 
 Apresente três níveis.
 ## 1. Nível 1: Diagrama de Contexto
@@ -475,7 +510,7 @@ O foco agora é o que acontece **dentro de um único container** (como uma API e
     * **Interações:** Como os componentes internos se orquestram para processar e responder a uma requisição.
 ---
 
-## 5.2 Modelo de Dados
+## 5.2. Modelo de Dados
 
 Apresente:
 
@@ -487,7 +522,7 @@ Inclua **diagramas do modelo de dados**.
 
 ---
 
-## 5.3 Principais Componentes
+## 5.3. Principais Componentes
 
 Descreva os principais módulos do sistema.
 
@@ -500,7 +535,7 @@ Exemplo:
 
 ---
 
-## 5.4 Stack Tecnológica
+## 5.4. Stack Tecnológica
 
 Liste as tecnologias utilizadas.
 
@@ -525,7 +560,7 @@ Exemplos:
 
 ---
 
-## 6.1 Privacidade e LGPD
+## 6.1. Privacidade e LGPD
 
 Explique:
 
@@ -565,6 +600,8 @@ Defina os principais marcos de desenvolvimento.
 5. <a id="ref-5">LIVEMES TECNOLOGIA.</a> <i>LiveMES — Sistema MES para Monitoramento Online de Produtividade</i>. LiveMES, [s.d.]. Disponível em: [https://www.livemes.com/](https://www.livemes.com/). Acesso em: 03 mai. 2026.
 6. <a id="ref-6">DOEET.</a> <i>MES system for the plastics industry</i>. Doeet, [s.d.]. Disponível em: [https://doeet.com/en/industries/plastic-industry/](https://doeet.com/en/industries/plastic-industry/). Acesso em: 03 mai. 2026.
 7. <a id="ref-7">EGA SISTEMAS.</a> <i>EGA — Sistema MES Indústria 4.0</i>. EGA, [s.d.]. Disponível em: [https://ega.com.br/](https://ega.com.br/). Acesso em: 03 mai. 2026.
+8. <a id="ref-8">ESPRESSIF SYSTEMS.</a> <i>ESP32 Series</i>. Espressif, [s.d.]. Disponível em: [https://www.espressif.com/en/products/socs/esp32](https://www.espressif.com/en/products/socs/esp32). Acesso em: 05 mai. 2026.
+
 
 - <a id="ref-xx">BRASIL ESCOLA.</a> <i>Commodities</i>. Brasil Escola, 2025. Disponível em: [https://brasilescola.uol.com.br/geografia/commodities.htm](https://brasilescola.uol.com.br/geografia/commodities.htm). Acesso em: 29 abr. 2026.
 - <a id="ref-x">AGÊNCIA CRAB.</a> <i>Marketing agressivo: o que é?</i> Agência Crab, [s.d.]. Disponível em: [https://agenciacrab.com/marketing-agressivo-o-que-e/](https://agenciacrab.com/marketing-agressivo-o-que-e/). Acesso em: 29 abr. 2026.
