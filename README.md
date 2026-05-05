@@ -32,7 +32,7 @@
 
 Empreendedores do setor de plásticos injetados brasileiro, operam máquinas predominantemente analógicas e dependem de processos manuais ou sistemas legados para acompanhar a produção. O controle preciso dos ciclos produtivos é crítico nessa indústria: a matéria-prima derivada do petróleo tem custo elevado e qualquer perda não monitorada impacta diretamente a margem. Ainda assim, encontrar um sistema que integre o chão de fábrica aos ERPs corporativos a um custo acessível é uma lacuna real no mercado.
 
-Com isso em mente, a NJPlastic vem com com objetivo de integrar máquinas injetoras de plástico com equipamentos de IoT, processar dados de produção, e por fim, integrar tais dados nos ERPs (_Enterprise Resource Planning_) diversos que usuários adquirentes usem. Tem como intuíto resolver três problemas reais:
+Com isso em mente, a NJPlastic vem com objetivo de integrar máquinas injetoras de plástico com equipamentos de IoT, processar dados de produção, e por fim, integrar tais dados nos ERPs (_Enterprise Resource Planning_) diversos que usuários adquirentes usem. Tem como intuito resolver três problemas reais:
 - Cruzar a retirada de um dado analógico das injetoras com dados de produção cadastrados no ERP (agora, cadastrados na NJPlastic primeiro);
 - Permitir a visualização de produção para gestores em tempo real.
 
@@ -42,7 +42,7 @@ Atualmente já existem sistemas parecidos, porém não fazem integração com ER
 
 ## 1.1. Contexto e Problema
 
-Empreendedores brasileiros do setor de produtos plásticos enfrentam um mercado fragmentado e oneroso, onde até a aquisição de sistemas "especializados" em controle de produção, exige investimentos adicionais em customizações para que os mesmos se encaixem com o processo, sistemas conhecidos como _MES_ (_Manufacturing Execution System_)<sup>[[1]](#ref-1)</sup>. Como não há escapatória, as empresas recorrem a customização de _softwares_ de controle de produção, utilização de ferramentas não especializadas e "datadas" (como Excel), ou, desenvolvimento interno de um _software_ (específico para empresas que tenham bastente capital).
+Empreendedores brasileiros do setor de produtos plásticos enfrentam um mercado fragmentado e oneroso, onde até a aquisição de sistemas "especializados" em controle de produção, exige investimentos adicionais em customizações para que os mesmos se encaixem com o processo, sistemas conhecidos como _MES_ (_Manufacturing Execution System_)<sup>[[1]](#ref-1)</sup>. Como não há escapatória, as empresas recorrem à customização de _softwares_ de controle de produção, utilização de ferramentas não especializadas e "datadas" (como Excel), ou, desenvolvimento interno de um _software_ (específico para empresas que tenham bastante capital).
 
 Os sistemas _MES_ disponíveis para pequenas e médias empresas apresentam limitações críticas: a integração com _ERPs_ é rara ou superficial (geralmente apenas leitura de dados), a usabilidade é baixa e o custo de implementação e manutenção é alto. Alternativas mais baratas surgiram com a escalada da IA no mercado de _software_, porém, desenvolvidas sem rigor de arquitetura ou segurança, não entregam as garantias necessárias para um ambiente de produção industrial.
 
@@ -58,7 +58,7 @@ Esse cenário deixa o empreendedor do setor plástico sem opção viável, ou el
 O projeto foi solicitado pela empresa Meplas, a pedido direto do sócio-proprietário Jair Sperandio. Assim como anteriormente, o mesmo relata que não há controle total do processo produtivo, possuindo os seguintes problemas:
 - Não consegue extrair dados concretos de produção em tempo real;
     - Precisa cruzar os dados com diversas telas do ERP;
-    - Customização do ERP está fora de questão, pelas questões citados anteriormente;
+    - Customização do ERP está fora de questão, pelas questões citadas anteriormente;
 - Tem Perdas e/ou produção em excesso de 1 a cada 3 pedidos;
 - Precisa deslocar pessoal (líderes de turno) para montarem relatórios;
 - O processo produtivo não é integrado, utiliza várias ferramentas e processos manuais para registrar tudo.
@@ -164,23 +164,23 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 
 ---
 
-### Diferencial do Projeto
+### 1.3.1. Diferencial do Projeto
 
 A análise dos concorrentes revela um padrão consistente: as soluções disponíveis resolvem partes do problema, mas nenhuma os resolve todos de forma acessível para pequenas e médias indústrias brasileiras de injeção plástica. A NJPlastic se posiciona a partir dessas lacunas.
 
-#### 1.3.1. Integração ERP real e bidirecional
+#### 1.3.1.1. Integração ERP real e bidirecional
 
 Todos os concorrentes analisados descrevem integração com ERPs como "possível" ou "sob demanda" — cada implementação é um projeto customizado, sem conectores prontos. A NJPlastic propõe integração estrutural desde o início, com acesso direto ao banco de dados do ERP via JDBC, suportando leitura e escrita em SQL Server, Oracle e PostgreSQL sem dependência de _middleware_ proprietário.
 
-#### 1.3.2. Especialização em injeção plástica com suporte ao mercado brasileiro
+#### 1.3.1.2. Especialização em injeção plástica com suporte ao mercado brasileiro
 
 Dos concorrentes com especialização real em plástico, Projedata só integra com o próprio ERP e Doeet é uma empresa espanhola sem _cases_ documentados no Brasil. A NJPlastic combina foco no processo de injeção — captura de ciclos, detecção de pausas e controle de perdas — com integração direta aos ERPs já adotados pela indústria brasileira (como Consistem, SAP, TOTVS...).
 
-#### 1.3.3. Hardware acessível e sem _vendor lock-in_
+#### 1.3.1.3. Hardware acessível e sem _vendor lock-in_
 
 Nenhum concorrente publica especificações técnicas da camada IoT, enquanto a NJPlastic utiliza _hardware_ aberto e de baixo custo para captura dos sinais das máquinas via MQTT. No MVP, a captura será feita com Arduino, em versões posteriores, será migrada para um módulo ESP32<sup>[[8]](#ref-8)</sup> — que reduzirá custos, aumentará o processamento e armazenamento interno e permitirá sua atualização de código remotamente (CI/CD). Essa escolha elimina a dependência de sensores proprietários e mantém o custo de implementação acessível para PMEs sem equipe de TI interna.
 
-#### 1.3.4. Custo previsível e arquitetura com rigor de engenharia
+#### 1.3.1.4. Custo previsível e arquitetura com rigor de engenharia
 
 As soluções de menor custo que surgiram com a escalada da IA foram desenvolvidas sem uma arquitetura ou segurança sólida, não entregando garantias adequadas para ambientes de produção industrial. A NJPlastic é construída sobre decisões arquiteturais explícitas — separação de camadas, modelagem C4, protocolo aberto — o que garante manutenibilidade e credibilidade técnica sem o custo opaco dos sistemas estabelecidos.
 
@@ -206,7 +206,7 @@ O sistema é destinado a **pequenas e médias indústrias brasileiras de injeç�
 Dentro dessas empresas, os perfis de usuário são:
 
 **Operador de máquina**
-- **Contexto:** Stua diretamente no chão de fábrica, acompanha o andamento da produção turno a turno;
+- **Contexto:** Atua diretamente no chão de fábrica, acompanha o andamento da produção turno a turno;
 - **Objetivo:** Visualizar o status das máquinas e a contagem de ciclos em tempo real;
 - **Nível técnico:** Baixo — espera-se uma interface simples, sem necessidade de treinamento formal.
 
