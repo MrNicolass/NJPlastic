@@ -1,0 +1,108 @@
+@startuml UseCase Diagram
+
+!$ICONURL = "https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/main/icons"
+!include $ICONURL/common.puml
+!include $ICONURL/devicons2/arduino.puml
+!include $ICONURL/font-awesome-6/server.puml
+
+left to right direction
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam packageStyle rectangle
+
+skinparam actor {
+    BorderColor #000000
+    FontColor #FFFFFF
+    BackgroundColor #1168bd
+}
+
+skinparam usecase {
+    BorderColor #2D2D2A
+    BackgroundColor #80807a
+    FontColor #FFFFFF
+    ArrowColor #2D2D2A
+}
+
+skinparam rectangle {
+    BorderColor #2D2D2A
+    BackgroundColor #F5F5F2
+    FontColor #2D2D2A
+}
+
+actor "Operador" as operator #1168bd
+actor "Líder de Turno" as leader #1168bd
+
+actor "Gestor" as manager #296274
+
+actor "Microcontrolador" as mcu <<sistema>> #80807a
+actor "Backend" as backend <<sistema>> #80807a
+
+actor "ERP" as erp <<sistema externo>> #C14953
+
+rectangle "Sistema NJPlastic" {
+
+    package "Autenticação" {
+        usecase "UC01\nAutenticar-se no\nsistema" as UC01
+    }
+
+    package "Operação" {
+        usecase "UC02\nVisualizar status\nem tempo real" as UC02
+        usecase "UC03\nRegistrar parada\nmanual com motivo" as UC03
+    }
+
+    package "Supervisão" {
+        usecase "UC04\nVisualizar dashboard\nconsolidado do turno" as UC04
+        usecase "UC05\nConsultar histórico\nde ciclos e pausas" as UC05
+        usecase "UC06\nGerar e exportar\nrelatório de turno" as UC06
+    }
+
+    package "Gestão" {
+        usecase "UC07\nVisualizar OEE\nconsolidado" as UC07
+        usecase "UC08\nAcompanhar\nsincronização ERP" as UC08
+        usecase "UC09\nCadastrar usuários\ne atribuir perfis" as UC09
+    }
+
+    package "Integração IoT/ERP" {
+        usecase "UC10\nPublicar pulso\nde ciclo via MQTT" as UC10
+        usecase "UC11\nSincronizar com\nERP corporativo" as UC11
+    }
+}
+
+operator --> UC01
+operator --> UC02
+operator --> UC03
+
+leader --> UC01
+leader --> UC04
+leader --> UC05
+leader --> UC06
+
+manager --> UC01
+manager --> UC04
+manager --> UC07
+manager --> UC08
+manager --> UC09
+
+mcu --> UC10
+backend --> UC11
+UC11 --> erp
+
+UC02 ..> UC01 : <<include>>
+UC03 ..> UC01 : <<include>>
+UC04 ..> UC01 : <<include>>
+UC07 ..> UC01 : <<include>>
+UC09 ..> UC01 : <<include>>
+
+legend bottom left
+  <b>Legenda de Atores</b>
+  ----
+  <back:#1168bd><color:white>  Ator Operacional  </color></back> — usuário que interage com o sistema pela interface <i>web</i>
+  <back:#296274><color:white>  Ator Gerencial    </color></back> — responsável por supervisão e tomada de decisão
+  <back:#80807a><color:white>  <<sistema>>       </color></back> — componente interno automatizado da plataforma
+  <back:#C14953><color:white>  <<sistema externo>></color></back> — sistema de terceiros integrado à plataforma
+endlegend
+
+footer Versão 1.0.0 do diagrama de casos de uso, feito com PlantUML %version()
+@enduml

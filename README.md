@@ -84,6 +84,9 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Nenhuma informação de preço publicada — modelo comercial opaco para PMEs que precisam avaliar custo-benefício sem contato com o time de vendas;
 - Especificações técnicas da captura IoT (tipo de sensor, protocolo, *hardware* necessário) não estão publicadas.
 
+![Sistema Autoflex](Assets/Images/Diagrams/AutoflexMES.png)
+<p align="center"><em>Figura 2. Exemplo apresentado pela Projedata do Autoflex.</em></p>
+
 ### Vedois MES (Vedois Tecnologia)<sup>[[4]](#ref-4)</sup>
 
 **Público-alvo:** Indústrias de médio porte no Brasil com foco declarado em injeção plástica, embalagens, móveis, metalurgia, têxtil e química.
@@ -100,6 +103,9 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Nenhum preço publicado e sem indicação de planos acessíveis para empresas de menor porte;
 - Documentação técnica da captura IoT ausente — sem especificação de _hardware_, protocolos ou método de captura de pulso elétrico;
 - Produto generalista por setor: sem funcionalidades específicas para injeção plástica como controle de moldes, cavidades ou gestão de OS de injeção.
+
+![Sistema Vedois](Assets/Images/Diagrams/Vedois_System.png)
+<p align="center"><em>Figura 3. Exemplo apresentado pela Vedois em seu site.</em></p>
 
 ### LiveMES (LiveMES Tecnologia)<sup>[[5]](#ref-5)</sup>
 
@@ -118,6 +124,9 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Nenhum preço publicado;
 - Modelo *PMaaS* pode representar custo recorrente adicional significativo para PMEs de menor porte.
 
+![Sistema LiveMES](Assets/Images/Diagrams/LiveMES_System.png)
+<p align="center"><em>Figura 4. Exemplo de tela do sistema LiveMES.</em></p>
+
 ### Doeet MES (Doeet)<sup>[[6]](#ref-6)</sup>
 
 **Público-alvo:** Fabricantes de plástico em geral — injeção, extrusão, sopro, rotomoldagem e termoformagem. Empresa espanhola com interface em português e espanhol e clientes documentados na América Latina.
@@ -134,6 +143,9 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Nenhuma informação de preço publicada;
 - Sem _cases_ brasileiros documentados publicamente;
 - Abordagem IoT depende de sensores próprios cuja especificação técnica não está publicada.
+
+![Sistema Doeet MES](Assets/Images/Diagrams/Doeet_System.png)
+<p align="center"><em>Figura 5. Exemplo de tela do sistema Doeet.</em></p>
 
 ### EGA PCPMaster (EGA Sistemas)<sup>[[7]](#ref-7)</sup>
 
@@ -152,6 +164,9 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Nenhum preço publicado;
 - Produto aparentemente posicionado para indústrias de médio porte com equipe de TI interna.
 
+![Sistema EGA PCPMaster](Assets/Images/Diagrams/EGA_PCPMaster_System.png)
+<p align="center"><em>Figura 6. Exemplo de tela do sistema EGA PCPMaster.</em></p>
+
 ### Comparação
 
 | Solução | Pontos Fortes | Limitações |
@@ -161,8 +176,6 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 | LiveMES | Coletores IIoT para máquinas de qualquer tipo ou idade; escalável por porte | Sem especialização em plástico; integração com ERP caso a caso; custo do PMaaS |
 | Doeet | Bidirecional com ERP; controle de moldes; específico para plástico; multi-processo | Empresa espanhola; sem cases brasileiros; preço não publicado |
 | EGA PCPMaster | Integração via WebAPI Rest documentada; app mobile; CEP integrado | Sem funcionalidades específicas para injeção; IoT não documentado |
-
----
 
 ### 1.3.1. Diferencial do Projeto
 
@@ -267,15 +280,13 @@ Exemplos:
 
 # 2. Engenharia de Requisitos
 
-Esta seção define **o que o sistema fará**.
+<!-- Esta seção define **o que o sistema fará**.
 
-Evite descrições vagas.
-
----
+Evite descrições vagas. -->
 
 ## 2.1. Personas
 
-Crie **1 a 3 personas principais**.
+<!-- Crie **1 a 3 personas principais**.
 
 Inclua:
 
@@ -284,13 +295,31 @@ Inclua:
 - objetivos
 - principais dificuldades
 
-Adicionar **imagens ou ilustrações** pode ajudar na compreensão.
+Adicionar **imagens ou ilustrações** pode ajudar na compreensão. -->
 
----
+A partir dos perfis de usuário definidos em [1.4](#14-público-alvo), elaboramos três personas representativas das pessoas que utilizarão o sistema diariamente. Cada persona traduz uma das dores levantadas em [1.2](#12-origem-da-demanda-e-evidências) em um perfil concreto, para guiar decisões de produto e de _UX_.
+
+### Persona 1 — Carlos, Operador de Injetora
+
+- **Contexto:** Tem 38 anos, atua há 10 anos no chão de fábrica da Meplas. Trabalha em turnos rotativos, opera entre duas e três injetoras simultaneamente e acompanha visualmente o ciclo das máquinas;
+- **Objetivos:** Acompanhar em tempo real a contagem de ciclos das máquinas que opera; saber rapidamente quando uma máquina parou e por quê; registrar manualmente o motivo de uma parada (refugo, _setup_, manutenção) sem precisar abrir várias telas;
+- **Dificuldades:** Não tem familiaridade com sistemas industriais complexos; espera uma interface direta, com poucos cliques; não tem visibilidade do próprio desempenho durante o turno e descobre desvios apenas no final, quando o líder consolida os números.
+
+### Persona 2 — Marina, Líder de Turno
+
+- **Contexto:** Tem 32 anos, formada em Gestão da Produção, supervisiona um turno de oito operadores. Hoje monta os relatórios de turno manualmente, cruzando anotações em papel com telas do _ERP_ e planilhas Excel;
+- **Objetivos:** Acessar um _dashboard_ consolidado com o status de todas as máquinas do turno; consultar histórico de ciclos e pausas por máquina e período; gerar e exportar o relatório de turno sem precisar montar planilhas à mão;
+- **Dificuldades:** Perde de uma a duas horas por turno apenas montando relatórios; depende de informações repassadas verbalmente pelos operadores, sujeitas a erro; precisa se deslocar fisicamente entre máquinas e o escritório do _ERP_ para reunir dados.
+
+### Persona 3 — Jair, Sócio-Gestor
+
+- **Contexto:** Tem 56 anos, sócio-proprietário da Meplas, acompanha indicadores de produção e perdas para decisão estratégica. É o solicitante direto do projeto NJPlastic. Usa o _ERP_ corporativo com regularidade, mas não tem perfil técnico de TI;
+- **Objetivos:** Visualizar o _OEE_ consolidado por máquina, turno e período; cruzar produção real com ordens cadastradas no _ERP_ sem abrir várias telas; ter dados confiáveis em tempo real para reduzir os desvios de 1 a cada 3 pedidos relatados em [1.2](#12-origem-da-demanda-e-evidências);
+- **Dificuldades:** Hoje precisa cruzar manualmente diversas telas do _ERP_ para ter uma visão única da produção; sente falta de visibilidade imediata sobre paradas e perdas durante o expediente; descarta a customização do _ERP_ pelo custo e pela rigidez do fornecedor.
 
 ## 2.2. Casos de Uso Principais
 
-Liste os principais fluxos do sistema.
+<!-- Liste os principais fluxos do sistema.
 
 Exemplo:
 
@@ -299,13 +328,41 @@ Exemplo:
 - consultar informações
 - gerar relatórios
 
-Sempre que possível inclua **diagramas de caso de uso**.
+Sempre que possível inclua **diagramas de caso de uso**. -->
 
----
+Os principais fluxos do sistema são organizados por ator. Atores humanos seguem os perfis definidos em [1.4](#14-público-alvo); atores não-humanos representam os agentes automáticos da plataforma — Microcontrolador (camada IoT) e _Backend_ (camada de sistema), conforme modelados nos diagramas C4.
+
+### Operador
+
+- UC01 — Autenticar-se no sistema com credenciais (_login_/senha);
+- UC02 — Visualizar status em tempo real das máquinas sob sua responsabilidade;
+- UC03 — Registrar manualmente parada de máquina informando o motivo (refugo, _setup_, manutenção).
+
+### Líder de Turno
+
+- UC04 — Visualizar _dashboard_ consolidado do turno, com todas as máquinas do seu setor;
+- UC05 — Consultar histórico de ciclos e pausas por máquina e período;
+- UC06 — Gerar e exportar relatório consolidado de turno.
+
+### Gestor
+
+- UC07 — Visualizar _OEE_ consolidado por máquina, turno e período;
+- UC08 — Acompanhar a integridade da sincronização com o _ERP_ corporativo;
+- UC09 — Cadastrar usuários e atribuir perfis (Operador, Líder de Turno ou Gestor).
+
+### Atores de Sistema
+
+- UC10 — Microcontrolador publica pulso elétrico de ciclo via _MQTT_ ao _broker_ a cada nova leitura;
+- UC11 — _Backend_ lê ordens de produção abertas no _ERP_ e grava apontamentos de ciclos e pausas confirmados de volta, executando a sincronização bidirecional de forma periódica em janela de tempo configurável.
+
+### Diagrama de Casos de Uso
+
+![Diagrama de Casos de Uso](Assets/Images/Diagrams/UseCase_Diagram_V1.png)
+<p align="center"><em>Figura 8. Diagrama de casos de uso da NJPlastic, agrupando atores humanos (Operador, Líder de Turno e Gestor) e atores de sistema (Microcontrolador e Backend).</em></p>
 
 ## 2.3. Requisitos Funcionais (RF)
 
-Use a estrutura:
+<!-- Use a estrutura:
 
 > O sistema deve permitir que **[ator] realize [ação]**.
 
@@ -315,13 +372,50 @@ RF01 — O sistema deve permitir que o usuário crie uma conta.
 
 RF02 — O sistema deve permitir que o usuário registre informações.
 
-RF03 — O sistema deve permitir que o usuário visualize dados registrados.
+RF03 — O sistema deve permitir que o usuário visualize dados registrados. -->
 
----
+Os requisitos funcionais estão agrupados pelas áreas do sistema modeladas em [C4_Component_Diagram.puml](Assets/Diagrams/C4_Component_Diagram.puml). Itens marcados como **RF-F** representam funcionalidades planejadas para versões futuras, fora do MVP, mas que fazem parte da visão completa do produto.
+
+### Captação IoT
+
+- RF01 — O microcontrolador deve capturar o pulso elétrico de ciclo da injetora e publicar a leitura em tópico _MQTT_ contendo _timestamp_ preciso da captação;
+- RF02 — O sistema deve aceitar publicações _MQTT_ de múltiplas máquinas simultaneamente, identificando-as por tópico distinto.
+
+### Autenticação e Controle de Acesso
+
+- RF03 — O sistema deve permitir que o usuário se autentique com credenciais (_login_ e senha);
+- RF04 — O sistema deve permitir que o gestor cadastre usuários e atribua perfil (Operador, Líder de Turno ou Gestor), conforme UC09;
+- RF05 — O sistema deve restringir telas e dados acessíveis conforme o perfil do usuário autenticado.
+
+### Produção e Monitoramento
+
+- RF06 — O sistema deve permitir cadastrar máquinas com identificador, tópico _MQTT_ associado, tempo de ciclo padrão e fator de tolerância — parâmetros consumidos por RF08 e RN06;
+- RF07 — O sistema deve calcular o tempo entre ciclos consecutivos de cada máquina;
+- RF08 — O sistema deve detectar pausa automaticamente quando o intervalo entre dois pulsos exceder um _threshold_ configurável por máquina;
+- RF09 — O sistema deve permitir que o operador registre manualmente o motivo de uma pausa (refugo, _setup_, manutenção);
+- RF10 — O sistema deve calcular o _OEE_ (Disponibilidade × Performance × Qualidade) por máquina, turno e período;
+- RF11 — O sistema deve exibir _dashboard_ em tempo real com ciclos, pausas e _OEE_, com visualização adequada ao perfil do usuário.
+
+### Integração com ERP
+
+- RF12 — O sistema deve conectar via _JDBC_ direto a bancos de _ERP_ em _SQL Server_, _Oracle_ ou _PostgreSQL_;
+- RF13 — O sistema deve sincronizar bidirecionalmente registros de produção entre o _PostgreSQL_ local e o _ERP_, lendo ordens de produção e escrevendo apontamentos;
+- RF14 — O sistema deve permitir configurar a janela de sincronização com o _ERP_ (por exemplo, a cada 1 minuto).
+
+### Relatórios
+
+- RF15 — O sistema deve permitir que o líder de turno gere relatório consolidado do turno com ciclos, pausas e _OEE_;
+- RF16 — O sistema deve exportar relatórios em formato consumível, como _CSV_ ou _PDF_.
+
+### Roadmap (RFs Futuros)
+
+- RF-F01 — O sistema deve permitir migrar a captação de pulsos para módulo _ESP32_ com _OTA_ (atualização remota de _firmware_);
+- RF-F02 — O sistema deve suportar a configuração de múltiplos _ERPs_ simultâneos no mesmo _deployment_, suportando cenários de transição entre fornecedores;
+- RF-F03 — O sistema deve enviar notificações ativas de parada de máquina (_push_, _e-mail_ ou _SMS_) aos operadores e líderes responsáveis, complementando o monitoramento passivo de RF11.
 
 ## 2.4. Requisitos Não Funcionais (RNF)
 
-Inclua requisitos relacionados a:
+<!-- Inclua requisitos relacionados a:
 
 - desempenho
 - segurança
@@ -333,26 +427,68 @@ Exemplo:
 
 RNF01 — O sistema deve suportar 100 usuários simultâneos.  
 RNF02 — O tempo de resposta deve ser inferior a 300ms.  
-RNF03 — O sistema deve utilizar autenticação segura.
+RNF03 — O sistema deve utilizar autenticação segura. -->
 
----
+Cada requisito não funcional está ancorado em um _KPI_ declarado em [1.6](#16-métricas-de-sucesso-kpis) ou em um diferencial competitivo de [1.3.1](#131-diferencial-do-projeto), garantindo rastreabilidade entre objetivos e restrições técnicas.
+
+### Desempenho
+
+- RNF01 — A latência entre o pulso elétrico e o registro do ciclo no _PostgreSQL_ deve ser inferior a 5 segundos (ancorado no _KPI_ de tempo real);
+- RNF02 — O _dashboard_ deve refletir novos dados de produção com latência inferior a 2 segundos após a persistência no banco — limite derivado do _KPI_ de tempo real, garantindo que a soma RNF01 + RNF02 mantenha o monitoramento de UC02/UC04 dentro de uma janela perceptivelmente "ao vivo";
+- RNF03 — A sincronização com o _ERP_ deve concluir em até 1 minuto após o registro do apontamento no _PostgreSQL_ (ancorado no _KPI_ de sincronização).
+
+### Disponibilidade e Confiabilidade
+
+- RNF04 — O sistema deve manter disponibilidade superior ou igual a 99% durante o horário de produção (ancorado no _KPI_ de disponibilidade);
+- RNF05 — O sistema deve tratar perda de mensagens _MQTT_ utilizando _QoS_ adequado para garantir entrega _at-least-once_ ao _backend_.
+
+### Segurança
+
+- RNF06 — A comunicação entre _frontend_ e _backend_ deve ser cifrada via _HTTPS_/_TLS_;
+- RNF07 — Senhas de usuário devem ser armazenadas com algoritmo de _hash_ adequado (por exemplo, _bcrypt_), nunca em texto puro;
+- RNF08 — O sistema deve seguir as recomendações de mitigação do _OWASP Top 10_, com detalhamento na [Seção 6](#6-segurança-e-privacidade).
+
+### Usabilidade
+
+- RNF09 — A tela principal do operador deve ser interpretável sem treinamento formal, alinhada ao perfil de "nível técnico baixo" definido em [1.4](#14-público-alvo);
+- RNF10 — A interface web deve ser responsiva, suportando _desktops_ de chão de fábrica e _tablets_.
+
+### Escalabilidade
+
+- RNF11 — A arquitetura deve suportar até 50 máquinas simultâneas publicando ciclos por _deployment_ — limite definido como teto operacional do perfil-alvo de PMEs descrito em [1.4](#14-público-alvo), com o piloto na Meplas iniciando em escala menor e teste de carga obrigatório antes de cada _release_.
+
+### Manutenibilidade e Engenharia
+
+- RNF12 — O código deve seguir a separação de camadas representada em [C4_Component_Diagram.puml](Assets/Diagrams/C4_Component_Diagram.puml), no padrão _Controller_ → _Service_ → _Repository_;
+- RNF13 — O acesso ao banco do _ERP_ deve ser isolado em `ErpDatabaseRepository` via _JDBC_ direto, sem _JPA_, conforme decisão arquitetural de [1.3.1.1](#1311-integração-erp-real-e-bidirecional).
 
 ## 2.5. Regras de Negócio
 
-Exemplos:
-
+<!-- Exemplos:
 - apenas usuários autenticados podem acessar determinados recursos
-- determinadas operações exigem validação adicional
+- determinadas operações exigem validação adicional -->
 
----
+As regras de negócio descrevem _invariantes_ do domínio — condições que devem ser sempre verdadeiras independentemente do fluxo de execução, distintas dos requisitos funcionais que descrevem ações.
+
+- RN01 — Apenas usuários autenticados podem acessar qualquer tela do _dashboard_ ou recurso da _API_;
+- RN02 — O operador só pode visualizar dados das máquinas atribuídas ao seu turno;
+- RN03 — O líder de turno visualiza apenas máquinas e operadores do seu setor e turno;
+- RN04 — O gestor tem visão completa de todas as máquinas e turnos do _deployment_;
+- RN05 — Um ciclo só é considerado válido se o pulso _MQTT_ contiver _timestamp_ dentro de uma janela de tolerância configurável, protegendo contra _drift_ de relógio do microcontrolador;
+- RN06 — Uma pausa é detectada quando o intervalo entre dois ciclos consecutivos excede o tempo de ciclo padrão da máquina multiplicado por um fator de tolerância, ambos configuráveis por máquina;
+- RN07 — Cada apontamento de produção transita por três estados: _pendente_ (registrado a partir do pulso _MQTT_), _confirmado_ (validado contra a janela de tolerância de RN05 e o _threshold_ de pausa de RN06) e _sincronizado_ (escrito no _ERP_ via UC11). A sincronização com o _ERP_ propaga apenas apontamentos no estado _confirmado_, evitando dados parciais ou em processamento;
+- RN08 — Em caso de falha na sincronização com o _ERP_, o registro local deve permanecer íntegro e o sistema deve tentar novamente na próxima janela, garantindo idempotência da operação.
 
 ## 2.6. Fora do Escopo
 
-Liste explicitamente **o que o sistema não fará**.
+<!-- Liste explicitamente **o que o sistema não fará**.
+Isso ajuda a evitar crescimento descontrolado do projeto. -->
 
-Isso ajuda a evitar crescimento descontrolado do projeto.
+Para proteger o projeto contra _scope creep_ e diferenciar com clareza o produto frente aos concorrentes mapeados em [1.3](#13-análise-de-soluções-existentes-benchmark), declaramos explicitamente o que a NJPlastic **não fará**:
 
----
+- **Controle Estatístico de Processo (_CEP_) e inspeção dimensional** — domínio que permanece sob responsabilidade do _ERP_ corporativo do cliente. A NJPlastic foca exclusivamente em ciclos e pausas, não em inspeção de peças ou métricas de qualidade dimensional;
+- **Gestão de moldes e cavidades** — diferente das soluções _Doeet_ e _Projedata_, a NJPlastic não fará rastreamento de uso de molde, troca, manutenção ou bloqueio bidirecional. O cadastro e o ciclo de vida de moldes permanecem no _ERP_;
+- **Operação multi-_tenant_ ou modelo _SaaS_** — cada cliente recebe um _deployment_ dedicado, com seu próprio banco _PostgreSQL_ e _broker_ _MQTT_. O isolamento entre clientes é por infraestrutura, não por _schema_ ou _tenant_ lógico no banco.
 
 # 3. Fluxos e Comportamento do Sistema
 
