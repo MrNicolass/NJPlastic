@@ -104,5 +104,5 @@ legend bottom left
   <back:#C14953><color:white>  <<sistema externo>></color></back> — sistema de terceiros integrado à plataforma
 endlegend
 
-footer Versão 1.0.0 do diagrama de casos de uso, feito com C4-PlantUML %version()
+footer Versão 1.0.0 do diagrama de casos de uso, feito com PlantUML %version()
 @enduml
