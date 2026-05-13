@@ -1,0 +1,124 @@
+@startuml Alt AutoStopClassification Sequence
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 220
+
+skinparam participant {
+    BorderColor #2D2D2A
+    BackgroundColor #80807a
+    FontColor #FFFFFF
+}
+skinparam actor {
+    BorderColor #000000
+    BackgroundColor #1168bd
+    FontColor #FFFFFF
+}
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+title Fluxo Alternativo 3.2.5 — Classificação Automática como Parada e Edição da Mensagem\n(RF17–RF20 | RN09–RN12 | UC12, UC13)
+
+participant "ProductionService" as Service #80807a
+participant "ProductionRepository" as Repo #80807a
+participant "PostgreSQL" as DB #80807a
+participant "Frontend\n(React)" as Frontend #80807a
+actor "Usuário\n(Operador / Líder / Gestor)" as User #1168bd
+
+== Acúmulo de N pausas consecutivas sem pulso intermediário (RN09) ==
+
+loop Para cada pulso com intervalo > threshold [RF08, RN06]
+    Service -> Service : consecutivePauseCount++\n[RN09]
+    Service -> Repo : salvar(Pausa { tipo = PAUSA, motivo = null })
+    Repo -> DB : INSERT pausa (tipo = PAUSA)
+end
+
+Service -> Service : consecutivePauseCount ≥\npausas_consecutivas_para_parada?\n[RN09, RF17]
+
+== Criação automática do registro PARADA_AUTOMATICA (RF18, UC13) ==
+
+Service -> Repo : salvar(Pausa {\n  tipo = PARADA_AUTOMATICA,\n  mensagem = "Parada detectada após\nN pausas consecutivas",\n  inicio = now(),\n  estado = PENDENTE\n}) [RF18]
+Repo -> DB : INSERT pausa\n(tipo = PARADA_AUTOMATICA)
+
+note over DB
+  Registro criado com mensagem default.
+  Campo `mensagem` é editável pelos
+  perfis autorizados [RF19, RN09]
+end note
+
+Service -> Service : Emite evento:\nmáquina {id} classificada como PARADA
+
+== Exibição no Dashboard (RF11) ==
+
+Frontend -> Frontend : Recebe atualização (polling/SSE)
+Frontend -> User : Dashboard exibe máquina\ncom status **PARADA**\n(cor/ícone distinto — RF11)\ne mensagem default do registro
+
+== Edição da mensagem pelo usuário autorizado (UC12, RF19) ==
+
+User -> Frontend : Acessa **Modal de Edição\nde Mensagem** da parada
+
+Frontend -> User : Exibe mensagem atual:\n"Parada detectada após N pausas consecutivas"
+
+User -> Frontend : Digita nova mensagem\n(ex.: "Troca de molde — aguardando\npreparação do setup")
+
+Frontend -> Service : PUT /api/paradas/{id}/mensagem\n{ mensagem: "...", autor: userId }
+
+activate Service
+Service -> Repo : editarMensagem(id, mensagem, autor)
+Repo -> DB : INSERT audit_log {\n  pausa_id, autor, timestamp,\n  mensagem_anterior\n}
+DB -> Repo : OK
+Repo -> DB : UPDATE pausa SET\n  mensagem = nova_mensagem
+deactivate Service
+
+note over DB
+  RN12 — Log de auditoria imutável:
+  autor, timestamp e conteúdo anterior
+  preservados a cada edição
+  RF20 — Histórico recuperável via
+  dashboard e relatório de turno
+end note
+
+Frontend -> User : Confirmação de edição;\nmensagem atualizada no dashboard
+
+note right of User
+  Escopo de edição restrito pelo perfil:
+  RN02 — Operador: só suas máquinas
+  RN03 — Líder: só seu setor/turno
+  RN04 — Gestor: qualquer máquina
+end note
+
+== Retomada automática ao próximo pulso válido (RN10, RN11) ==
+
+note over Service
+  Próximo pulso válido recebido (RN05 OK):
+  ProductionService fecha o registro PARADA_AUTOMATICA
+  com timestamp de fim e reseta o contador [RN10, RN11]
+end note
+
+Service -> Repo : fecharParadaAutomatica(id, fim = now())
+Repo -> DB : UPDATE pausa SET fim = now(),\nestado = CONFIRMADO
+
+Service -> Service : consecutivePauseCount = 0\n[RN11]
+
+Frontend -> Frontend : Recebe atualização
+Frontend -> User : Dashboard exibe máquina\ncomo **PRODUZINDO** novamente
+
+note right of User
+  O registro PARADA_AUTOMATICA
+  agora aparece no relatório de turno
+  com start, end e mensagem editada
+  [RF15, RF16]
+end note
+
+legend bottom left
+  <back:#1168bd><color:white>  Ator Humano     </color></back> — operador, líder ou gestor (conforme perfil)
+  <back:#80807a><color:white>  Sistema Interno </color></back> — componentes NJPlastic
+endlegend
+
+footer Versão 1.0.0 do diagrama de classificação automática e edição de mensagem, feito com PlantUML %version()
+@enduml

@@ -1,0 +1,110 @@
+@startuml Alt ClockDrift Sequence
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 220
+
+skinparam participant {
+    BorderColor #2D2D2A
+    BackgroundColor #80807a
+    FontColor #FFFFFF
+}
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+title Fluxo Alternativo 3.2.2 — Drift de Relógio no Microcontrolador\n(RN05 | RF01, RF11)
+
+participant "Microcontrolador\n(Arduino)" as MCU #80807a
+participant "MQTT Broker" as MQTT #C14953
+participant "MqttListener" as Listener #80807a
+participant "ProductionService" as Service #80807a
+participant "ProductionRepository" as Repo #80807a
+participant "PostgreSQL" as DB #80807a
+participant "Frontend\n(React)" as Frontend #80807a
+
+note over MCU
+  O relógio interno do Arduino acumula
+  deriva ao longo do tempo (clock drift).
+  O timestamp capturado no pulso passa
+  a divergir do tempo real do servidor.
+end note
+
+== Publicação com timestamp incorreto ==
+
+MCU -> MQTT : PUBLISH\ntopic = maquina/{id}\npayload = { timestamp_incorreto, seq }\nQoS 1
+
+note right of MCU
+  RF01 — Timestamp capturado no
+  momento do pulso, mas com
+  drift acumulado do relógio interno
+end note
+
+MQTT -> Listener : Entrega pulso (at-least-once)
+
+Listener -> Service : delegaPulso(machineId,\ntimestamp_incorreto, seq)
+
+== Validação de timestamp no Backend (RN05) ==
+
+activate Service
+
+Service -> Service : delta = |timestamp_recebido − now()|
+Service -> Service : delta > janela_tolerância_clock?\n[RN05]
+
+alt timestamp fora da janela de tolerância — RN05 falhou
+
+    Service -> Repo : salvar(Apontamento {\n  estado = DESCARTADO,\n  motivo = "clock_drift",\n  timestamp_original = timestamp_incorreto\n})
+    Repo -> DB : INSERT apontamento\n(estado = DESCARTADO)
+
+    note over DB
+      Registro mantido para auditoria.
+      NÃO contabilizado nos ciclos válidos
+      nem propagado ao ERP [RF11, RN07]
+    end note
+
+    Service -> Service : Emite log estruturado:\n{ machineId, timestamp, delta,\n  reason = "RN05_VIOLATION" }
+
+    Service --> Listener : void (pulso descartado silenciosamente)
+
+else timestamp dentro da janela — fluxo normal
+
+    note over Service
+      Segue o fluxo principal (Seção 3.1.1)
+      Apontamento criado como PENDENTE
+    end note
+
+end
+
+deactivate Service
+
+== Reflexo no Frontend ==
+
+Frontend -> Frontend : GET /api/producao (polling/SSE)
+
+note over Frontend
+  O ciclo com clock drift NÃO aparece
+  no dashboard nem na contagem de ciclos.
+  Contagem permanece íntegra — sem
+  inflação por dados corrompidos.
+end note
+
+== Prevenção recomendada ==
+
+note over MCU, Service
+  Mitigação: sincronizar o relógio do Arduino via NTP periódico
+  ou via mensagem de controle enviada pelo Backend.
+  Em versões futuras, o módulo ESP32 (RF-F01) suporta
+  sincronização NTP nativa, reduzindo drasticamente o drift.
+end note
+
+legend bottom left
+  <back:#80807a><color:white>  Sistema Interno   </color></back> — componentes NJPlastic
+  <back:#C14953><color:white>  Sistema Externo   </color></back> — MQTT Broker
+endlegend
+
+footer Versão 1.0.0 do diagrama de drift de relógio, feito com PlantUML %version()
+@enduml

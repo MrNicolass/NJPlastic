@@ -1,0 +1,81 @@
+@startuml Machine State Diagram
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+
+skinparam state {
+    BackgroundColor #80807a
+    BorderColor #2D2D2A
+    FontColor #FFFFFF
+    ArrowColor #2D2D2A
+    StartColor #2D2D2A
+    EndColor #2D2D2A
+}
+
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+[*] --> PRODUZINDO : Máquina cadastrada\ne recebendo pulsos\n[RF06, RF01]
+
+state PRODUZINDO {
+    [*] --> ciclo_normal
+    ciclo_normal : Pulsos chegando dentro\ndo threshold [RN06]
+    ciclo_normal --> pausa_isolada : Intervalo excede\ntempo_padrão × fator [RN06]
+    pausa_isolada : consecutivePauseCount > 0\nmas < pausas_consecutivas_para_parada
+    pausa_isolada --> ciclo_normal : Próximo pulso válido\n[RN05] — reset do contador [RN11]
+}
+
+PRODUZINDO -[#C14953]-> PARADA : consecutivePauseCount ≥\npausas_consecutivas_para_parada\n[RF17, RN09, UC13]
+
+note on link
+  Registro PARADA_AUTOMATICA
+  criado automaticamente com
+  mensagem default editável
+  [RF18, RF19, UC12]
+end note
+
+state PARADA {
+    [*] --> aguardando_retomada
+    aguardando_retomada : Máquina sem pulsos válidos;\nregistro PARADA_AUTOMATICA ativo
+    aguardando_retomada --> mensagem_editada : Usuário edita\na mensagem [UC12, RF19]
+    mensagem_editada : Auditoria registrada [RN12, RF20]
+    mensagem_editada --> aguardando_retomada : Continua aguardando\npróximo pulso
+}
+
+PARADA --> PRODUZINDO : Próximo pulso válido\nrecebido [RN05, RN10]\nRegistro fechado com\ntimestamp de fim;\ncontador resetado [RN11]
+
+note on link
+  Retomada é automática —
+  nenhuma ação humana necessária
+  para sair do estado PARADA
+end note
+
+note right of PRODUZINDO
+  Estado normal de operação.
+  Pausas isoladas (tipo = PAUSA)
+  são registradas como eventos,
+  mas não mudam o estado
+  da máquina [RF08, RN06]
+end note
+
+note right of PARADA
+  Estado acionado após N pausas
+  consecutivas configuradas.
+  A mensagem do registro pode
+  ser editada por Operador [RN02],
+  Líder [RN03] ou Gestor [RN04].
+  Toda edição é auditada [RN12]
+end note
+
+legend bottom left
+  <back:#80807a><color:white>  Estado da Máquina </color></back> — estado operacional da injetora
+  <color:#C14953>——</color> Transição para PARADA (N pausas consecutivas)
+  <color:#2D2D2A>——</color> Transição para PRODUZINDO (retomada automática)
+endlegend
+
+footer Versão 1.0.0 do diagrama de estados da máquina, feito com PlantUML %version()
+@enduml

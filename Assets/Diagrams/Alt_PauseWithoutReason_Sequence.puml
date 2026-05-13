@@ -1,0 +1,121 @@
+@startuml Alt PauseWithoutReason Sequence
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 220
+
+skinparam participant {
+    BorderColor #2D2D2A
+    BackgroundColor #80807a
+    FontColor #FFFFFF
+}
+skinparam actor {
+    BorderColor #000000
+    BackgroundColor #1168bd
+    FontColor #FFFFFF
+}
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+title Fluxo Alternativo 3.2.3 — Pausa Isolada Detectada sem Motivo Registrado\n(RF08, RF09 | RN06 | UC03, UC06)\n⚠ Este cenário cobre UMA pausa isolada — não acumula paradas automáticas
+
+actor "Carlos\n(Operador)" as Operator #1168bd
+participant "MqttListener" as Listener #80807a
+participant "ProductionService" as Service #80807a
+participant "ProductionRepository" as Repo #80807a
+participant "PostgreSQL" as DB #80807a
+participant "Frontend\n(React)" as Frontend #80807a
+actor "Marina\n(Líder de Turno)" as Leader #1168bd
+
+== Detecção automática de pausa isolada pelo Backend (RF08, RN06) ==
+
+Listener -> Service : delegaPulso(machineId, timestamp_2)
+
+activate Service
+Service -> Repo : buscarUltimoCiclo(machineId)
+Repo -> DB : SELECT timestamp do último ciclo
+DB -> Repo : timestamp_1
+Repo -> Service : timestamp_1
+
+Service -> Service : intervalo = timestamp_2 − timestamp_1
+Service -> Service : intervalo > tempo_padrão × fator_tolerância?\n[RF08, RN06]
+
+note right of Service
+  Parâmetros configurados por
+  máquina pelo Gestor [RF06]
+  Exemplo: 30 s × 2,0 = pausa
+  detectada quando intervalo > 60 s
+end note
+
+Service -> Service : consecutivePauseCount++ [RN09]
+
+note right of Service
+  Neste cenário: consecutivePauseCount < N
+  (limite configurado por pausas_consecutivas_para_parada)
+  ↳ pausa registrada como tipo = PAUSA (isolada)
+  ↳ se acumular N consecutivas → PARADA_AUTOMATICA
+     [RF17, RN09 — ver Fluxo Alternativo 3.2.5]
+end note
+
+Service -> Repo : salvar(Pausa {\n  tipo = PAUSA,\n  estado = DETECTADA,\n  inicio = timestamp_1,\n  motivo = null\n})
+Repo -> DB : INSERT pausa (tipo = PAUSA, motivo = NULL)
+deactivate Service
+
+== Alerta exibido no Frontend ==
+
+Frontend -> Frontend : Recebe atualização via polling/SSE
+Frontend -> Operator : Exibe **alerta visual de pausa**\nna tela Detalhe da Máquina\n(ícone de atenção + tempo decorrido)
+
+== Operador não registra o motivo ==
+
+note over Operator
+  Carlos está ocupado com outra
+  máquina ou não percebe o alerta
+end note
+
+Operator -[#C14953]-> Frontend : (UC03 não é executado —\nModal de Registro não é aberto)
+
+note right of Operator
+  O sistema não bloqueia nenhuma
+  operação por ausência do motivo.
+  Decisão de design: não interromper
+  o fluxo produtivo por dado faltante.
+end note
+
+== Final do turno: pausa persiste no banco sem motivo ==
+
+note over DB
+  Pausa permanece com motivo = NULL.
+  Fallback aplicado: motivo = "desconhecido"
+  na exibição para o usuário.
+end note
+
+== Relatório de turno gerado pela Líder de Turno ==
+
+Leader -> Frontend : Acessa **Gerar Relatório\nde Turno** (UC06, RF15)
+
+Frontend -> Leader : Relatório exibe pausa\nna seção de pausas manuais\ncom status:\n**"Motivo: pendente de classificação"**
+
+note right of Leader
+  RF15 — Relatório distingue:
+  • Pausas manuais (tipo = PAUSA)
+  • Paradas automáticas (tipo = PARADA_AUTOMATICA)
+  Marina pode cobrar Carlos
+  retroativamente ou classificar
+  a pausa diretamente no sistema
+  antes de exportar (RF16)
+end note
+
+legend bottom left
+  <back:#1168bd><color:white>  Ator Humano     </color></back> — operador e líder de turno
+  <back:#80807a><color:white>  Sistema Interno </color></back> — componentes NJPlastic
+  <color:#C14953>-- - -</color> Ação que NÃO ocorre (operador não registra motivo)
+endlegend
+
+footer Versão 1.0.0 do diagrama de pausa isolada sem motivo registrado, feito com PlantUML %version()
+@enduml

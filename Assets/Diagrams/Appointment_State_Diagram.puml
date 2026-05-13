@@ -1,0 +1,80 @@
+@startuml Appointment State Diagram
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+
+skinparam state {
+    BackgroundColor #80807a
+    BorderColor #2D2D2A
+    FontColor #FFFFFF
+    ArrowColor #2D2D2A
+    StartColor #2D2D2A
+    EndColor #2D2D2A
+}
+
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+[*] --> PENDENTE : Apontamento de ciclo ou Pausa criado\n[RF01/RF08/RF18, UC10/UC13]
+
+state PENDENTE {
+    [*] --> em_validacao
+    em_validacao : Aguardando validação\nde timestamp (RN05)\ne threshold de pausa (RN06)
+}
+
+PENDENTE --> CONFIRMADO : Validação RN05 OK\n+ threshold RN06 avaliado\n[RN05, RN06, RF07, RF08]
+
+PENDENTE --> DESCARTADO : Validação RN05 falhou\n(timestamp fora da janela\nde tolerância — clock drift)\n[RN05]
+
+note on link
+  Ver Fluxo Alternativo 3.2.2
+  Registro mantido para auditoria
+end note
+
+CONFIRMADO --> SINCRONIZADO : Gravado no ERP com sucesso\nna janela configurável\n[UC11, RF13, RF14]
+
+CONFIRMADO -[#C14953]-> CONFIRMADO : Falha temporária na sync\n(ERP indisponível)\nRetry na próxima janela\n[RN08]
+
+note on link
+  Ver Fluxo Alternativo 3.2.4
+  Escrita é idempotente
+  (chave: id_apontamento)
+  Registro local permanece íntegro
+end note
+
+SINCRONIZADO --> [*] : Estado terminal —\napontamento visível no ERP\ne nos relatórios [UC08, RF16]
+
+DESCARTADO --> [*] : Estado terminal —\nmantido para auditoria;\nnão exibido no dashboard\nnem propagado ao ERP [RF11]
+
+note right of PENDENTE
+  Aplica-se a dois tipos de registro:
+  (1) Apontamento de ciclo [RF01, UC10]
+  (2) Pausa (tipo = PAUSA) [RF08]
+      ou Parada automática
+      (tipo = PARADA_AUTOMATICA) [RF18, UC13]
+
+  Estado inicial de todo registro
+  captado ou gerado pelo sistema.
+  Apenas registros **CONFIRMADOS**
+  são propagados ao ERP (RN07)
+end note
+
+note right of CONFIRMADO
+  Para registros PARADA_AUTOMATICA:
+  a mensagem pode ser editada
+  enquanto o registro permanece
+  neste estado (RF19, UC12, RN12)
+end note
+
+legend bottom left
+  <back:#80807a><color:white>  Estado              </color></back> — estado do apontamento ou registro de pausa
+  <color:#2D2D2A>——</color> Transição do fluxo feliz
+  <color:#C14953>——</color> Transição de retry idempotente (RN08)
+endlegend
+
+footer Versão 1.0.0 do diagrama de estados do apontamento, feito com PlantUML %version()
+@enduml
