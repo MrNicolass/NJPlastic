@@ -165,7 +165,7 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Produto aparentemente posicionado para indústrias de médio porte com equipe de TI interna.
 
 ![Sistema EGA PCPMaster](Assets/Images/Diagrams/EGA_PCPMaster_System.png)
-<p align="center"><em>Figura 7. Exemplo de tela do sistema EGA PCPMaster.</em></p>
+<p align="center"><em>Figura 6. Exemplo de tela do sistema EGA PCPMaster.</em></p>
 
 ### Comparação
 
