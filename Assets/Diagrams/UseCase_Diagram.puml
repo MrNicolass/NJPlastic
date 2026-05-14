@@ -49,7 +49,7 @@ rectangle "Sistema NJPlastic" {
 
     package "Operação" {
         usecase "UC02\nVisualizar status\nem tempo real" as UC02
-        usecase "UC03\nRegistrar parada\nmanual com motivo" as UC03
+        usecase "UC03\nRegistrar pausa\nmanual com motivo" as UC03
     }
 
     package "Supervisão" {
@@ -62,31 +62,37 @@ rectangle "Sistema NJPlastic" {
         usecase "UC07\nVisualizar OEE\nconsolidado" as UC07
         usecase "UC08\nAcompanhar\nsincronização ERP" as UC08
         usecase "UC09\nCadastrar usuários\ne atribuir perfis" as UC09
+        usecase "UC12\nEditar mensagem de\nparada automática" as UC12
     }
 
     package "Integração IoT/ERP" {
         usecase "UC10\nPublicar pulso\nde ciclo via MQTT" as UC10
         usecase "UC11\nSincronizar com\nERP corporativo" as UC11
+        usecase "UC13\nClassificar máquina\nautomaticamente\ncomo PARADA" as UC13
     }
 }
 
 operator --> UC01
 operator --> UC02
 operator --> UC03
+operator --> UC12
 
 leader --> UC01
 leader --> UC04
 leader --> UC05
 leader --> UC06
+leader --> UC12
 
 manager --> UC01
 manager --> UC04
 manager --> UC07
 manager --> UC08
 manager --> UC09
+manager --> UC12
 
 mcu --> UC10
 backend --> UC11
+backend --> UC13
 UC11 --> erp
 
 UC02 ..> UC01 : <<include>>
@@ -94,10 +100,9 @@ UC03 ..> UC01 : <<include>>
 UC04 ..> UC01 : <<include>>
 UC07 ..> UC01 : <<include>>
 UC09 ..> UC01 : <<include>>
+UC12 ..> UC01 : <<include>>
 
 legend bottom left
-  <b>Legenda de Atores</b>
-  ----
   <back:#1168bd><color:white>  Ator Operacional  </color></back> — usuário que interage com o sistema pela interface <i>web</i>
   <back:#296274><color:white>  Ator Gerencial    </color></back> — responsável por supervisão e tomada de decisão
   <back:#80807a><color:white>  <<sistema>>       </color></back> — componente interno automatizado da plataforma

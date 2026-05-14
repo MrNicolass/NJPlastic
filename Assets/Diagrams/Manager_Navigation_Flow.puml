@@ -1,0 +1,140 @@
+@startuml Manager Navigation Flow
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+
+skinparam activity {
+    BackgroundColor #296274
+    BorderColor #2D2D2A
+    FontColor #FFFFFF
+    ArrowColor #2D2D2A
+    StartColor #2D2D2A
+    EndColor #2D2D2A
+    DiamondBackgroundColor #80807a
+    DiamondBorderColor #2D2D2A
+    DiamondFontColor #FFFFFF
+}
+
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+title Jornada de Jair — Gestor / Sócio-Proprietário\n(Persona 3 | UC01, UC07, UC08, UC09, UC12, RF06 | RN01, RN04)
+
+start
+
+:Acessa o sistema via navegador;
+
+:Tela de **Login**\n(UC01 — Autenticação com login/senha);
+
+note right
+  RN01 — Apenas usuários autenticados
+  acessam qualquer recurso da API
+end note
+
+:**Dashboard Gerencial\nOEE Consolidado**\n(UC07 — OEE por máquina, turno e período\nRF10, RF11);
+
+note right
+  RN04 — Gestor tem visão completa
+  de todas as máquinas e turnos
+  do deployment
+
+  RNF02 — Dashboard atualizado em < 2 s
+end note
+
+:Analisa indicadores de\nOEE, ciclos e perdas;
+
+switch (Qual área deseja gerenciar?)
+
+case (sincronização ERP)
+
+  :**Indicadores de\nSincronização ERP**\n(UC08 — integridade da sync, RF13/RF14);
+
+  :Verifica apontamentos pendentes,\nconfirmados e sincronizados;
+
+  note right
+    Fluxo Alternativo 3.2.4 visível aqui
+    quando há falha de sincronização:
+    contador de tentativas e
+    status "Erro na última sync"
+  end note
+
+  :Confirma que dados chegaram\nao ERP corporativo;
+
+case (usuários e perfis)
+
+  :**Cadastro de Usuários\ne Perfis**\n(UC09, RF04);
+
+  :Cria ou edita usuário;
+
+  :Atribui perfil:\nOperador / Líder de Turno / Gestor;
+
+  note right
+    RF05 — Sistema restringe telas
+    e dados conforme o perfil atribuído
+    RN01–RN04 — Regras de acesso
+    são derivadas do perfil
+  end note
+
+  :Salva configuração;
+
+case (configuração de máquinas)
+
+  :**Cadastro e Configuração\nde Máquinas**\n(RF06);
+
+  :Informa identificador da máquina\ne tópico MQTT associado;
+
+  :Define **tempo_padrão**, **fator_tolerância**\ne **pausas_consecutivas_para_parada**;
+
+  note right
+    tempo_padrão × fator_tolerância
+    controla a detecção de pausa [RF08, RN06]
+
+    pausas_consecutivas_para_parada = N
+    define quando o sistema classifica
+    a máquina como PARADA [RF17, RN09]
+
+    Exemplo: N = 3 → após 3 pausas
+    consecutivas sem pulso intermediário
+  end note
+
+  :Salva configuração da máquina;
+
+case (editar parada automática)
+
+  :**Lista de Paradas Automáticas**\n(UC12 — RF19, RN04);
+
+  :Seleciona registro\n`PARADA_AUTOMATICA`\npara editar;
+
+  note right
+    RN04 — Gestor pode editar
+    paradas de qualquer máquina
+    RF19 — Edição de mensagem
+  end note
+
+  :Edita mensagem da parada automática\n(substitui o texto gerado pelo sistema);
+
+  :Salva alteração;
+
+  note right
+    RN12 — Log de auditoria registra:
+    autor, timestamp, conteúdo anterior
+    RF20 — Histórico imutável
+  end note
+
+endswitch
+
+:Volta ao **Dashboard Gerencial**;
+
+stop
+
+legend bottom left
+  <back:#296274><color:white>  Tela / Ação     </color></back> — ação do gestor no frontend
+  <back:#80807a><color:white>  Decisão / Switch</color></back> — ponto de bifurcação do fluxo
+endlegend
+
+footer Versão 1.0.0 da jornada do gestor (Jair), feito com PlantUML %version()
+@enduml

@@ -1,0 +1,122 @@
+@startuml Leader Navigation Flow
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+
+skinparam activity {
+    BackgroundColor #1168bd
+    BorderColor #2D2D2A
+    FontColor #FFFFFF
+    ArrowColor #2D2D2A
+    StartColor #2D2D2A
+    EndColor #2D2D2A
+    DiamondBackgroundColor #80807a
+    DiamondBorderColor #2D2D2A
+    DiamondFontColor #FFFFFF
+}
+
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+title Jornada de Marina — Líder de Turno\n(Persona 2 | UC01, UC04, UC05, UC06, UC12 | RN01, RN03)
+
+start
+
+:Acessa o sistema via navegador;
+
+:Tela de **Login**\n(UC01 — Autenticação com login/senha);
+
+note right
+  RN01 — Apenas usuários autenticados
+  acessam qualquer recurso da API
+end note
+
+:**Dashboard Consolidado\ndo Turno**\n(UC04 — todas as máquinas do setor, RF11);
+
+note right
+  RN03 — Líder visualiza apenas máquinas
+  e operadores do seu setor e turno
+
+  RNF02 — Dashboard atualizado em < 2 s
+
+  Máquinas em PARADA exibidas
+  com cor/ícone distinto [RF11, RN09]
+end note
+
+:Acompanha status geral\ndas máquinas do turno;
+
+if (Qual ação deseja realizar?) then (consultar histórico)
+
+  :**Histórico por Máquina**\n(UC05 — ciclos e pausas, RF10);
+
+  :Seleciona máquina\ne intervalo de período;
+
+  :Visualiza histórico detalhado:\nciclos, OEE, pausas (PAUSA)\ne paradas automáticas (PARADA_AUTOMATICA);
+
+  :Volta ao **Dashboard\nConsolidado**;
+
+else if (?) then (gerar relatório de turno)
+
+  :**Gerar Relatório de Turno**\n(UC06, RF15);
+
+  :Seleciona período\ne máquinas do relatório;
+
+  :Confirma geração;
+
+  :**Exportar**\nCSV ou PDF\n(RF16);
+
+  note right
+    RF15 — Relatório lista pausas
+    manuais e PARADAS_AUTOMATICAS
+    em seções separadas, com mensagem
+    atual e autor da última edição
+    Pausas sem motivo aparecem
+    como "pendente de classificação"
+    (Fluxo Alternativo 3.2.3)
+  end note
+
+  :Download do arquivo exportado;
+
+  :Volta ao **Dashboard\nConsolidado**;
+
+else (editar parada automática)
+
+  :**Lista de Paradas Automáticas\ndo Setor**\n(UC12 — RF19, RN03);
+
+  :Seleciona registro\n`PARADA_AUTOMATICA` para editar;
+
+  :Edita mensagem da parada automática;
+
+  :Confirma edição;
+
+  note right
+    RN03 — Marina edita apenas
+    paradas do seu setor/turno
+    RN12 — Auditoria: autor,
+    timestamp, texto anterior
+    RF20 — Histórico imutável
+  end note
+
+  :Volta ao **Dashboard\nConsolidado**;
+
+endif
+
+if (Encerrar turno?) then (sim)
+  :Encerra sessão;
+  stop
+else (não)
+  :Continua monitoramento;
+  end
+endif
+
+legend bottom left
+  <back:#1168bd><color:white>  Tela / Ação     </color></back> — ação da líder no frontend
+  <back:#80807a><color:white>  Decisão         </color></back> — ponto de bifurcação do fluxo
+endlegend
+
+footer Versão 1.0.0 da jornada do líder de turno (Marina), feito com PlantUML %version()
+@enduml

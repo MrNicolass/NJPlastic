@@ -1,0 +1,106 @@
+@startuml Alt AuthFailure Sequence
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 220
+
+skinparam participant {
+    BorderColor #2D2D2A
+    BackgroundColor #80807a
+    FontColor #FFFFFF
+}
+skinparam actor {
+    BorderColor #000000
+    BackgroundColor #1168bd
+    FontColor #FFFFFF
+}
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+title Fluxo Alternativo 3.2.1 — Falha de Autenticação\n(UC01 | RN01, RN02, RN03, RN04 | RNF07, RNF08)
+
+actor "Usuário" as User #1168bd
+participant "Frontend\n(React)" as Frontend #80807a
+participant "AuthenticationController" as AuthCtrl #80807a
+participant "AuthenticationService" as AuthSvc #80807a
+participant "UserRepository" as UserRepo #80807a
+participant "PostgreSQL" as DB #80807a
+
+== Cenário A — Credenciais inválidas (login ou senha incorretos) ==
+
+User -> Frontend : Submete login e senha
+
+Frontend -> AuthCtrl : POST /auth/login\n{ login, senha }
+
+AuthCtrl -> AuthSvc : validar(login, senha)
+activate AuthSvc
+
+AuthSvc -> UserRepo : buscarPorLogin(login)
+UserRepo -> DB : SELECT usuario WHERE login = ?
+DB -> UserRepo : usuário não encontrado\nOU hash de senha não confere
+
+UserRepo -> AuthSvc : null / hash divergente
+AuthSvc -> AuthCtrl : credenciais inválidas
+deactivate AuthSvc
+
+AuthCtrl -> Frontend : 401 Unauthorized\n{ mensagem: "Credenciais inválidas" }
+
+note right of Frontend
+  OWASP A07 — Mensagem genérica:
+  não revela se o login existe
+  ou se apenas a senha está errada
+  (Seção 6 do RFC — RNF08)
+end note
+
+Frontend -> User : Exibe aviso:\n"Usuário ou senha incorretos.\nTente novamente."
+
+== Cenário B — Perfil sem permissão para a tela solicitada ==
+
+User -> Frontend : Tenta acessar tela\nrestrita ao perfil Gestor\n(ex.: Cadastro de Usuários)
+
+Frontend -> AuthCtrl : GET /api/gestao/usuarios\n[token válido, perfil = Operador]
+
+AuthCtrl -> AuthSvc : verificarPermissao(token, recurso)
+activate AuthSvc
+AuthSvc -> AuthSvc : Perfil OPERADOR não tem acesso\na recursos do perfil GESTOR\n[RN01, RN04]
+AuthSvc -> AuthCtrl : 403 Forbidden
+deactivate AuthSvc
+
+AuthCtrl -> Frontend : 403 Forbidden
+
+note right of AuthSvc
+  RN02 — Operador: só máquinas do turno
+  RN03 — Líder: só setor e turno próprios
+  RN04 — Gestor: visão completa
+end note
+
+Frontend -> User : Redireciona para a tela\npermitida ao perfil do usuário\n(ex.: Dashboard Minhas Máquinas)
+
+== Cenário C — Sessão expirada durante uso ativo ==
+
+User -> Frontend : Interage com o dashboard\n(ex.: clica em "Histórico")
+
+Frontend -> AuthCtrl : GET /api/producao/historico\n[token expirado]
+
+AuthCtrl -> AuthSvc : verificarToken(token)
+activate AuthSvc
+AuthSvc -> AuthSvc : Token expirado —\nassinatura inválida ou fora da validade
+AuthSvc -> AuthCtrl : 401 Unauthorized (token expirado)
+deactivate AuthSvc
+
+AuthCtrl -> Frontend : 401 Unauthorized
+
+Frontend -> User : Redireciona para tela de **Login**\ncom aviso:\n"Sua sessão expirou.\nFaça login novamente."
+
+legend bottom left
+  <back:#1168bd><color:white>  Ator Humano     </color></back> — usuário que tenta se autenticar
+  <back:#80807a><color:white>  Sistema Interno </color></back> — componentes de autenticação NJPlastic
+endlegend
+
+footer Versão 1.0.0 do diagrama de falha de autenticação, feito com PlantUML %version()
+@enduml

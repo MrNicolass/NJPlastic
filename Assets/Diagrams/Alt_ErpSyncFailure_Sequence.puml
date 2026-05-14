@@ -1,0 +1,124 @@
+@startuml Alt ErpSyncFailure Sequence
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 220
+
+skinparam participant {
+    BorderColor #2D2D2A
+    BackgroundColor #80807a
+    FontColor #FFFFFF
+}
+skinparam actor {
+    BorderColor #000000
+    BackgroundColor #296274
+    FontColor #FFFFFF
+}
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+title Fluxo Alternativo 3.2.4 — Falha de Sincronização com ERP\n(RN08 | RF12, RF13, RF14 | UC08, UC11)
+
+participant "ProductionService\n(scheduler)" as Service #80807a
+participant "ProductionRepository" as Repo #80807a
+participant "PostgreSQL" as DB #80807a
+participant "ErpDatabaseRepository" as ErpRepo #80807a
+participant "ERP" as ERP #C14953
+participant "Frontend\n(React)" as Frontend #80807a
+actor "Jair\n(Gestor)" as Manager #296274
+
+== Janela de sincronização configurável dispara (RF14) ==
+
+Service -> Service : Timer: janela configurável disparou\n[RF14 — configurável pelo Gestor]
+
+Service -> Repo : buscarApontamentos(estado = CONFIRMADO)
+Repo -> DB : SELECT apontamentos confirmados
+DB -> Repo : Lista de apontamentos
+Repo -> Service : [apontamento_1, apontamento_2, ...]
+
+Service -> ErpRepo : sincronizar(apontamentos)
+activate ErpRepo
+ErpRepo -> ERP : Conecta via JDBC direto\n[RF12, RNF13]
+
+alt ERP indisponível / timeout / credencial expirada
+
+    ERP -[#C14953]-> ErpRepo : Exceção:\nConnection refused /\nSQL timeout /\nAuthentication error
+
+    deactivate ErpRepo
+
+    note right of ErpRepo
+      RN07 — Apontamentos permanecem
+      com estado = CONFIRMADO.
+      NÃO regridem para PENDENTE.
+      Registro local permanece íntegro.
+      [RN08]
+    end note
+
+    Service -> Repo : registrarFalhaSync(\n  apontamentos[],\n  motivo,\n  timestamp,\n  tentativas + 1\n)
+    Repo -> DB : UPDATE apontamento\nSET ultima_tentativa_sync = now(),\n    tentativas = tentativas + 1
+
+    Service -> Service : Emite log estruturado:\n{ apontamentos[], motivo, tentativas }
+
+    note right of Service
+      Próxima janela (RF14) tentará
+      sincronizar novamente de forma
+      automática [RN08 — idempotência]
+    end note
+
+    == Visibilidade da falha para o Gestor ==
+
+    Frontend -> Manager : **Dashboard — Indicadores\nde Sincronização ERP** (UC08):\napontamentos com status\n"Erro na última sincronização"\ne contador de tentativas
+
+    note right of Manager
+      Jair pode investigar a causa
+      (ERP fora do ar, credencial expirada)
+      e aguardar a recuperação automática
+      sem perda de dados
+    end note
+
+else ERP disponível — fluxo normal de sincronização
+
+    ERP -> ErpRepo : Conexão estabelecida\nOrdens de produção abertas
+    activate ErpRepo
+
+    ErpRepo -> ERP : Lê ordens abertas\n[RF12, RF13, RNF13]
+    ERP -> ErpRepo : Ordens retornadas
+
+    ErpRepo -> ERP : Grava apontamentos confirmados\nvia JDBC direto [RF13, RNF13]
+
+    note right of ErpRepo
+      Escrita idempotente:
+      chave natural = id_apontamento
+      Reenvio acidental não gera
+      duplicatas [RN08]
+    end note
+
+    ERP -> ErpRepo : Confirmação de escrita
+    deactivate ErpRepo
+
+    Service -> Repo : atualizar(estado = SINCRONIZADO) [RN07]
+    Repo -> DB : UPDATE estado = SINCRONIZADO
+
+    note over DB, ERP
+      RNF03 — Sincronização concluída
+      em < 1 minuto após confirmação
+    end note
+
+    Frontend -> Manager : Dashboard exibe\napontamentos com status\n**"SINCRONIZADO"** (UC08)
+
+end
+
+legend bottom left
+  <back:#296274><color:white>  Ator Gerencial  </color></back> — gestor que monitora a sincronização
+  <back:#80807a><color:white>  Sistema Interno </color></back> — componentes NJPlastic
+  <back:#C14953><color:white>  Sistema Externo </color></back> — ERP (banco de dados corporativo)
+  <color:#C14953>——</color> Mensagem de erro / exceção
+endlegend
+
+footer Versão 1.0.0 do diagrama de falha de sincronização ERP, feito com PlantUML %version()
+@enduml

@@ -1,0 +1,122 @@
+@startuml Operator Navigation Flow
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+
+skinparam activity {
+    BackgroundColor #1168bd
+    BorderColor #2D2D2A
+    FontColor #FFFFFF
+    ArrowColor #2D2D2A
+    StartColor #2D2D2A
+    EndColor #2D2D2A
+    DiamondBackgroundColor #80807a
+    DiamondBorderColor #2D2D2A
+    DiamondFontColor #FFFFFF
+}
+
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+title Jornada de Carlos — Operador de Injetora\n(Persona 1 | UC01, UC02, UC03, UC12 | RN01, RN02, RN09, RN12)
+
+start
+
+:Acessa o sistema via navegador;
+
+:Tela de **Login**\n(UC01 — Autenticação com login/senha);
+
+note right
+  RN01 — Apenas usuários autenticados
+  acessam qualquer recurso da API
+  RNF06 — Comunicação via HTTPS/TLS
+end note
+
+:**Dashboard\nMinhas Máquinas**\n(UC02 — Status em tempo real, RF11);
+
+note right
+  RN02 — Operador visualiza apenas
+  máquinas atribuídas ao seu turno
+
+  RNF02 — Dashboard atualizado
+  em < 2 s após persistência no banco
+
+  Máquinas em estado PARADA exibidas
+  com cor/ícone distinto [RF11, RN09]
+end note
+
+repeat
+
+  :Monitora contagem de ciclos\ne status das máquinas em tempo real;
+
+  if (Evento na\nmáquina?) then (pausa detectada — RF08)
+
+    :**Detalhe da Máquina**\n(alerta visual de pausa, RF08);
+
+    :Abre **Modal de\nRegistro de Pausa**\n(UC03 — RF09);
+
+    if (Informa motivo da pausa?) then (sim)
+      :Seleciona motivo:\nRefugo / Setup / Manutenção;
+      :Confirma registro\n(motivo salvo no banco);
+      note right
+        Pausa fica com motivo
+        registrado e aparece
+        no relatório de turno (RF15)
+      end note
+    else (não)
+      :Fecha modal sem registrar;
+      note right
+        Fluxo Alternativo 3.2.3
+        Pausa persiste com
+        motivo = desconhecido
+        (pendente de classificação)
+        Se N pausas consecutivas
+        sem pulso → PARADA_AUTOMATICA
+        [RF17, RN09 — ver §3.2.5]
+      end note
+    endif
+
+    :Volta ao **Dashboard\nMinhas Máquinas**;
+
+  elseif (Evento na\nmáquina?) then (parada automática — RF17)
+
+    :**Detalhe da Máquina**\n(alerta de PARADA AUTOMÁTICA, RF11);
+
+    :Abre **Modal de Edição\nde Mensagem**\n(UC12 — RF19);
+
+    :Edita mensagem automática\n(ex.: adiciona contexto da parada);
+
+    :Confirma edição;
+
+    note right
+      RN02 — Carlos edita apenas
+      paradas das suas máquinas
+      RN12 — Auditoria: autor,
+      timestamp, texto anterior
+      RF20 — Histórico imutável
+    end note
+
+    :Volta ao **Dashboard\nMinhas Máquinas**;
+
+  else (sem eventos)
+    :Continua monitorando\n(ciclos incrementando);
+  endif
+
+repeat while (Turno em andamento?) is (sim)
+->fim de turno;
+
+:Encerra sessão;
+
+stop
+
+legend bottom left
+  <back:#1168bd><color:white>  Tela / Ação     </color></back> — ação do operador no frontend
+  <back:#80807a><color:white>  Decisão         </color></back> — ponto de bifurcação do fluxo
+endlegend
+
+footer Versão 1.0.0 da jornada do operador (Carlos), feito com PlantUML %version()
+@enduml
