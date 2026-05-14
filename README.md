@@ -871,18 +871,18 @@ O modelo de dados da NJPlastic é integralmente relacional. O _PostgreSQL_ local
 ### 5.2.1. Diagrama Entidade-Relacionamento (DER)
 
 ![Diagrama Entidade-Relacionamento](Assets/Images/Diagrams/Data_Model_ERD_V1.png)
-<p align="center"><em>Figura 22. DER da NJPlastic: entidades locais (PostgreSQL) — user, machine, production_cycle, machine_status, audit_log — e entidade de cache do ERP (production_order_cache). Colunas relacionais (machine_id, user_id) são UUIDs simples, sem REFERENCES declaradas (RN07, RN09–RN12, RF06–RF09, RF17–RF20).</em></p>
+<p align="center"><em>Figura 22. DER da NJPlastic: entidades locais (PostgreSQL) — users, machine, production_cycle, machine_status, audit_log — e entidade de cache do ERP (production_order_cache). Colunas relacionais (machine_id, user_id) são UUIDs simples, sem REFERENCES declaradas (RN07, RN09–RN12, RF06–RF09, RF17–RF20).</em></p>
 
 As entidades e seus atributos principais são:
 
-- **`user`** — representa os três perfis do sistema (OPERATOR, LEADER, MANAGER); `role` governa as regras de visibilidade RN02–RN04; `sector` e `shift` restringem o escopo de dados acessíveis para Operador e Líder;
+- **`users`** — representa os três perfis do sistema (OPERATOR, LEADER, MANAGER); `role` governa as regras de visibilidade RN02–RN04; `sector` e `shift` restringem o escopo de dados acessíveis para Operador e Líder;
 - **`machine`** — armazena os parâmetros de detecção: `standard_cycle_ms` e `tolerance_factor` definem o _threshold_ de pausa (RN06), `consecutive_pauses_to_stop` governa o limite de escalonamento para parada automática (RN09, RF06, RF17); o campo `code` (VARCHAR UNIQUE) é o identificador curto provisionado no Arduino (ex.: `MAQ-01`);
 - **`production_cycle`** — cada pulso válido gera um registro com `pulse_timestamp` (reconstruído pelo _backend_ a partir do `generated_at` do Arduino + data local — RN05), `sequence` (para detecção de lacunas) e `state` seguindo o ciclo de vida de RN07;
 - **`machine_status`** — registra todas as transições de estado operacional da máquina (RUNNING, PAUSED, AUTO_STOPPED, OFFLINE); cada transição cria um novo registro com `start_time` e `end_time` (NULL enquanto o estado estiver ativo); `reason` e `message` são aplicáveis apenas a PAUSED e AUTO_STOPPED (RF08, RF09, RF17, RF18); `message` é editável enquanto o registro estiver _confirmed_ (RF19, RN10); `consecutive_count_at_creation` preserva o valor do contador no instante da criação para rastreabilidade (RN09–RN11); OFFLINE é gerado pelo _watchdog_ quando nenhum pulso chega dentro da janela configurável;
-- **`audit_log`** — log imutável de **todas** as requisições à API; nunca recebe `UPDATE` ou `DELETE`; armazena `user_id` (NULL para chamadas anônimas), `http_method`, `endpoint`, `request_payload` e `response_payload` (sanitizados — senhas e _tokens_ substituídos por `[REDACTED]`), `http_status`, `source_ip` e `duration_ms`; edições de mensagem de `machine_status` ficam registradas como caso particular (RF20, RN12, RNF08);
+- **`audit_log`** — log imutável de **todas** as requisições à API; nunca recebe `UPDATE` ou `DELETE`; armazena `user_id` (NULL para chamadas anônimas, referenciando registros de `users` em nível de aplicação), `http_method`, `endpoint`, `request_payload` e `response_payload` (sanitizados — senhas e _tokens_ substituídos por `[REDACTED]`), `http_status`, `source_ip` e `duration_ms`; edições de mensagem de `machine_status` ficam registradas como caso particular (RF20, RN12, RNF08);
 - **`production_order_cache`** — _buffer_ de leitura das ordens do ERP; atualizado a cada janela de sincronização (RF14); evita consultas repetidas ao banco externo em cada ciclo de avaliação.
 
-> **Sem _foreign keys_ declaradas no banco:** colunas como `machine_id` e `user_id` são UUIDs simples sem `REFERENCES`. O JPA modela essas colunas como `@Column UUID`, não `@ManyToOne`. A integridade referencial é garantida pela camada de serviço (`ProductionService`), isolando o ciclo de vida de cada tabela e permitindo manuseio independente sem cascata.
+> **Sem _foreign keys_ declaradas no banco:** colunas como `machine_id` e `user_id` são UUIDs simples sem `REFERENCES`. O JPA modela essas colunas como `@Column UUID`, não `@ManyToOne`. A integridade referencial é garantida pela camada de serviço (`ProductionService`), isolando o ciclo de vida de cada tabela e permitindo manuseio independente sem cascata; no caso de `user_id`, a associação lógica é com a entidade/tabela `users`.
 
 ### 5.2.2. Esquema Relacional
 
