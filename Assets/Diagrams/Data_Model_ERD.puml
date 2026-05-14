@@ -1,0 +1,158 @@
+@startuml Data Model ERD
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam linetype ortho
+
+skinparam entity {
+    BackgroundColor #80807a
+    BorderColor #2D2D2A
+    FontColor #FFFFFF
+    ArrowColor #2D2D2A
+}
+
+skinparam note {
+    BackgroundColor #F5F5F2
+    BorderColor #2D2D2A
+    FontColor #2D2D2A
+}
+
+entity "user" as user #80807a {
+    + id : UUID <<PK>>
+    ---
+    login : VARCHAR(100) <<UNIQUE, NOT NULL>>
+    password_hash : VARCHAR(255) <<NOT NULL>>
+    role : ENUM(OPERATOR, LEADER, MANAGER) <<NOT NULL>>
+    sector : VARCHAR(100)
+    shift : VARCHAR(50)
+    active : BOOLEAN <<NOT NULL, DEFAULT true>>
+}
+
+entity "machine" as machine #80807a {
+    + id : UUID <<PK>>
+    ---
+    code : VARCHAR(50) <<UNIQUE, NOT NULL>>
+    description : VARCHAR(255)
+    standard_cycle_ms : BIGINT <<NOT NULL>>
+    tolerance_factor : DECIMAL(4,2) <<NOT NULL>>
+    consecutive_pauses_to_stop : INTEGER <<NOT NULL>>
+    sector : VARCHAR(100)
+    active : BOOLEAN <<NOT NULL, DEFAULT true>>
+}
+
+entity "production_cycle" as production_cycle #80807a {
+    + id : UUID <<PK>>
+    ---
+    machine_id : UUID <<ref: machine.id>>
+    pulse_timestamp : TIMESTAMPTZ <<NOT NULL>>
+    sequence : BIGINT <<NOT NULL>>
+    interval_ms : BIGINT
+    state : ENUM(PENDING, CONFIRMED, SYNCED, DISCARDED) <<NOT NULL>>
+}
+
+entity "machine_status" as machine_status #80807a {
+    + id : UUID <<PK>>
+    ---
+    machine_id : UUID <<ref: machine.id>>
+    state : ENUM(RUNNING, PAUSED, AUTO_STOPPED, OFFLINE) <<NOT NULL>>
+    reason : VARCHAR(255)
+    message : TEXT
+    start_time : TIMESTAMPTZ <<NOT NULL>>
+    end_time : TIMESTAMPTZ
+    reason_author_id : UUID <<ref: user.id, nullable>>
+    consecutive_count_at_creation : INTEGER
+    record_state : ENUM(PENDING, CONFIRMED, SYNCED, DISCARDED) <<NOT NULL>>
+}
+
+entity "audit_log" as audit_log #80807a {
+    + id : UUID <<PK>>
+    ---
+    timestamp : TIMESTAMPTZ <<NOT NULL, DEFAULT now()>>
+    user_id : UUID <<ref: user.id, nullable>>
+    http_method : VARCHAR(8) <<NOT NULL>>
+    endpoint : VARCHAR(512) <<NOT NULL>>
+    http_status : INTEGER <<NOT NULL>>
+    request_payload : JSONB
+    response_payload : JSONB
+    source_ip : INET
+    duration_ms : INTEGER
+}
+
+entity "production_order_cache" as order_cache #C14953 {
+    + erp_order_id : VARCHAR(100) <<PK>>
+    ---
+    machine_id : UUID <<ref: machine.id>>
+    opened_at : TIMESTAMPTZ
+    closed_at : TIMESTAMPTZ
+    last_sync_at : TIMESTAMPTZ <<NOT NULL>>
+}
+
+' Relações semânticas (sem REFERENCES no DDL — integridade na camada de serviço)
+machine ||--o{ production_cycle : "1 machine\n→ N cycles"
+machine ||--o{ machine_status : "1 machine\n→ N status records"
+machine |o--o{ order_cache : "1 machine\n→ N orders (cache)"
+user |o--o{ machine_status : "registra motivo\n(opcional)"
+
+note right of user
+  RF03, RF04
+  RN01 — authenticated
+  RN02 — OPERATOR: shift/sector
+  RN03 — LEADER: sector/shift
+  RN04 — MANAGER: full view
+end note
+
+note right of machine
+  RF06
+  Parameters used by:
+  RF08 → `tolerance_factor`
+  RF17 → `consecutive_pauses_to_stop`
+  RN06, RN09
+  `code` provisionado no Arduino (ex.: MAQ-01)
+end note
+
+note right of production_cycle
+  RF01, RF07
+  RN05 — clock drift validation
+  RN07 — record state lifecycle
+  Índice: `(machine_id, pulse_timestamp)`
+end note
+
+note right of machine_status
+  RF08, RF09, RF17, RF18, RN06, RN09–RN11
+  Cada transição de estado → novo registro
+  `start_time` ← aberto | `end_time` ← fechado
+  RUNNING/PAUSED/AUTO_STOPPED: lógica de detecção
+  OFFLINE: watchdog sem pulso na janela configurável
+  Índices: `(machine_id, start_time)`, `(state)`
+end note
+
+note right of audit_log
+  RF20, RN12, RNF08
+  Imutável — sem UPDATE/DELETE
+  `user_id` NULL para chamadas anônimas
+  Payloads sanitizados — senhas/tokens → [REDACTED]
+  Índices: `(user_id, timestamp)`, `(endpoint, timestamp)`
+end note
+
+note bottom of order_cache
+  RF13 — buffer local de leitura do ERP
+  Reduz round-trips JDBC ao ERP
+  Atualizado a cada janela de sincronização [RF14]
+  Entidade externa (cor distinta)
+end note
+
+note top of machine_status
+  ⚠ Sem REFERENCES declaradas no DDL
+  Colunas `machine_id`, `reason_author_id` são
+  UUIDs sem FK — integridade via ProductionService
+end note
+
+legend bottom left
+  <back:#80807a><color:white>  Local Entity    </color></back> — PostgreSQL tables (NJPlastic)
+  <back:#C14953><color:white>  ERP Cache       </color></back> — data mirrored from ERP to reduce JDBC round-trips
+  <color:#2D2D2A>——</color> Semantic relation (no DDL REFERENCES — service layer enforces integrity)
+endlegend
+
+footer Versão 2.0.0 do diagrama do modelo de dados, feito com PlantUML %version()
+@enduml
