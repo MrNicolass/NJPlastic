@@ -38,8 +38,6 @@ Com isso em mente, a NJPlastic vem com objetivo de integrar máquinas injetoras 
 
 Atualmente já existem sistemas parecidos, porém não fazem integração com ERPs (ou fazem pouca integração - geralmente apenas leituras), são caros (comparado com o quê entregam), não são intuitivos e aparentam ter sido desenvolvidos com auxílio de IA puramente, o que pode ser um problema.
 
----
-
 ## 1.1. Contexto e Problema
 
 Empreendedores brasileiros do setor de produtos plásticos enfrentam um mercado fragmentado e oneroso, onde até a aquisição de sistemas "especializados" em controle de produção, exige investimentos adicionais em customizações para que os mesmos se encaixem com o processo, sistemas conhecidos como _MES_ (_Manufacturing Execution System_)<sup>[[1]](#ref-1)</sup>. Como não há escapatória, as empresas recorrem à customização de _softwares_ de controle de produção, utilização de ferramentas não especializadas e "datadas" (como Excel), ou, desenvolvimento interno de um _software_ (específico para empresas que tenham bastante capital).
@@ -48,7 +46,7 @@ Os sistemas _MES_ disponíveis para pequenas e médias empresas apresentam limit
 
 Como exemplo, vamos nos basear no processo produtivo da empresa Meplas<sup>[[2]](#ref-2)</sup>:
 
-![Diagrama de produção Meplas](Assets/Images/Diagrams/Meplas_Production_Diagram.png)
+![Diagrama de produção Meplas](Assets/Images/Diagrams/Meplas_Production_Diagram_V1.png)
 <p align="center"><em>Figura 1. Diagrama de produção da empresa Meplas.</em></p>
 
 Esse cenário deixa o empreendedor do setor plástico sem opção viável, ou ele investe em um _MES_ caro e genérico que ainda exigirá customização, ou, convive com ferramentas inadequadas que não eliminam o trabalho manual. A ausência de um sistema acessível, com integração real ao _ERP_ e calibrado para a realidade do setor, é a lacuna que a **NJPlastic** se propõe a preencher.
@@ -84,7 +82,7 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Nenhuma informação de preço publicada — modelo comercial opaco para PMEs que precisam avaliar custo-benefício sem contato com o time de vendas;
 - Especificações técnicas da captura IoT (tipo de sensor, protocolo, *hardware* necessário) não estão publicadas.
 
-![Sistema Autoflex](Assets/Images/Diagrams/AutoflexMES.png)
+![Sistema Autoflex](Assets/Images/Others/AutoflexMES.png)
 <p align="center"><em>Figura 2. Exemplo apresentado pela Projedata do Autoflex.</em></p>
 
 ### Vedois MES (Vedois Tecnologia)<sup>[[4]](#ref-4)</sup>
@@ -104,7 +102,7 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Documentação técnica da captura IoT ausente — sem especificação de _hardware_, protocolos ou método de captura de pulso elétrico;
 - Produto generalista por setor: sem funcionalidades específicas para injeção plástica como controle de moldes, cavidades ou gestão de OS de injeção.
 
-![Sistema Vedois](Assets/Images/Diagrams/Vedois_System.png)
+![Sistema Vedois](Assets/Images/Others/Vedois_System.png)
 <p align="center"><em>Figura 3. Exemplo apresentado pela Vedois em seu site.</em></p>
 
 ### LiveMES (LiveMES Tecnologia)<sup>[[5]](#ref-5)</sup>
@@ -124,7 +122,7 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Nenhum preço publicado;
 - Modelo *PMaaS* pode representar custo recorrente adicional significativo para PMEs de menor porte.
 
-![Sistema LiveMES](Assets/Images/Diagrams/LiveMES_System.png)
+![Sistema LiveMES](Assets/Images/Others/LiveMES_System.png)
 <p align="center"><em>Figura 4. Exemplo de tela do sistema LiveMES.</em></p>
 
 ### Doeet MES (Doeet)<sup>[[6]](#ref-6)</sup>
@@ -144,7 +142,7 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Sem _cases_ brasileiros documentados publicamente;
 - Abordagem IoT depende de sensores próprios cuja especificação técnica não está publicada.
 
-![Sistema Doeet MES](Assets/Images/Diagrams/Doeet_System.png)
+![Sistema Doeet MES](Assets/Images/Others/Doeet_System.png)
 <p align="center"><em>Figura 5. Exemplo de tela do sistema Doeet.</em></p>
 
 ### EGA PCPMaster (EGA Sistemas)<sup>[[7]](#ref-7)</sup>
@@ -164,7 +162,7 @@ Abaixo, veremos algumas soluções que executam funções parecidas a que a NJPl
 - Nenhum preço publicado;
 - Produto aparentemente posicionado para indústrias de médio porte com equipe de TI interna.
 
-![Sistema EGA PCPMaster](Assets/Images/Diagrams/EGA_PCPMaster_System.png)
+![Sistema EGA PCPMaster](Assets/Images/Others/EGA_PCPMaster_System.png)
 <p align="center"><em>Figura 6. Exemplo de tela do sistema EGA PCPMaster.</em></p>
 
 ### Comparação
@@ -362,7 +360,7 @@ Os principais fluxos do sistema são organizados por ator. Atores humanos seguem
 ### Diagrama de Casos de Uso
 
 ![Diagrama de Casos de Uso](Assets/Images/Diagrams/UseCase_Diagram_V1.png)
-<p align="center"><em>Figura 8. Diagrama de casos de uso da NJPlastic, agrupando atores humanos (Operador, Líder de Turno e Gestor) e atores de sistema (Microcontrolador e Backend), incluindo UC12 (edição de mensagem de parada automática) e UC13 (classificação automática como PARADA).</em></p>
+<p align="center"><em>Figura 7. Diagrama de casos de uso da NJPlastic, agrupando atores humanos (Operador, Líder de Turno e Gestor) e atores de sistema (Microcontrolador e Backend), incluindo UC12 (edição de mensagem de parada automática) e UC13 (classificação automática como PARADA).</em></p>
 
 ## 2.3. Requisitos Funcionais (RF)
 
@@ -750,7 +748,31 @@ Se possível, inclua:
 - sugestões de melhoria
 - validação inicial do mockup
 
----
+## 4.5. Identidade Visual e Paleta de Cores
+
+A paleta oficial da NJPlastic foi definida em [https://coolors.co/1168bd-2596be-296274-2d2d2a-80807a-c14953-e5dcc5](https://coolors.co/1168bd-2596be-296274-2d2d2a-80807a-c14953-e5dcc5) e será aplicada como base de tema do _Ant Design_ (ver [Seção 5.4](#54-stack-tecnológica)) por meio do `ConfigProvider`. As cores foram escolhidas para transmitir confiabilidade industrial (azul e _teal_), legibilidade em _dashboards_ longos (cinzas neutros) e sinalização clara de eventos críticos como `PARADA_AUTOMATICA` (vermelho).
+
+![Paleta oficial da NJPlastic](Assets/Images/Others/Palette.png)
+<p align="center"><em>Figura 21.1. Paleta oficial NJPlastic — Coolors.</em></p>
+
+### 4.5.1. Cores e Aplicação Sugerida
+
+| _Token_ | _Hex_ | Papel UI Sugerido | Mapeamento _Ant Design_ (v5) |
+|---------|-------|-------------------|-------------------------------|
+| _Cobalt_ | `#1168BD` | Cor primária — botões principais, _links_, _highlights_ do _dashboard_ | `colorPrimary` |
+| _Cerulean_ | `#2596BE` | Cor primária clara — estado _hover_, ícones secundários, _info_ | `colorInfo` |
+| _Teal Deep_ | `#296274` | _Sider_ lateral, _header_, áreas de navegação | Customização do `Layout.Sider` |
+| _Charcoal_ | `#2D2D2A` | Texto principal, ícones em fundos claros | `colorTextBase` |
+| _Warm Gray_ | `#80807A` | Texto secundário, _borders_, _disabled_ | `colorTextSecondary`, `colorBorder` |
+| _Cinnabar_ | `#C14953` | _Danger_ — estado `PARADA_AUTOMATICA` (RN09), alertas e erros | `colorError` |
+| _Bone_ | `#E5DCC5` | Fundo geral, _surfaces_ de _cards_, áreas de conteúdo | `colorBgLayout` |
+
+### 4.5.2. Notas de Aplicação
+
+- A indicação visual de máquinas em `PARADA_AUTOMATICA` (RF11, RN09) usará _Cinnabar_ (`#C14953`) como cor de _badge_ e ícone, garantindo contraste alto contra _Bone_ (`#E5DCC5`);
+- O contraste _Cobalt_ × _Bone_ (~4,6:1) e _Charcoal_ × _Bone_ (~13:1) atende ao critério WCAG AA para texto normal;
+- Operações destrutivas (_delete_, _cancel_) seguem o _token_ `colorError` da paleta;
+- O tema deve ser instanciado uma única vez em `app/layout.tsx` via `<ConfigProvider theme={{ token: { ... } }} />` para evitar _flash_ de tema padrão durante a hidratação do React Server Components.
 
 # 5. Arquitetura do Sistema
 
@@ -1023,9 +1045,10 @@ O `ProductionService` é o único componente que conhece as regras de negócio d
 
 | Componente | Responsabilidade | RFs / RNs / UCs cobertos |
 |------------|-----------------|--------------------------|
-| React SPA | _Single Page Application_ — exibe _dashboards_ em tempo real, relatórios e formulários de ação | RF11, RF15, RF16, UC02–UC09, RNF09, RNF10 |
+| Next.js SPA (_App Router_) | _Single Page Application_ com _React Server Components_ — exibe _dashboards_ em tempo real, relatórios e formulários de ação; roteamento por arquivo organizado conforme perfil (Operador, Líder de Turno, Gestor) | RF11, RF15, RF16, UC02–UC09, RNF09, RNF10 |
+| _Ant Design_ (`antd` v5) | Biblioteca de componentes — `Table`, `Form`, `Modal`, `DatePicker`, `Badge`, `Statistic`; tema aplicado via `ConfigProvider` com a paleta definida em [Seção 4.5](#45-identidade-visual-e-paleta-de-cores) | RF11, RNF09 |
 
-As telas e sua relação com as _personas_ e UCs estão detalhadas em [[Fluxos do Sistema#Telas Referenciadas nos Fluxogramas]]; os _mockups_ visuais de cada tela estão na Seção 4 do RFC.
+As telas e sua relação com as _personas_ e UCs estão detalhadas em [[Fluxos do Sistema#Telas Referenciadas nos Fluxogramas]]; os _mockups_ visuais de cada tela estão na Seção 4 do RFC e a identidade visual (paleta, _tokens_ e mapeamento _Ant Design_) está consolidada em [4.5](#45-identidade-visual-e-paleta-de-cores).
 
 #### Camada Infraestrutura
 
@@ -1065,57 +1088,377 @@ Escolhido pela capacidade de lidar com alto volume de requisições I/O. -->
 | Build _Backend_ | Apache Maven (via `mvn`) | Wrapper incluído no repositório | Convenção padrão Spring Boot; _wrapper_ garante versão reproduzível sem instalação local | — |
 | Banco de Dados Local | PostgreSQL | 16 | Banco relacional _open-source_ robusto, suporte a tipos avançados (ENUM, UUID, TIMESTAMPTZ), alinhado com as restrições relacionais do domínio; sem custo de licença | RN07, RNF04 |
 | _Broker_ MQTT | Mosquitto | 2.x | _Broker_ MQTT _open-source_ leve, padrão em instalações industriais e Docker Compose; permite troca por HiveMQ em _deployments_ de maior escala sem alterar a API | RF02, RNF05 |
-| Framework _Frontend_ | React | 18.x | UI declarativa com composição de componentes; ecossistema sólido; _dashboard_ em tempo real via _polling_ ou SSE; perfil do operador atendido por UX simples (RNF09) | RF11, RF15, RF16, RNF09, RNF10 |
+| Framework _Frontend_ | React | 19.x | UI declarativa com composição de componentes; ecossistema sólido; _dashboard_ em tempo real via _polling_ ou SSE; perfil do operador atendido por UX simples (RNF09) | RF11, RF15, RF16, RNF09, RNF10 |
 | Linguagem _Frontend_ | TypeScript | 5.x | Tipagem estática no _frontend_ reduz erros de integração com a API; alinhado com práticas modernas de desenvolvimento React | — |
+| _Meta-framework_ _Frontend_ | Next.js | 16.x | _App Router_ provê roteamento por arquivo alinhado aos perfis (Operador, Líder de Turno, Gestor — RN02 a RN04); _React Server Components_ reduzem o _bundle_ inicial dos _dashboards_; _Turbopack_ acelera o _HMR_ no desenvolvimento; `eslint-config-next` já alinhado com o React 19; auto-hospedável via `next build` + `next start` em Docker (RNF04), sem dependência da plataforma Vercel; `middleware.ts` cobre autorização por perfil sem código adicional. Substitui o _scaffolding_ anterior planejado em _Vite_ — a escolha foi consolidada após a tarefa _backlog_ `[📕] Pesquisar ESLint e Next` e está refletida em `Frontend/NJPlastic-Front/package.json` | RF11, RNF04, RNF10 |
+| Biblioteca de componentes _Frontend_ | Ant Design (`antd`) | 5.x | Conjunto maduro de componentes prontos para _dashboards_ industriais (`Table`, `Form`, `Modal`, `DatePicker`, `Badge`, `Statistic`); tema customizável via `ConfigProvider` (_design tokens_ v5) — permite mapear a paleta da [Seção 4.5](#45-identidade-visual-e-paleta-de-cores) sem CSS manual; tipagem TypeScript nativa; integração com Next.js _App Router_ via `@ant-design/nextjs-registry` para evitar _flash_ de estilo em SSR; reduz tempo de implementação das telas das três _personas_ (UC02 a UC09) | RF11, RF15, RF16, RNF09, RNF10 |
 | Empacotamento / _Deployment_ | Docker + Docker Compose | Docker 26+ / Compose v2 | Um único `docker-compose.yml` por _deployment_ de cliente (PostgreSQL + Mosquitto + _backend_ + _frontend_); alinhado com o modelo de isolamento por infraestrutura — sem _multi-tenant_ (Seção 2.6) | RNF04, Seção 2.6 |
 | Observabilidade | SLF4J + Logback | Padrão Spring Boot | _Logging_ estruturado; base suficiente para o MVP; extensível para Loki/Grafana na Seção 7 | RNF04 |
 
 > **Pendências no `pom.xml`:** as seguintes dependências estão planejadas mas ainda não adicionadas ao `pom.xml` atual — devem ser incluídas antes do desenvolvimento das respectivas funcionalidades: `spring-boot-starter-security` (Spring Security + JWT), `spring-boot-starter-data-jpa` (Hibernate / Spring Data JPA), `org.eclipse.paho:org.eclipse.paho.client.mqttv3` (Eclipse Paho MQTT), e o _driver_ JDBC do ERP do cliente (_mssql-jdbc_ ou _ojdbc11_). O `pom.xml` atual também contém um conflito de versão entre o _parent_ (`4.0.6`) e dependências explicitamente pinadas em `3.5.3` — padronizar para Spring Boot 3.5.x antes do início do desenvolvimento.
 
+> **Pendências no `package.json` (_Frontend_):** o _scaffolding_ atual de `Frontend/NJPlastic-Front/` já contém Next.js 16.2.4, React 19.2.4, TypeScript 5 e `eslint-config-next`. As seguintes dependências estão planejadas mas ainda não adicionadas — devem ser incluídas no início da _Sprint_ 5: `antd`, `@ant-design/icons`, `@ant-design/nextjs-registry`, `axios` (ou _wrapper_ sobre `fetch`), e a biblioteca de gerenciamento de estado a definir (_React Context_ nativo, _Zustand_ ou _TanStack Query_ — decisão pendente, ver [Seção 7.5](#75-riscos-e-marcos-críticos)).
+
 # 6. Segurança e Privacidade
 
-Inclua preocupações básicas de segurança.
+<!-- Inclua preocupações básicas de segurança.
 
 Exemplos:
 
 - proteção contra OWASP Top 10
 - autenticação e autorização
-- criptografia de dados sensíveis
+- criptografia de dados sensíveis -->
 
----
+A NJPlastic opera em ambiente industrial com dados pessoais de colaboradores (operadores, líderes de turno e gestores) e dados operacionais de produção, por isso, essa seção irá declarar as decisões de segurança, controles aplicados e o tratamento de dados pessoais conforme a _Lei Geral de Proteção de Dados_ — LGPD (Lei 13.709/2018)<sup>[[9]](#ref-9)</sup>. O escopo, profundidade e rastreabilidade equivalentes à Seção 5, onde cada controle aqui declarado seguindo RNF/RN da [Seção 2](#2-engenharia-de-requisitos) e em componentes da [Seção 5.3](#53-principais-componentes).
 
 ## 6.1. Privacidade e LGPD
 
-Explique:
+<!-- Explique:
 
 - quais dados serão coletados
 - como serão armazenados
-- como o usuário poderá solicitar remoção de dados
+- como o usuário poderá solicitar remoção de dados -->
 
----
+O _software_ será inicialmente comercializado para empresas brasileiras (perfil-alvo descrito em [1.4](#14-público-alvo)), portanto a conformidade com a LGPD é tratada como requisito de produto e não como item opcional. As subseções a seguir resumem dados coletados, papéis das partes, princípios aplicados, direitos do titular, retenção, encarregado e incidentes.
+
+### 6.1.1. Dados Coletados e Categorias
+
+A NJPlastic coleta três classes de dados, com escopo LGPD restrito às duas primeiras, as entidades referenciadas estão modeladas em [5.2.1](#521-diagrama-entidade-relacionamento-der).
+
+| Entidade | Conteúdo | Classificação | Base legal aplicada |
+|----------|----------|---------------|---------------------|
+| `users` | Nome, _login_, _e-mail_ corporativo, perfil (`OPERATOR`/`LEADER`/`MANAGER`), setor, turno, _hash_ de senha | Dado pessoal direto<sup>[[9]](#ref-9)</sup> | Art. 7º, V (execução de contrato de trabalho) |
+| `production_cycle.user_id`, `machine_status.reason_author_id` | Vinculação operador → máquina, turno, pausa, edição de mensagem | Dado pessoal indireto — rastreabilidade comportamental | Art. 7º, IX (legítimo interesse — controle de produção e auditoria) |
+| `audit_log` | `user_id`, IP de origem, método HTTP, _endpoint_, _payload_ sanitizado, _timestamp_, duração | Dado pessoal por rastreabilidade comportamental | Art. 7º, II e VI (cumprimento de obrigação legal e exercício regular de direitos) |
+| `production_cycle`, `machine_status`, `machine` | Ciclos, intervalos, estados de máquina, parâmetros de detecção | **Dado operacional** — não pessoal | Fora do escopo LGPD |
+| `production_order_cache` | Cache de ordens lidas do ERP do Cliente | **Dado corporativo do Controlador** | Tratamento pelo Cliente (Controlador) — Operadora apenas armazena |
+
+A NJPlastic **não coleta** CPF, RG, endereço residencial, telefone, dado bancário, dado sensível (Art. 5º, II — origem racial/étnica, saúde, biometria) ou dado de menor de idade, seguindo ao princípio da minimização (Art. 6º, III).
+
+### 6.1.2. Papéis das Partes e Bases Legais
+
+Em razão do modelo de _deployment_ isolado por cliente (declarado em [2.6](#26-fora-do-escopo) — sem _multi-tenant_, banco e _broker_ por cliente), os papéis LGPD ficam assim atribuídos<sup>[[11]](#ref-11)</sup>:
+
+- **Controlador (Art. 5º, VI):** A empresa contratante decide sobre a finalidade do tratamento, contrata, demite e administra os colaboradores cujos dados são tratados;
+- **Operador (Art. 5º, VII):** A NJPlastic processa os dados em nome do Controlador, sem decisão própria sobre finalidades;
+- **Encarregado / DPO (Art. 5º, VIII e Art. 41):** Designado pelo Controlador, a NJPlastic mantém canal técnico de contato direto com o Encarregado para suporte a solicitações de titulares e incidentes.
+
+Bases legais aplicadas (LGPD Art. 7º):
+- **Inciso V — execução de contrato:** _Login_, perfil, vínculo operacional;
+- **Inciso II — cumprimento de obrigação legal/regulatória:** Retenção de auditoria para fiscalização trabalhista e tributária;
+- **Inciso VI — exercício regular de direitos:** Preservação de `audit_log` para defesa em processo judicial/administrativo;
+- **Inciso IX — legítimo interesse:** Monitoramento de produção, detecção de incidentes e auditoria interna, com prevalência aferida em relatório de impacto sob demanda do Controlador (Art. 10).
+
+### 6.1.3. Princípios da LGPD Aplicados (Art. 6º)
+
+- **Finalidade:** Dados tratados exclusivamente para operação fabril, integração com o _ERP_ do Cliente e auditoria — sem reutilização para fins comerciais, _marketing_ ou enriquecimento de perfil;
+- **Adequação e Necessidade:** Coleta limitada ao mínimo necessário descrito em [6.1.1](#611-dados-coletados-e-categorias);
+- **Livre Acesso e Qualidade:** O colaborador pode consultar seus próprios registros via _frontend_ (telas de perfil e relatório de turno); o Gestor pode corrigir dados via UC09;
+- **Transparência:** O presente RFC é o documento que descreve a forma do tratamento — versão pública para o Controlador anexar ao contrato com colaboradores;
+- **Segurança e Prevenção:** TLS 1.3 ([6.3](#63-criptografia-e-armazenamento-seguro)), _hash_ de senha (RNF07), isolamento por _deployment_ (Seção 2.6), auditoria imutável ([5.2](#52-modelo-de-dados));
+- **Não Discriminação:** Os dados não são usados para classificar, ranquear ou penalizar individualmente colaboradores fora do escopo do contrato de trabalho;
+- **Responsabilização e Prestação de Contas:** Todas as transações ficam registradas no `audit_log` (RF20, RN12) e o Operador apresenta evidências de conformidade ao Controlador sob solicitação.
+
+### 6.1.4. Direitos do Titular e Procedimentos (Art. 18)
+
+A NJPlastic, como Operadora, dá suporte ao Controlador para atender as solicitações do titular nos seguintes prazos e canais:
+
+| Direito (Art. 18) | Mecanismo no produto | Prazo de atendimento<sup>[[10]](#ref-10)</sup> |
+|-------------------|----------------------|-----------------|
+| I — Confirmação da existência de tratamento | Solicitação ao Gestor (`MANAGER`); resposta via canal corporativo do Controlador | 15 dias |
+| II — Acesso aos dados | Tela de perfil (autosserviço) + _export_ JSON sob demanda (RF-F futuro) | 15 dias |
+| III — Correção | Gestor atualiza diretamente via UC09 | 5 dias úteis |
+| IV — Anonimização, bloqueio ou eliminação | _Script_ administrativo substitui nome/_login_/_e-mail_ por _hash_ e libera o registro de `users`; mantém integridade referencial em `audit_log` invocando a exceção do Art. 16, II (cumprimento de obrigação legal) | 15 dias |
+| V — Portabilidade | _Export_ JSON do registro do usuário e seus apontamentos vinculados — planejado como RF-F futuro | 15 dias após disponibilização |
+| VI — Eliminação de dados tratados com consentimento | N/A — base legal predominante é o contrato (Art. 7º, V), não o consentimento | — |
+| VII — Compartilhamento com terceiros | Sob demanda, o Operador reporta ao Controlador a lista de integrações ativas (apenas o _ERP_ corporativo do próprio Controlador) | 15 dias |
+| VIII — Revogação de consentimento | N/A pela mesma razão de VI | — |
+
+Quando o direito IV é exercido, a NJPlastic preserva os campos numéricos e temporais de `audit_log` e `machine_status` para fins de comprovação fiscal e trabalhista — apenas os identificadores diretos do titular são anonimizados (LGPD Art. 16, II).
+
+### 6.1.5. Retenção e Eliminação
+
+| Entidade | Retenção | Critério |
+|----------|----------|----------|
+| `users` (ativo) | Enquanto vínculo ativo no Controlador | Acompanhamento via Gestor (UC09) |
+| `users` (desligado) | Anonimização em até 15 dias após desligamento, mediante solicitação do Controlador | Art. 15, II (fim do contrato) |
+| `audit_log` | **5 anos** mínimos | Art. 7º, II e VI — prazo de defesa em processo trabalhista/tributário; alinhado com prática de mercado<sup>[[10]](#ref-10)</sup> |
+| `production_cycle`, `machine_status` | Retenção operacional indefinida (decisão do Controlador) | Não são dados pessoais; vínculo `user_id`/`reason_author_id` é anonimizado quando o usuário é eliminado |
+| `production_order_cache` | _Buffer_ volátil, sobrescrito a cada janela de sincronização (RF14) | Não há retenção histórica |
+
+### 6.1.6. Encarregado (DPO) e Incidentes (Art. 41, Art. 48)
+
+- O Encarregado é designado pelo Controlador (cada cliente), a NJPlastic publica e mantém atualizado um canal técnico (`security@njplastic`) para contato direto;
+- **Procedimento de incidente:**
+    - _Detecção_: Monitoramento de `audit_log`, _spike_ de 401/403 e alarmes do _stack_ de observabilidade (planejado em [Seção 7.5](#75-riscos-e-marcos-críticos));
+    - _Contenção_: Revogação imediata de _tokens_ JWT impactados via rotação do segredo HMAC; bloqueio de IP de origem; congelamento da máquina afetada via flag no `machine_status`;
+    - _Notificação ao Controlador_: Até **72 horas** após a detecção, com escopo, dados envolvidos e medidas adotadas;
+    - _Suporte à comunicação ANPD/titulares_: A NJPlastic fornece o material técnico; o Controlador faz a comunicação formal à ANPD e aos titulares afetados, conforme Art. 48;
+    - _Pós-incidente_: relatório com causa-raiz, _patch_ e plano de prevenção, anexado ao `audit_log`.
+
+### 6.1.7. Transferência Internacional (Art. 33)
+
+- _Deployment_ padrão é **on-premise** no parque industrial do Controlador (Docker Compose — [Seção 5.4](#54-stack-tecnológica)): não há transferência internacional;
+- Caso o Controlador opte por _hosting_ em provedor de nuvem com infraestrutura fora do Brasil, exigir adequação prévia: cláusulas contratuais específicas ou certificação do provedor, conforme Art. 33, II e IV. A NJPlastic não realiza essa transferência por decisão própria.
+
+## 6.2. Autenticação e Autorização
+
+A camada de autenticação utiliza Spring Security 6.x<sup>[[17]](#ref-17)</sup> + JWT (_JSON Web Token_, RFC 7519<sup>[[13]](#ref-13)</sup>), implementada conforme [5.3 — Backend / Autenticação](#camada-backend--autenticação) e [5.1.3 — Componentes](#513-nível-3--diagrama-de-componentes):
+
+- **Fluxo de _login_:** `POST /auth/login` recebe `{ login, senha }` → `AuthenticationService` valida _hash_ `bcrypt` → emite JWT com _claims_ `sub` (`user_id`), `role`, `sector`, `shift`, `iat`, `exp`;
+- **Validação:** Filtro JWT antes da cadeia de _controllers_, recusando _tokens_ expirados, com assinatura inválida ou _algorithm none_<sup>[[14]](#ref-14)</sup>;
+- **Autorização:** Anotações `@PreAuthorize` em cada _controller_ refletindo RN02–RN04 (escopo por perfil/setor/turno); validação adicional em `ProductionService` para qualquer _query_ sensível a escopo;
+- **Política de senha:** `bcrypt` com fator de custo ≥ 12<sup>[[15]](#ref-15)</sup>, comprimento mínimo de 12 caracteres conforme NIST SP 800-63B<sup>[[16]](#ref-16)</sup>; senhas nunca retornadas em _response_ e sanitizadas no `AuditFilter`;
+- **Mensagem genérica em falha:** 401 sem distinção entre _login_ inexistente e senha inválida, alinhado a OWASP A07 e ao [Fluxo Alternativo 3.2.1](#321-falha-de-autenticação-uc01).
+
+### 6.2.1. Justificativa do Uso Exclusivo de JWT
+
+A escolha de JWT _stateless_ — sem _refresh tokens_, sem OAuth2/OIDC e sem MFA na v1 — não é uma simplificação ingênua, mas uma decisão deliberada para o perfil de produto e _deployment_ atual:
+
+- **Escala do MVP e ausência de federação:** O produto atende empresas brasileiras pequenas e médias (RNF11 — até 50 máquinas por _deployment_), sem requisito declarado de _Single Sign-On_ corporativo, federação com Active Directory externo ou autenticação entre _tenants_. _Stacks_ mais elaboradas (OAuth2 _Authorization Code Flow_, OIDC, _refresh token rotation_) resolvem problemas que o produto não tem hoje, e adicionam superfície de ataque que precisaria ser auditada e mantida;
+- **Modelo de _deployment_ isolado por cliente (Seção 2.6):** Cada _deployment_ tem seu próprio banco, _broker_ MQTT e usuários, não há cenário em que um JWT emitido por um _deployment_ precise ser aceito por outro. Esse cenário, que justificaria infraestrutura mais sofisticada (servidor de identidade central, JWKS rotativo), simplesmente não existe;
+- **_Stateless_ e operação simples:** Sem sessão no servidor, o _backend_ não precisa de _store_ compartilhado (Redis/_sticky sessions_) — alinhado ao Docker Compose por cliente ([Seção 5.4](#54-stack-tecnológica)). O custo operacional de manter um _refresh token store_ rotativo, com _replay protection_, seria desproporcional;
+- **MFA descartado na v1:** A [Persona 1 — Carlos](#persona-1--carlos-operador-de-injetora) opera em chão de fábrica, com terminais compartilhados e perfil de "nível técnico baixo" (RNF09). Exigir um segundo fator (SMS, app autenticador) introduziria fricção desproporcional e tempo de _login_ inaceitável. MFA pode ser reintroduzido em versão futura especificamente para o perfil `MANAGER` — que acessa dados estratégicos de fora do chão de fábrica — sem impactar Operador e Líder de Turno;
+- **Mitigação dos riscos clássicos do JWT-único:**
+    - _Token_ de curta duração — `exp` ≤ 8 horas, alinhado a um turno operacional: minimiza a janela de comprometimento (recomendação OWASP de 15–30 min para sessão idle + 8h absoluto<sup>[[14]](#ref-14)</sup>);
+    - Segredo HMAC com ≥ 64 caracteres aleatórios, em variável de ambiente, fora do versionamento<sup>[[14]](#ref-14)</sup>;
+    - Verificação explícita do _algorithm_ esperado (`HS256` apenas; recusar `none`)<sup>[[14]](#ref-14)</sup>;
+    - HTTPS obrigatório (RNF06) — _token_ nunca trafega em claro;
+    - Auditoria de toda emissão e validação via `AuditFilter` (RF20, RN12);
+    - Em caso de comprometimento do segredo HMAC, todos os _tokens_ em circulação são invalidados pela troca da chave — ação compatível com o procedimento de incidente declarado em [6.1.6](#616-encarregado-dpo-e-incidentes-art-41-art-48).
+
+Em resumo, as combinações mais sofisticadas (JWT + _refresh token_ rotativo + OAuth2 + MFA) protegem cenários que a NJPlastic, hoje, não tem, e cada camada extra é mais código para manter e mais superfície para falhar (considerando também, o nível técnico do proprietário e fundador). A decisão é revisitável quando o produto evoluir para _SaaS multi-tenant_ ou integração corporativa SSO, neste momento, o custo-benefício é desfavorável.
+
+## 6.3. Criptografia e Armazenamento Seguro
+
+- **_In transit_:**
+    - HTTPS/TLS 1.3 obrigatório entre _Frontend_ e API (RNF06); cifras fracas (TLS 1.0/1.1, RC4, 3DES) desabilitadas no _reverse proxy_ (Nginx ou _ingress_);
+    - MQTT pode operar em TLS na porta 8883 em _deployments_ com rede industrial não-isolada, sem alteração na lógica do `MqttListener`;
+- **_At rest_:**
+    - Senhas — `bcrypt` (RNF07, fator ≥ 12)<sup>[[15]](#ref-15)</sup>; nunca armazenadas em texto puro nem retornadas em _payload_ de API;
+    - Segredo HMAC do JWT — variável de ambiente `JWT_SECRET`; nunca em `application.yml` versionado;
+    - Credencial JDBC do ERP — variável de ambiente; rotação sob responsabilidade do Controlador, alinhada à política de TI corporativa;
+    - `audit_log` — _payload_ JSONB sanitizado pelo `AuditFilter`: campos `password`, `token`, `authorization`, `secret` substituídos por `"[REDACTED]"` antes da persistência;
+- **Backup:** responsabilidade do Controlador no _deployment_ on-premise; recomenda-se cifragem do backup com chave gerenciada pelo Controlador.
+
+## 6.4. Proteção contra OWASP Top 10 (2021)
+
+A tabela abaixo mapeia cada uma das categorias do _OWASP Top 10:2021_<sup>[[12]](#ref-12)</sup> a controles concretos da NJPlastic e à rastreabilidade com RFs/RNs/RNFs.
+
+| Categoria | Risco no contexto NJPlastic | Mitigação aplicada | Rastreabilidade |
+|-----------|------------------------------|--------------------|-----------------|
+| A01 — _Broken Access Control_ | Operador acessando dados de outro turno; chamada direta ao _endpoint_ ignorando _frontend_ | `@PreAuthorize` por `role` no _controller_; filtros _scoped_ por `sector`/`shift` no `ProductionRepository`; validação de propriedade em `ProductionService` antes de cada mutação | RN02–RN04, RF05, RNF08 |
+| A02 — _Cryptographic Failures_ | Senha em texto puro; _token_ em URL ou em _log_ | `bcrypt` fator ≥ 12; JWT no _header_ `Authorization`, nunca em URL; sanitização no `AuditFilter`; TLS 1.3 obrigatório | RNF06, RNF07, [6.3](#63-criptografia-e-armazenamento-seguro) |
+| A03 — _Injection_ | SQL _injection_ no `ErpDatabaseRepository` (JDBC nativo, sem JPA — RNF13); injection em _payload_ MQTT | _PreparedStatement_ obrigatório em todas as _queries_ JDBC; validação de DTOs com _Bean Validation_; _whitelist_ de `machine_code` antes de executar _lookup_ | RNF13, RF01 |
+| A04 — _Insecure Design_ | Lógica de detecção replicada em camadas; cálculo de pausa fora do _service_ | `ProductionService` é o **único** ponto que conhece RN05–RN12 ([5.3](#camada-backend--produção--mqtt)); padrão _Controller → Service → Repository_ rigoroso | RNF12, RNF13 |
+| A05 — _Security Misconfiguration_ | Swagger UI exposto em produção; CORS permissivo; cabeçalhos de segurança ausentes | Swagger desabilitado em _profile_ `prod`; CORS restrito ao domínio do _Frontend_ do Controlador; cabeçalhos `X-Content-Type-Options`, `Strict-Transport-Security`, `Content-Security-Policy` configurados via Spring Security<sup>[[17]](#ref-17)</sup> | RNF04 |
+| A06 — _Vulnerable and Outdated Components_ | Dependência com CVE conhecida (ex.: Log4Shell, Jackson) | Maven _Dependency Check_ no pipeline de CI; _pinning_ explícito de versões; correção da pendência atual de `pom.xml` (parent 4.0.6 vs deps 3.5.3) antes da Sprint 5 (ver fim da [Seção 5.4](#54-stack-tecnológica)) | RNF04 |
+| A07 — _Identification and Authentication Failures_ | Enumeração de _login_; força bruta em `/auth/login` | Mensagem 401 genérica (Fluxo Alt. [3.2.1](#321-falha-de-autenticação-uc01)); _rate limit_ por IP no _endpoint_ de _login_; expiração curta de JWT; política de senha conforme NIST<sup>[[16]](#ref-16)</sup> | RNF08, RF03 |
+| A08 — _Software and Data Integrity Failures_ | JAR não-assinado em produção; _supply chain_ via dependência Maven; _payload_ MQTT adulterado | _Build_ reproduzível via Maven _wrapper_; imagem Docker assinada e versionada; verificação opcional de assinatura HMAC no _payload_ MQTT em redes industriais hostis | RNF04 |
+| A09 — _Security Logging and Monitoring Failures_ | Falta de trilha para detectar acesso indevido | `AuditFilter` _append-only_ na `audit_log`, persistindo todas as requisições — ver [5.2](#52-modelo-de-dados) e [6.5](#65-auditoria-e-monitoramento) | RF20, RN12, RNF08 |
+| A10 — _Server-Side Request Forgery (SSRF)_ | _Backend_ chamado a buscar URL fornecida por usuário | **N/A** — o _Backend_ não consome URLs externas a partir de _input_ de usuário; integração com ERP é via JDBC com _string_ de conexão fixa em variável de ambiente | RNF13 |
+
+## 6.5. Auditoria e Monitoramento
+
+A tabela `audit_log` ([5.2.1](#521-diagrama-entidade-relacionamento-der)) e o componente `AuditFilter` ([5.3 — Auditoria de Requisições](#camada-backend--auditoria-de-requisições)) formam o cerne de observabilidade de segurança. Esta seção apresenta apenas as **políticas** de uso, evitando duplicar o conteúdo arquitetural:
+
+- **Retenção mínima de 5 anos** — Alinhada com [6.1.5](#615-retenção-e-eliminação) e justificada por Art. 7º, II e VI da LGPD<sup>[[9]](#ref-9)</sup>;
+- **Imutabilidade** — `audit_log` é _append-only_; nenhuma operação `UPDATE` ou `DELETE` é exposta na API nem permitida pelo `AuditRepository`;
+- **Sanitização obrigatória** — _payload_ de _request_ e _response_ passa pelo sanitizador antes da persistência (senha, _token_, _secret_, _authorization_ → `[REDACTED]`);
+- **Alertas operacionais** Planejados em [7.5](#75-riscos-e-marcos-críticos) — _stack_ Loki/Grafana mencionado em [Seção 5.4](#54-stack-tecnológica)):
+    - _Spike_ de respostas 401/403 em janela curta — possível tentativa de força bruta ou de enumeração;
+    - Acesso fora do `sector`/`shift` do usuário — possível _bypass_ de autorização (A01);
+    - Falha repetida na sincronização ERP (UC08) — sinal de credencial expirada ou _drift_ de _schema_ no banco do Controlador.
 
 # 7. Planejamento do Projeto
 
-Defina os principais marcos de desenvolvimento.
+<!-- Defina os principais marcos de desenvolvimento.
 
 | Marco | Descrição | Prazo |
 |---|---|---|
 | M1 | Setup do ambiente e prova de conceito | Semana X |
 | M2 | MVP funcional | Semana Y |
-| M3 | Testes e melhorias | Semana Z |
+| M3 | Testes e melhorias | Semana Z | -->
 
----
+O cronograma de entrega da NJPlastic é organizado em **_sprints_ quinzenais**, gerenciadas no ClickUp, onde sua primeira sprint iniciou em **31/03/26** e a última encerra em **22/06/26**, totalizando seis _sprints_. O cronograma do RFC é também o cronograma do MVP — as duas trilhas (documentação e código) convivem na mesma janela.
+
+## 7.1. Cadência e Marcos
+
+- **Cadência:** Seis _sprints_ quinzenais; revisões e ajustes ao final de cada _sprint_;
+- **Marcos macro:**
+
+| Marco | Escopo | Janela |
+|-------|--------|--------|
+| M1 — Fundação | Repositórios criados, arquitetura definida, primeira versão do _firmware_ Arduino | _Sprints_ 1–2 (31/03 – 27/04) |
+| M2 — RFC consolidada | Seções 1–4 escritas; arquitetura formalizada (Seção 5); segurança e planejamento (Seções 6–7) | _Sprints_ 3–4 (28/04 – 25/05) |
+| M3 — MVP funcional | _Backend_ Java/Spring Boot + _Frontend_ React/TS integrados ao Mosquitto e à camada Arduino; integração ERP com mock e início da integração real | _Sprints_ 5–6 (26/05 – 22/06) |
+| M4 — Finalização | Revisão final do RFC e _release notes_ do MVP | Parte da _Sprint_ 6 (até 22/06) |
+
+## 7.2. Panorama das _Sprints_
+
+A tabela abaixo consolida **todas as tarefas existentes no ClickUp** mais as **tarefas propostas** ainda não criadas, sempre marcadas como `[PROPOSTA]`. A coluna "Status" reflete o estado atual em **15/05/26** (meio da _Sprint_ 4). Convenções de prefixo replicam o padrão usado no ClickUp: `[📕]` documentação/pesquisa, `[🧬]` desenvolvimento, `[💻]` infraestrutura/repositório, `RFC -` tarefas de redação do presente documento.
+
+| Sprint | Janela | Tarefas existentes (ClickUp) | Tarefas propostas para criação |
+|--------|--------|------------------------------|--------------------------------|
+| 1 | 31/03/26 – 13/04/26 | `[RFC] - Base` (_Closed_); `[🧬] Terminar Arduino` (_Closed_); `[💻] Criar Repositórios` (_Closed_) | — |
+| 2 | 14/04/26 – 27/04/26 | `[📕] Definir arquitetura` (_Closed_); `[🧬] Iniciar Repositórios` (_Closed_) | — |
+| 3 | 28/04/26 – 11/05/26 | `RFC - 1. Visão do Produto e Impacto` (_Closed_); `RFC - 2. Engenharia de Requisitos` (_Closed_) | — |
+| 4 | 12/05/26 – 25/05/26 | `RFC - 3+4. Fluxos e Mockups` (_in progress_); `RFC - 5. Arquitetura do Sistema` (_Closed_); `RFC - 6+7. Segurança e Planejamento` (_in progress_); `[📕] Explicar diagramas C4` (_Open_) | — |
+| 5 | 26/05/26 – 08/06/26 | `[🧬] Melhorar Arduino` (_Open_) | `[PROPOSTA] EP-BE-01 Setup Backend`; `[PROPOSTA] EP-BE-02 Autenticação e Segurança`; `[PROPOSTA] EP-BE-03 Auditoria de Requisições`; `[PROPOSTA] EP-BE-04 Produção MQTT (Listener)`; `[PROPOSTA] EP-BE-06 ERP — Mock em PostgreSQL local (parte 1)`; `[PROPOSTA] EP-FE-01 Setup Frontend`; `[PROPOSTA] EP-FE-02 Autenticação Frontend`; `[PROPOSTA] EP-FE-03 Layout Base e Navegação` |
+| 6 | 09/06/26 – 22/06/26 | `[📕] Revisar RFC` (_Open_); `RFC - Finalização` (_Open_) | `[PROPOSTA] EP-BE-05 API REST de Produção`; `[PROPOSTA] EP-BE-06 ERP — Integração real (parte 2)`; `[PROPOSTA] EP-BE-07 Empacotamento e Deployment`; `[PROPOSTA] EP-FE-04 Telas do Operador`; `[PROPOSTA] EP-FE-05 Telas da Líder de Turno`; `[PROPOSTA] EP-FE-06 Telas do Gestor`; `[PROPOSTA] EP-FE-07 Funcionalidades Transversais` |
+
+### Backlog Atual (sem _sprint_ atribuída)
+
+Tarefas hoje no _Backlog_ do ClickUp, mantidas para visibilidade — não impactam diretamente o MVP:
+
+- `[📕] Documentar processos`;
+- `[📕] Documentar criação de tarefas`;
+- `[📕] Revisar Diagramas C4`;
+- `[📕] Pesquisar ESLint e Next`.
+
+## 7.3. Tarefas Propostas — Decomposição em Épicos
+
+As tarefas marcadas como `[PROPOSTA]` em [7.2](#72-panorama-das-sprints) cobrem o desenvolvimento de código ainda não formalizado no ClickUp. Cada épico abaixo virá a ser criado como uma tarefa-pai no ClickUp, e cada item numerado dentro do épico será uma _subtask_ individual — viabilizando estimativa, atribuição e acompanhamento de progresso. A coluna "Sprint" indica em qual _sprint_ o épico deve ser concluído; épicos que atravessam _sprints_ são marcados com "5–6".
+
+### 7.3.1. Backend (Spring Boot) — alinhado a [5.3](#53-principais-componentes)
+
+**EP-BE-01 — _Setup_ e Infraestrutura Base do _Backend_** _(Sprint 5)_
+
+1. Resolver conflito de versão Spring Boot 3.5.x no `pom.xml` (_parent_ `4.0.6` vs. dependências em `3.5.3`);
+2. Adicionar dependências: `spring-boot-starter-security`, `spring-boot-starter-data-jpa`, `org.eclipse.paho:org.eclipse.paho.client.mqttv3`, `springdoc-openapi-starter-webmvc-ui`, _Lombok_;
+3. Configurar dois _beans_ `DataSource` (`PostgreSQL` local + ERP, RNF13);
+4. Configurar _Flyway_ com `V1__init.sql` cobrindo as entidades de [5.2](#52-modelo-de-dados);
+5. Estruturar _packages_ base: `auth/`, `audit/`, `production/`, `erp/`, `config/`;
+6. Configurar SpringDoc OpenAPI e expor _Swagger UI_ em `/swagger-ui.html`.
+
+**EP-BE-02 — Autenticação e Segurança** _(Sprint 5)_
+
+1. Criar entidade `User` e `UserRepository` (JPA → _PostgreSQL_);
+2. Configurar `PasswordEncoder` (_BCrypt_);
+3. Implementar `JwtTokenProvider` (geração, validação e _claims_ por perfil);
+4. Implementar `AuthenticationService` (validação de credenciais e emissão de _token_);
+5. Implementar `AuthenticationController` (`POST /auth/login`, `POST /auth/refresh`);
+6. Implementar `JwtAuthenticationFilter` (`OncePerRequestFilter`);
+7. Configurar `SecurityConfig` (_filter chain_, CORS, CSRF, sessão _stateless_);
+8. Aplicar `@PreAuthorize` por _endpoint_ conforme RN01 a RN04.
+
+**EP-BE-03 — Auditoria de Requisições** _(Sprint 5)_
+
+1. Criar entidade `AuditLog` e `AuditRepository`;
+2. Implementar `AuditFilter` (`OncePerRequestFilter`) capturando _request_/_response_, latência, usuário autenticado e IP;
+3. Implementar _interceptor_ de sanitização de _payload_ — remover senhas, _tokens_ JWT e cabeçalhos sensíveis antes da persistência (alinhado à [Seção 6](#6-segurança-e-privacidade));
+4. Configurar política de retenção de cinco anos via _migration Flyway_ específica.
+
+**EP-BE-04 — Produção MQTT (_Listener_ e Processamento)** _(Sprint 5)_
+
+1. Criar entidades `Machine`, `ProductionCycle`, `MachineStatus`;
+2. Criar repositórios `MachineRepository`, `ProductionRepository`, `MachineStatusRepository`;
+3. Configurar cliente _Eclipse Paho_ (_beans_ `MqttConnectOptions` e `IMqttClient`);
+4. Implementar `MqttListener` (_subscribe_ por tópico de máquina e _dispatch_ para o _service_);
+5. Implementar `ProductionService.processPulse()` (cálculo de _cycle time_, RN05 a RN07);
+6. Implementar detecção de pausa por _threshold_ configurável por máquina (RN06, RF08);
+7. Implementar contador consecutivo e transição automática para `PARADA_AUTOMATICA` (RN09 a RN12, RF17);
+8. Implementar tratamento de _drift_ de relógio do microcontrolador (RN05);
+9. Implementar cálculo de OEE (Disponibilidade × Performance × Qualidade — RF10).
+
+**EP-BE-05 — API REST de Produção** _(Sprint 6)_
+
+1. `ProductionController` — `GET /machines` e `GET /machines/{id}/status`;
+2. `ProductionController` — `GET /machines/{id}/cycles` com paginação;
+3. `POST /machines/{id}/pauses` — registro manual de motivo de pausa (RF09);
+4. `PUT /machines/{id}/paradas/{paradaId}/mensagem` — edição da mensagem de `PARADA_AUTOMATICA` (UC12, RF18);
+5. _Endpoints_ de OEE e relatórios consolidados (RF10, RF15);
+6. DTOs e validações via _Bean Validation_;
+7. Aplicar `@PreAuthorize` por _endpoint_ conforme RN02 a RN04.
+
+**EP-BE-06 — Integração ERP (JDBC)** _(Sprints 5–6)_
+
+1. Implementar `ErpDatabaseRepository` (JDBC direto, RNF13);
+2. Implementar `ErpSyncScheduler` (`@Scheduled`) — leitura de ordens abertas;
+3. Implementar escrita de apontamentos de ciclos e pausas no ERP;
+4. Criar _mock_ de ERP em _PostgreSQL_ local (`production_order_cache`) — entrega da _Sprint_ 5;
+5. Validar integração real contra o banco do Cliente — entrega da _Sprint_ 6;
+6. `GET /erp/sync/status` — visibilidade da sincronização (UC08).
+
+**EP-BE-07 — Empacotamento e _Deployment_** _(Sprint 6)_
+
+1. `Dockerfile` do _backend_ (Java 25, JAR otimizado, _multi-stage build_);
+2. `docker-compose.yml` orquestrando _PostgreSQL_, _Mosquitto_, _backend_ e _frontend_;
+3. _Profiles_ Spring (`dev`, `prod`) com _placeholders_ de variáveis de ambiente;
+4. `README.md` operacional do _backend_ (instruções de _build_, _run_ e variáveis exigidas).
+
+### 7.3.2. Frontend (Next.js + TypeScript + Ant Design) — alinhado a [3.1.3](#313-jornadas-de-navegação-por-persona)
+
+**EP-FE-01 — _Setup_ e _Scaffolding_** _(Sprint 5)_
+
+1. Confirmar _scaffolding_ Next.js 16 + React 19 + TypeScript 5 (_App Router_) já presente em `Frontend/NJPlastic-Front/`;
+2. Instalar _Ant Design_ 5, `@ant-design/icons` e `@ant-design/nextjs-registry`;
+3. Configurar `ConfigProvider` com os _tokens_ da paleta de [4.5](#45-identidade-visual-e-paleta-de-cores);
+4. Revisar configuração de _ESLint_ + _Prettier_ (`eslint-config-next` já incluído);
+5. Implementar cliente HTTP (`axios` ou _wrapper_ sobre `fetch`) com _interceptor_ JWT;
+6. Decidir e configurar gerenciamento de estado (_React Context_, _Zustand_ ou _TanStack Query_ — risco aberto em [7.5](#75-riscos-e-marcos-críticos));
+7. Gerar tipos TypeScript a partir do _schema_ OpenAPI do _backend_ (via _SpringDoc_ + ferramenta de geração).
+
+**EP-FE-02 — Autenticação no _Frontend_** _(Sprint 5)_
+
+1. Tela `/login` construída com `Form` do _Ant Design_;
+2. Armazenamento de _token_ JWT (preferencialmente _httpOnly cookie_ via `middleware.ts`);
+3. Fluxo de _logout_;
+4. Rotas protegidas por perfil via `middleware.ts` (RN02 a RN04);
+5. Telas de erro 401 e 403.
+
+**EP-FE-03 — _Layout_ Base e Navegação** _(Sprint 5)_
+
+1. `app/(authenticated)/layout.tsx` — composição `Layout` _Ant Design_ (_Header_ + _Sider_ + _Content_);
+2. Componente de navegação lateral por perfil (Operador, Líder, Gestor);
+3. _Header_ com dados do usuário autenticado e botão de _logout_;
+4. Aplicação do tema global com a paleta de [4.5](#45-identidade-visual-e-paleta-de-cores).
+
+**EP-FE-04 — Telas do Operador** _(Sprint 6)_ — UC02, UC03, UC12, RN02
+
+1. _Dashboard_ "Minhas Máquinas" com atualização em tempo real;
+2. Tela de detalhe da máquina;
+3. _Modal_ de registro de Pausa manual (UC03 → RF09);
+4. _Modal_ de edição de `PARADA_AUTOMATICA` (UC12 → RF18, escopo turno);
+5. Indicação visual distinta para máquinas em `PARADA_AUTOMATICA` (RF11, RN09 — cor _Cinnabar_ de [4.5](#45-identidade-visual-e-paleta-de-cores)).
+
+**EP-FE-05 — Telas da Líder de Turno** _(Sprint 6)_ — UC04, UC05, UC06, UC12, RN03
+
+1. _Dashboard_ Consolidado do Turno;
+2. Tela de Histórico de Ciclos e Pausas (com filtros e paginação);
+3. Tela de Relatório de Turno;
+4. _Modal_ de edição de `PARADA_AUTOMATICA` (escopo setor/turno).
+
+**EP-FE-06 — Telas do Gestor** _(Sprint 6)_ — UC07, UC08, UC09, UC12, RN04
+
+1. _Dashboard_ Gerencial com OEE consolidado;
+2. Tela de Indicadores ERP;
+3. Tela de Cadastro de Usuários (CRUD);
+4. Tela de Configuração de Máquinas (CRUD com parâmetros RN06/RN09);
+5. _Modal_ de edição de `PARADA_AUTOMATICA` (visão completa, RN04).
+
+**EP-FE-07 — Funcionalidades Transversais** _(Sprint 6)_
+
+1. Exportação de relatórios em CSV e PDF (RF16);
+2. Tela de status de sincronização ERP (UC08);
+3. Sistema de notificações global via `notification` do _Ant Design_;
+4. Tratamento global de erros HTTP (renovação de _token_, _toast_ de erro, _retry_).
+
+## 7.4. Observações de Capacidade
+
+- As _Sprints_ 5 e 6 acumulam **simultaneamente** tarefas de código e tarefas de _Revisar RFC_/_Finalização_, o esforço de desenvolvimento concentrado em quatro semanas é o principal risco de cronograma;
+- Caso parte do escopo de _Frontend_ Dashboards (M3) não caiba na _Sprint_ 6, ela será movida para um _backlog_ pós-22/06/26 sem prejuízo da entrega do RFC, que é o produto formal desta janela;
+- A integração ERP real depende da disponibilidade de credencial e _schema_ do banco do Controlador (Meplas) — fator externo ao time. Mitigação: priorizar mock de ERP em PostgreSQL local na _Sprint_ 5 (`production_order_cache` populada manualmente), liberando a _Sprint_ 6 para o ajuste fino contra o ambiente real.
+
+## 7.5. Riscos e Marcos Críticos
+
+- **Conflito de versão no `pom.xml`** — _parent_ 4.0.6 vs. dependências diferentes em 3.5.3 (declarado no fim da [Seção 5.4](#54-stack-tecnológica)). **Bloqueador** para a _Sprint_ 5: deve ser resolvido até **25/05/26** (encerramento da _Sprint_ 4);
+- **Disponibilidade do banco do _ERP_ no piloto** — entregue pelo Cliente; sem ele, o _ErpSyncScheduler_ não pode ser validado contra dados reais. Mitigação descrita em [7.4](#74-observações-de-capacidade);
+- **Concorrência entre RFC e código nas _Sprints_ 5–6** — risco de uma trilha atrasar a outra. Mitigação: priorizar a entrega documental (RFC) e mover excedente de código para _backlog_ pós-22/06;
+- **Observabilidade ainda em fase inicial** — _stack_ Loki/Grafana mencionado em [Seção 5.4](#54-stack-tecnológica) é planejado, mas não foi escopado para o MVP. O monitoramento descrito em [6.5](#65-auditoria-e-monitoramento) será implementado em nível básico (logs Logback + tabela `audit_log`) e estendido em release posterior ao MVP;
+- **Decisão pendente de gerenciamento de estado no _Frontend_** — _React Context_ nativo, _Zustand_ ou _TanStack Query_ ainda não foi definido (EP-FE-01 tarefa 6). Bloqueia o avanço do EP-FE-01 e, por dependência, dos épicos EP-FE-02 a EP-FE-07. Mitigação: definir antes do início da _Sprint_ 5 com base na complexidade de _cache_ exigida pelos _dashboards_ em tempo real (RF11) — se o _backend_ entregar SSE ou _WebSocket_, _TanStack Query_ ganha tração; caso contrário, _Zustand_ com _polling_ é suficiente.
 
 # 8. Referências
-
-<!-- Inclua:
-
-- artigos
-- documentação técnica
-- ferramentas utilizadas
-- repositórios
-
---- -->
 
 1. <a id="ref-1">EGA SISTEMAS.</a> <i>Sistema MES na indústria de plástico injetado</i>. EGA, [s.d.]. Disponível em: [https://ega.com.br/sistema-mes-na-industria-de-plastico-injetado/](https://ega.com.br/sistema-mes-na-industria-de-plastico-injetado/). Acesso em: 29 abr. 2026.
 2. <a id="ref-2">MEPLAS.</a> <i>Meplas</i>. [s.d.]. Disponível em: [https://meplas.com.br/](https://meplas.com.br/). Acesso em: 03 mai. 2026.
@@ -1125,16 +1468,24 @@ Defina os principais marcos de desenvolvimento.
 6. <a id="ref-6">DOEET.</a> <i>MES system for the plastics industry</i>. Doeet, [s.d.]. Disponível em: [https://doeet.com/en/industries/plastic-industry/](https://doeet.com/en/industries/plastic-industry/). Acesso em: 03 mai. 2026.
 7. <a id="ref-7">EGA SISTEMAS.</a> <i>EGA — Sistema MES Indústria 4.0</i>. EGA, [s.d.]. Disponível em: [https://ega.com.br/](https://ega.com.br/). Acesso em: 03 mai. 2026.
 8. <a id="ref-8">ESPRESSIF SYSTEMS.</a> <i>ESP32 Series</i>. Espressif, [s.d.]. Disponível em: [https://www.espressif.com/en/products/socs/esp32](https://www.espressif.com/en/products/socs/esp32). Acesso em: 05 mai. 2026.
+9. <a id="ref-9">BRASIL.</a> <i>Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD)</i>. Brasília: Presidência da República, 2018. Disponível em: [https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm). Acesso em: 15 mai. 2026.
+10. <a id="ref-10">AUTORIDADE NACIONAL DE PROTEÇÃO DE DADOS (ANPD).</a> <i>Guia Orientativo sobre Segurança da Informação para Agentes de Tratamento de Pequeno Porte</i>. Brasília: ANPD, 2024 (atualizado em jan. 2025). Disponível em: [https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-orientativo-sobre-seguranca-da-informacao-para-agentes-de-tratamento-de-pequeno-porte](https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-orientativo-sobre-seguranca-da-informacao-para-agentes-de-tratamento-de-pequeno-porte). Acesso em: 15 mai. 2026.
+11. <a id="ref-11">AUTORIDADE NACIONAL DE PROTEÇÃO DE DADOS (ANPD).</a> <i>Guia Orientativo para Definições dos Agentes de Tratamento de Dados Pessoais e do Encarregado</i>. Brasília: ANPD, [2.ª versão retificada]. Disponível em: [https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-orientativo-para-definicoes-dos-agentes-de-tratamento-de-dados-pessoais-e-do-encarregado](https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-orientativo-para-definicoes-dos-agentes-de-tratamento-de-dados-pessoais-e-do-encarregado). Acesso em: 16 mai. 2026.
+12. <a id="ref-12">OWASP FOUNDATION.</a> <i>OWASP Top 10:2021</i>. OWASP, 2021. Disponível em: [https://owasp.org/Top10/2021/](https://owasp.org/Top10/2021/). Acesso em: 16 mai. 2026.
+13. <a id="ref-13">JONES, M.; BRADLEY, J.; SAKIMURA, N.</a> <i>RFC 7519 — JSON Web Token (JWT)</i>. Internet Engineering Task Force (IETF), maio 2015. Disponível em: [https://datatracker.ietf.org/doc/html/rfc7519](https://datatracker.ietf.org/doc/html/rfc7519). Acesso em: 16 mai. 2026.
+14. <a id="ref-14">OWASP FOUNDATION.</a> <i>JSON Web Token for Java Cheat Sheet</i>. OWASP Cheat Sheet Series, [s.d.]. Disponível em: [https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html). Acesso em: 16 mai. 2026.
+15. <a id="ref-15">OWASP FOUNDATION.</a> <i>Password Storage Cheat Sheet</i>. OWASP Cheat Sheet Series, [s.d.]. Disponível em: [https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html). Acesso em: 17 mai. 2026.
+16. <a id="ref-16">GRASSI, P. A.; FENTON, J. L.; NEWTON, E. M. et al.</a> <i>NIST Special Publication 800-63B — Digital Identity Guidelines: Authentication and Lifecycle Management</i>. National Institute of Standards and Technology, jun. 2017 (rev. 3). Disponível em: [https://pages.nist.gov/800-63-3/sp800-63b.html](https://pages.nist.gov/800-63-3/sp800-63b.html). Acesso em: 17 mai. 2026.
+17. <a id="ref-17">SPRING TEAM.</a> <i>Spring Security Reference</i>. VMware Tanzu / Spring, [s.d.]. Disponível em: [https://docs.spring.io/spring-security/reference/index.html](https://docs.spring.io/spring-security/reference/index.html). Acesso em: 17 mai. 2026.
 
-
-- <a id="ref-xx">BRASIL ESCOLA.</a> <i>Commodities</i>. Brasil Escola, 2025. Disponível em: [https://brasilescola.uol.com.br/geografia/commodities.htm](https://brasilescola.uol.com.br/geografia/commodities.htm). Acesso em: 29 abr. 2026.
 - <a id="ref-x">AGÊNCIA CRAB.</a> <i>Marketing agressivo: o que é?</i> Agência Crab, [s.d.]. Disponível em: [https://agenciacrab.com/marketing-agressivo-o-que-e/](https://agenciacrab.com/marketing-agressivo-o-que-e/). Acesso em: 29 abr. 2026.
-
-
 
 # 9. Apêndices
 
-Podem incluir:
+![Primeiro esboço feito em reunião com a Meplas](Assets/Images/Others/First_Outline_Eletric_Pulses.png)
+<p align="center"><em>Figura 23. Primeiro esboço sobre os ciclos de produção</em></p>
+
+<!-- Podem incluir:
 
 - mockups adicionais
 - resultados de pesquisa
@@ -1142,9 +1493,7 @@ Podem incluir:
 - diagramas complementares
 - links para protótipos ou repositórios
 
-Sempre que possível inclua **imagens, protótipos ou referências visuais**.
-
----
+Sempre que possível inclua **imagens, protótipos ou referências visuais**. -->
 
 # 10. Parecer do Comitê de Avaliação
 
