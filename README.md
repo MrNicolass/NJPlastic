@@ -530,7 +530,7 @@ Inclua **imagens dos diagramas**. -->
 O diagrama abaixo mostra o ciclo completo desde o pulso elétrico da injetora até a sincronização do apontamento no _ERP_ corporativo, envolvendo todos os atores e componentes modelados nos diagramas C4. Cada passo está ancorado nos requisitos e regras de negócio da Seção 2.
 
 ![Diagrama de Sequência — Fluxo Principal](Assets/Images/Diagrams/MainFlow_Sequence_Diagram_V1.png)
-<p align="center"><em>Figura 9. Diagrama de sequência do fluxo principal end-to-end: pulso MQTT → Backend → PostgreSQL → Dashboard → sincronização com ERP. Inclui a lógica de contador de pausas consecutivas e classificação automática como PARADA (UC10, UC11, UC13, RF01, RF07, RF08, RF17, RF18, RF12–RF14, RN05–RN11, RNF01–RNF03, RNF05, RNF13).</em></p>
+<p align="center"><em>Figura 8. Diagrama de sequência do fluxo principal end-to-end: pulso MQTT → Backend → PostgreSQL → Dashboard → sincronização com ERP. Inclui a lógica de contador de pausas consecutivas e classificação automática como PARADA (UC10, UC11, UC13, RF01, RF07, RF08, RF17, RF18, RF12–RF14, RN05–RN11, RNF01–RNF03, RNF05, RNF13).</em></p>
 
 O fluxo se divide em seis etapas sequenciais:
 - **Geração do pulso (RF01):** a injetora gera um sinal elétrico a cada ciclo de produção; o _Arduino_ captura o _timestamp_ preciso desse pulso e o publica no _MQTT Broker_ via tópico `maquina/{id}` com _QoS_ 1 (RNF05 — entrega _at-least-once_);
@@ -549,7 +549,7 @@ Esta subseção apresenta dois diagramas complementares: o ciclo de vida dos **r
 Todo registro gerado pelo sistema — seja um apontamento de ciclo (UC10) ou um registro de pausa (`tipo = PAUSA` via RF08 ou `tipo = PARADA_AUTOMATICA` via RF18) — transita pelos mesmos estados. Apenas registros _confirmados_ são propagados ao _ERP_ (RN07).
 
 ![Diagrama de Estados — Registros de Produção](Assets/Images/Diagrams/Appointment_State_Diagram_V1.png)
-<p align="center"><em>Figura 10. Ciclo de vida dos registros de produção (apontamentos de ciclo e pausas dos tipos PAUSA e PARADA_AUTOMATICA): pendente → confirmado → sincronizado; com transições de descarte (RN05) e retry idempotente (RN08). Registros PARADA_AUTOMATICA confirmados permitem edição de mensagem (RF19, UC12) enquanto aguardam sincronização.</em></p>
+<p align="center"><em>Figura 9. Ciclo de vida dos registros de produção (apontamentos de ciclo e pausas dos tipos PAUSA e PARADA_AUTOMATICA): pendente → confirmado → sincronizado; com transições de descarte (RN05) e retry idempotente (RN08). Registros PARADA_AUTOMATICA confirmados permitem edição de mensagem (RF19, UC12) enquanto aguardam sincronização.</em></p>
 
 Os estados e as transições responsáveis são:
 - **_pendente_:** estado inicial criado ao receber o pulso (RF01, UC10) ou ao detectar pausa/parada automática (RF08/RF18);
@@ -578,21 +578,21 @@ Cada *persona* definida na Seção 2.1 percorre um subconjunto distinto de telas
 Carlos interage com o sistema para acompanhar as máquinas do seu turno, registrar os motivos de pausas isoladas (UC03) e editar a mensagem de paradas automáticas das suas máquinas (UC12, RN02).
 
 ![Fluxograma de Navegação — Operador](Assets/Images/Diagrams/Operator_Navigation_Flow_V1.png)
-<p align="center"><em>Figura 11. Jornada de Carlos (Persona 1 — Operador): Login → Dashboard Minhas Máquinas → [pausa isolada] Detalhe + Modal de Pausa (UC03, RF09) | [parada automática] Detalhe + Modal de Edição de Mensagem (UC12, RF19, RN12) (UC01, UC02, UC03, UC12, RN01, RN02, RNF09).</em></p>
+<p align="center"><em>Figura 10. Jornada de Carlos (Persona 1 — Operador): Login → Dashboard Minhas Máquinas → [pausa isolada] Detalhe + Modal de Pausa (UC03, RF09) | [parada automática] Detalhe + Modal de Edição de Mensagem (UC12, RF19, RN12) (UC01, UC02, UC03, UC12, RN01, RN02, RNF09).</em></p>
 
 #### Marina — Líder de Turno
 
 Marina usa o sistema para supervisionar todo o turno sem deslocamento físico: consultar histórico, gerar relatório, exportar e editar mensagens de paradas automáticas do seu setor (UC12, RN03).
 
 ![Fluxograma de Navegação — Líder de Turno](Assets/Images/Diagrams/Leader_Navigation_Flow_V1.png)
-<p align="center"><em>Figura 12. Jornada de Marina (Persona 2 — Líder de Turno): Login → Dashboard Consolidado → Histórico / Relatório de Turno → Exportar CSV/PDF | Editar mensagem de parada automática (UC01, UC04, UC05, UC06, UC12, RN01, RN03, RF15, RF16).</em></p>
+<p align="center"><em>Figura 11. Jornada de Marina (Persona 2 — Líder de Turno): Login → Dashboard Consolidado → Histórico / Relatório de Turno → Exportar CSV/PDF | Editar mensagem de parada automática (UC01, UC04, UC05, UC06, UC12, RN01, RN03, RF15, RF16).</em></p>
 
 #### Jair — Gestor / Sócio-Proprietário
 
 Jair acessa os indicadores estratégicos de _OEE_, monitora a integração com o _ERP_, administra usuários e máquinas — incluindo o parâmetro `pausas_consecutivas_para_parada` — e pode editar mensagens de qualquer parada automática (UC12, RN04).
 
 ![Fluxograma de Navegação — Gestor](Assets/Images/Diagrams/Manager_Navigation_Flow_V1.png)
-<p align="center"><em>Figura 13. Jornada de Jair (Persona 3 — Gestor): Login → Dashboard Gerencial OEE → [switch] Indicadores ERP / Usuários e Perfis / Configuração de Máquinas / Editar Parada Automática (UC01, UC07, UC08, UC09, UC12, RF06, RN01, RN04, RN12).</em></p>
+<p align="center"><em>Figura 12. Jornada de Jair (Persona 3 — Gestor): Login → Dashboard Gerencial OEE → [switch] Indicadores ERP / Usuários e Perfis / Configuração de Máquinas / Editar Parada Automática (UC01, UC07, UC08, UC09, UC12, RF06, RN01, RN04, RN12).</em></p>
 
 ## 3.2. Fluxos Alternativos
 
@@ -609,7 +609,7 @@ Os cinco cenários abaixo representam desvios do caminho feliz que o sistema dev
 Ramifica no início de qualquer fluxo — antes do acesso ao _dashboard_. Três sub-cenários cobrem as variações de falha (RN01–RN04, RNF07, RNF08).
 
 ![Diagrama de Sequência — Falha de Autenticação](Assets/Images/Diagrams/Alt_AuthFailure_Sequence_V1.png)
-<p align="center"><em>Figura 14. Fluxo alternativo 3.2.1: credenciais inválidas (401), perfil sem permissão (403) e sessão expirada (401 durante uso) — com mensagem genérica conforme OWASP A07.</em></p>
+<p align="center"><em>Figura 13. Fluxo alternativo 3.2.1: credenciais inválidas (401), perfil sem permissão (403) e sessão expirada (401 durante uso) — com mensagem genérica conforme OWASP A07.</em></p>
 
 Os comportamentos esperados são:
 - **Credenciais inválidas:** Resposta 401 com mensagem genérica que não revela se o _login_ existe — previne enumeração de usuários (OWASP A07, RNF08, Seção 6);
@@ -621,7 +621,7 @@ Os comportamentos esperados são:
 Ramifica na etapa de validação de _timestamp_ do fluxo principal (passo 2 — "Processamento no _Backend_"). Ocorre quando o relógio interno do _Arduino_ acumula deriva em relação ao tempo real do servidor.
 
 ![Diagrama de Sequência — Drift de Relógio](Assets/Images/Diagrams/Alt_ClockDrift_Sequence_V1.png)
-<p align="center"><em>Figura 15. Fluxo alternativo 3.2.2: timestamp fora da janela de tolerância (RN05) — apontamento descartado com registro de auditoria; contagem de ciclos preservada íntegra.</em></p>
+<p align="center"><em>Figura 14. Fluxo alternativo 3.2.2: timestamp fora da janela de tolerância (RN05) — apontamento descartado com registro de auditoria; contagem de ciclos preservada íntegra.</em></p>
 
 O comportamento esperado é:
 - O `ProductionService` calcula `delta = |timestamp_recebido − now()|` e rejeita o pulso quando `delta > janela_tolerância` (RN05);
@@ -633,7 +633,7 @@ O comportamento esperado é:
 Este cenário cobre **uma pausa isolada** (contador de pausas consecutivas abaixo de N). Ramifica após a detecção automática de pausa (passo 3 do fluxo principal) quando o operador não executa o UC03. Para o cenário em que N pausas consecutivas acumulam sem motivo e acionam a classificação automática, ver §3.2.5.
 
 ![Diagrama de Sequência — Pausa Isolada sem Motivo](Assets/Images/Diagrams/Alt_PauseWithoutReason_Sequence_V1.png)
-<p align="center"><em>Figura 16. Fluxo alternativo 3.2.3: pausa isolada detectada pelo threshold (RN06) sem registro de motivo pelo operador — pausa persiste com motivo = desconhecido e aparece no relatório como "pendente de classificação". Distinção com PARADA_AUTOMATICA indicada no diagrama.</em></p>
+<p align="center"><em>Figura 15. Fluxo alternativo 3.2.3: pausa isolada detectada pelo threshold (RN06) sem registro de motivo pelo operador — pausa persiste com motivo = desconhecido e aparece no relatório como "pendente de classificação". Distinção com PARADA_AUTOMATICA indicada no diagrama.</em></p>
 
 O comportamento esperado é:
 - O sistema **não bloqueia** nenhuma operação por ausência do motivo — decisão de design que preserva a continuidade produtiva;
@@ -646,7 +646,7 @@ O comportamento esperado é:
 Ramifica na etapa de sincronização periódica do fluxo principal (passo 5) quando o _ERP_ está indisponível, ocorre _timeout_ de conexão ou a credencial _JDBC_ expirou.
 
 ![Diagrama de Sequência — Falha de Sync ERP](Assets/Images/Diagrams/Alt_ErpSyncFailure_Sequence_V1.png)
-<p align="center"><em>Figura 17. Fluxo alternativo 3.2.4: ErpDatabaseRepository lança exceção → apontamentos permanecem CONFIRMADOS (RN07) → retry idempotente na próxima janela (RN08) → visibilidade da falha via UC08.</em></p>
+<p align="center"><em>Figura 16. Fluxo alternativo 3.2.4: ErpDatabaseRepository lança exceção → apontamentos permanecem CONFIRMADOS (RN07) → retry idempotente na próxima janela (RN08) → visibilidade da falha via UC08.</em></p>
 
 O comportamento esperado é:
 - O `ErpDatabaseRepository` lança exceção; apontamentos permanecem _confirmados_ — **não regridem** de estado (RN07), registro local permanece íntegro (RN08);
@@ -659,7 +659,7 @@ O comportamento esperado é:
 Ramifica no passo 3 do fluxo principal quando o contador de pausas consecutivas atinge o limite configurado (`pausas_consecutivas_para_parada`). Este cenário cobre todo o ciclo da parada automática: criação, exibição, edição auditada da mensagem e retomada automática.
 
 ![Diagrama de Sequência — Classificação Automática como Parada](Assets/Images/Diagrams/Alt_AutoStopClassification_Sequence_V1.png)
-<p align="center"><em>Figura 18. Fluxo alternativo 3.2.5: N pausas consecutivas → criação automática de PARADA_AUTOMATICA (UC13, RF17–RF18) → exibição no dashboard com ícone distinto (RF11) → edição de mensagem com log de auditoria (UC12, RF19–RF20, RN12) → retomada automática ao próximo pulso válido (RN10, RN11).</em></p>
+<p align="center"><em>Figura 17. Fluxo alternativo 3.2.5: N pausas consecutivas → criação automática de PARADA_AUTOMATICA (UC13, RF17–RF18) → exibição no dashboard com ícone distinto (RF11) → edição de mensagem com log de auditoria (UC12, RF19–RF20, RN12) → retomada automática ao próximo pulso válido (RN10, RN11).</em></p>
 
 O comportamento esperado é:
 - Ao acumular N pausas consecutivas (RN09), o `ProductionService` executa UC13: cria registro `Pausa { tipo = PARADA_AUTOMATICA, mensagem = "Parada detectada após N pausas consecutivas", inicio = now() }` (RF18);
@@ -753,7 +753,7 @@ Se possível, inclua:
 A paleta oficial da NJPlastic foi definida em [https://coolors.co/1168bd-2596be-296274-2d2d2a-80807a-c14953-e5dcc5](https://coolors.co/1168bd-2596be-296274-2d2d2a-80807a-c14953-e5dcc5) e será aplicada como base de tema do _Ant Design_ (ver [Seção 5.4](#54-stack-tecnológica)) por meio do `ConfigProvider`. As cores foram escolhidas para transmitir confiabilidade industrial (azul e _teal_), legibilidade em _dashboards_ longos (cinzas neutros) e sinalização clara de eventos críticos como `PARADA_AUTOMATICA` (vermelho).
 
 ![Paleta oficial da NJPlastic](Assets/Images/Others/Palette.png)
-<p align="center"><em>Figura 21.1. Paleta oficial NJPlastic — Coolors.</em></p>
+<p align="center"><em>Figura 18. Paleta oficial NJPlastic — Coolors.</em></p>
 
 ### 4.5.1. Cores e Aplicação Sugerida
 
