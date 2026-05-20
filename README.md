@@ -670,83 +670,321 @@ O comportamento esperado é:
 
 # 4. Mockups e Experiência do Usuário (UX)
 
-Esta seção apresenta **a visualização inicial do produto antes da implementação**.
-
-Mockups ajudam a validar:
-
-- fluxo de navegação
-- organização da interface
-- interações do usuário
-- clareza da experiência
-
-Ferramentas sugeridas:
-
-- Figma
-- Excalidraw
-- Balsamiq
-- Whimsical
-- protótipos desenhados à mão
-
----
+Esta seção apresenta, em telas concretas, os requisitos funcionais da [Seção 2](#2-engenharia-de-requisitos) e as jornadas de _persona_ da [Seção 3.1.3](#313-jornadas-de-navegação-por-persona). Os _mockups_ foram feitos via Figma, seguindo integralmente a paleta documentada em [4.5](#45-identidade-visual-e-paleta-de-cores) — _Cobalt_ para ações primárias, _Cinnabar_ para eventos críticos (`PARADA_AUTOMATICA`, falhas de _ERP_), _Teal Deep_ para navegação lateral e _Bone_ como _surface_ de _cards_ e fundo geral. Onze telas principais e dois _modais_ cobrem o MVP; pequenas variações por _persona_ (escopo RN02–RN04) — em especial no _modal_ de edição de mensagem de `PARADA_AUTOMATICA` — são apresentadas lado a lado quando relevantes.
 
 ## 4.1. Fluxo de Navegação
 
-Apresente um diagrama mostrando como o usuário navega entre telas.
+O fluxo de navegação é descrito **por tipo de usuário**, refletindo o escopo de acesso definido pelas regras RN02–RN04 e os casos de uso da [Seção 2.2](#22-casos-de-uso-principais). Cada _persona_ percorre um subconjunto distinto de telas — os fluxogramas completos com pontos de bifurcação (pausa isolada, parada automática, falhas) já foram apresentados em [Seção 3.1.3](#313-jornadas-de-navegação-por-persona) como Figura 10 (Carlos), Figura 11 (Marina) e Figura 12 (Jair); as tabelas abaixo consolidam a sequência de telas reais que cada perfil utiliza no MVP.
 
-Exemplo:
+**Carlos — Operador de Injetora** (referência visual: Figura 10 em [3.1.3](#313-jornadas-de-navegação-por-persona))
 
-Login → Dashboard → Cadastro → Relatório
+| Passo | Tela | UCs | RNs / RFs |
+|-------|------|-----|------------|
+| 1 | _Login_ ([4.2.1](#421-login)) | UC01 | RN01, RNF06, RNF07 |
+| 2 | _Dashboard_ do Operador ([4.2.2](#422-dashboard-do-operador-carlos)) | UC02 | RN02, RF11, RNF09 |
+| 3a (pausa isolada) | _Modal_ Registrar Pausa ([4.2.9](#429-modal-registrar-pausa-manual)) | UC03 | RF09, RN06 |
+| 3b (parada automática) | _Modal_ Editar Mensagem da Parada — variante Operador ([4.2.10](#4210-modal-editar-mensagem-de-parada-automática)) | UC12 | RF19, RN12 |
+| 4 (opcional) | Detalhe da Máquina ([4.2.4](#424-detalhe-da-máquina)) | UC02 (escopo RN02) | RF11 |
 
-Inclua **imagem do fluxo de navegação**.
+**Marina — Líder de Turno** (referência visual: Figura 11 em [3.1.3](#313-jornadas-de-navegação-por-persona))
 
----
+| Passo | Tela | UCs | RNs / RFs |
+|-------|------|-----|------------|
+| 1 | _Login_ ([4.2.1](#421-login)) | UC01 | RN01 |
+| 2 | _Dashboard_ de Chão de Fábrica ([4.2.3](#423-dashboard-de-chão-de-fábrica-marina-e-jair)) | UC02, UC04 | RN03, RF11 |
+| 3 | Detalhe da Máquina ([4.2.4](#424-detalhe-da-máquina)) — invoca _Modal_ Editar Mensagem variante Líder/Gestor ([4.2.10](#4210-modal-editar-mensagem-de-parada-automática)) | UC05, UC12 | RF11, RF19, RN12 |
+| 4 | Ordens de Produção ([4.2.5](#425-ordens-de-produção)) | UC05, UC11 | RF12, RF13 |
+| 5 | Relatórios ([4.2.6](#426-relatórios)) | UC06 | RF15, RF16, RF20 |
+
+**Jair — Gestor / Sócio-Proprietário** (referência visual: Figura 12 em [3.1.3](#313-jornadas-de-navegação-por-persona))
+
+| Passo | Tela | UCs | RNs / RFs |
+|-------|------|-----|------------|
+| 1 | _Login_ ([4.2.1](#421-login)) | UC01 | RN01 |
+| 2 | _Dashboard_ de Chão de Fábrica ([4.2.3](#423-dashboard-de-chão-de-fábrica-marina-e-jair)) | UC02, UC04, UC07 | RN04, RF10, RF11 |
+| 3 | Integração ERP ([4.2.8](#428-integração-erp)) | UC08 | RF12, RF13, RF14, RN07, RN08 |
+| 4 | Usuários e Perfis ([4.2.7](#427-usuários-e-perfis)) | UC09 | RF04, RF05 |
+| 5 | Cadastro de Máquinas ([4.2.11](#4211-cadastro-de-máquinas-administração)) | parte de UC09 (admin) | RF06, RN04, RN06, RN09 |
+| 6 | Relatórios e Detalhe da Máquina ([4.2.4](#424-detalhe-da-máquina) e [4.2.6](#426-relatórios)) — invoca _Modal_ Editar Mensagem variante Líder/Gestor ([4.2.10](#4210-modal-editar-mensagem-de-parada-automática)) | UC05, UC06, UC12 | RF15, RF19, RF20 |
 
 ## 4.2. Wireframes ou Mockups das Telas
 
-Apresente os principais mockups do sistema.
+Os _mockups_ a seguir refletem a versão V1 das telas, sendo cada tela apresentada com a finalidade, as _personas_ que a acessam, os casos de uso e requisitos funcionais cobertos, e as ações principais disponíveis. As telas com rolagem vertical são apresentadas em duas figuras consecutivas (_Part1_ — topo e _Part2_ — rolagem) para preservar a fidelidade do protótipo.
 
-Inclua pelo menos:
+### 4.2.1. Login
 
-- tela inicial
-- fluxo principal
-- tela de entrada de dados
-- tela de resultado ou visualização
+![Tela de Login](Assets/Images/Prototypes/Login_V1.png)
+<p align="center"><em>Figura 19. Tela de Login (UC01) — coluna esquerda em Teal Deep com proposta de valor da plataforma; coluna direita em Bone com formulário de autenticação.</em></p>
 
-Para cada tela inclua:
+- **Propósito:** Autenticar Operador, Líder de Turno ou Gestor com credenciais corporativas, ponto de entrada único do sistema (RN01);
+- **Acessada por:** Carlos, Marina e Jair (todas as _personas_);
+- **UCs / RFs cobertos:** UC01; RF03; RN01, RNF06, RNF07;
+- **Ações principais:**
+  - Informar usuário (e-mail ou matrícula) e senha;
+  - Marcar opção _manter sessão neste dispositivo_;
+  - Acionar _esqueci minha senha_ — fluxo de recuperação por _e-mail_;
+  - Acionar _entrar com SSO corporativo_ (futuro, fora do MVP);
+  - Submeter via botão "Entrar" (_Cobalt_ — `colorPrimary`).
 
-- imagem
-- breve descrição da funcionalidade
-- ações principais do usuário
+### 4.2.2. Dashboard do Operador (Carlos)
 
-Sempre que possível:
+![Dashboard do Operador — parte 1](Assets/Images/Prototypes/Operator_Part1_V1.png)
+<p align="center"><em>Figura 20a. Dashboard do Operador (UC02) — topo: saudação personalizada, contadores de turno e banner de ação necessária para PARADA_AUTOMATICA ainda não revisada.</em></p>
 
-- inclua **links para protótipo navegável**
-- inclua **prints das telas**
+![Dashboard do Operador — parte 2](Assets/Images/Prototypes/Operator_Part2_V1.png)
+<p align="center"><em>Figura 20b. Dashboard do Operador (UC02) — rolagem: cards de cada máquina atribuída ao turno, com contagem de ciclos, status visual (PRODUZINDO / PARADA) e ações inline.</em></p>
 
----
+- **Propósito:** _Dashboard_ simplificado e direto ao ponto, otimizado para Carlos acompanhar apenas as máquinas do seu turno (RN02). Diferente de [4.2.3](#423-dashboard-de-chão-de-fábrica-marina-e-jair), **não possui _sider_ lateral** — escolha alinhada a RNF09 (interpretável sem treinamento formal) e ao perfil de "nível técnico baixo" definido em [1.4](#14-público-alvo);
+- **Acessada por:** Carlos (Operador), escopo RN02;
+- **UCs / RFs cobertos:** UC02, UC03 (entrada via "Registrar pausa"), UC12 (entrada via "Editar mensagem"); RF11, RF19;
+- **Ações principais:**
+  - Visualizar contagem em tempo real de ciclos por máquina, ordem em execução, molde e cavidades ativas;
+  - Identificar visualmente máquinas em estado _PARADA_ por _Cinnabar_ no _badge_ e na barra de progresso (RF11, RN09);
+  - Acionar "Registrar pausa" (_Cobalt_) — abre [_Modal_ Registrar Pausa Manual](#429-modal-registrar-pausa-manual) para UC03;
+  - Acionar "Editar mensagem da parada" (_Cinnabar_) — abre [_Modal_ Editar Mensagem da Parada — variante Operador](#4210-modal-editar-mensagem-de-parada-automática) para UC12;
+  - Acionar "Ver detalhe" — navega para [4.2.4](#424-detalhe-da-máquina) (escopo restrito a RN02).
+
+### 4.2.3. Dashboard de Chão de Fábrica (Marina e Jair)
+
+![Dashboard de Chão de Fábrica — parte 1](Assets/Images/Prototypes/Dashboard_Part1_V1.png)
+<p align="center"><em>Figura 21a. Dashboard de Chão de Fábrica (UC04, UC07) — topo: KPIs consolidados do setor (ciclos do turno, OEE, máquinas ativas, perdas), filtro por seção e medidor radial de OEE em tempo real.</em></p>
+
+![Dashboard de Chão de Fábrica — parte 2](Assets/Images/Prototypes/Dashboard_Part2_V1.png)
+<p align="center"><em>Figura 21b. Dashboard de Chão de Fábrica (UC04) — rolagem: grade completa de máquinas do setor, eventos recentes e indicador de saúde da integração ERP.</em></p>
+
+- **Propósito:** Visão consolidada de **todas** as máquinas do setor (Marina, escopo RN03) ou do _deployment_ (Jair, escopo RN04), com KPIs do turno, _OEE_ por máquina e eventos recentes. _Sider_ lateral completo com acesso a Máquinas, Ordens, Relatórios, Usuários e Integração ERP;
+- **Acessada por:** Marina (Líder de Turno, RN03) e Jair (Gestor, RN04);
+- **UCs / RFs cobertos:** UC02, UC04, UC07; RF10, RF11;
+- **Ações principais:**
+  - Filtrar por setor, turno e estado (Todas / Produzindo / Paradas);
+  - Clicar em _card_ de máquina — navega para [4.2.4](#424-detalhe-da-máquina);
+  - Acionar "Exportar resumo" — gera arquivo do estado atual do _dashboard_;
+  - Acionar "Registrar evento" — registro manual de ocorrência avulsa não vinculada a máquina;
+  - Acompanhar painel "Integração ERP" (saúde da sincronização, atalho para [4.2.8](#428-integração-erp)).
+
+### 4.2.4. Detalhe da Máquina
+
+![Detalhe da Máquina — parte 1](Assets/Images/Prototypes/Machine_Detail_Part1_V1.png)
+<p align="center"><em>Figura 22a. Detalhe da Máquina (UC05, UC12) — topo: identificação, badge PARADA_AUTOMATICA em Cinnabar, KPIs de turno (OEE, ciclos, tempo de ciclo médio, MTBF, refugo), gráfico de tempo de ciclo agregado em janela de 30s com banda de tolerância.</em></p>
+
+![Detalhe da Máquina — parte 2](Assets/Images/Prototypes/Machine_Detail_Part2_V1.png)
+<p align="center"><em>Figura 22b. Detalhe da Máquina — rolagem: linha do tempo do turno com setups, pausas e PARADA; tabela de pausas e paradas no turno (RF15, RF20); ficha do molde com cavidades ativas e operadores no turno.</em></p>
+
+- **Propósito:** Visão profunda de uma máquina específica, com histórico de ciclos, lista de pausas / paradas, mensagem editável da `PARADA_AUTOMATICA` ativa, dados do molde e operadores que passaram pelo turno;
+- **Acessada por:** Carlos (escopo RN02 — apenas máquinas do seu turno), Marina (RN03), Jair (RN04);
+- **UCs / RFs cobertos:** UC02, UC05, UC12; RF11, RF15, RF19, RF20; RN09, RN12;
+- **Ações principais:**
+  - Acionar "Editar parada ativa" (_Cinnabar_) — abre [_Modal_ Editar Mensagem da Parada](#4210-modal-editar-mensagem-de-parada-automática) para UC12;
+  - Selecionar janela temporal do gráfico (4h / Turno / 24h / 7d);
+  - Inspecionar lista de pausas e paradas com motivo, autor da última edição (RF20) e _timestamp_;
+  - Acionar "Exportar dados" — exporta CSV do turno corrente;
+  - Acionar "Detalhar" da ordem em execução — navega para [4.2.5](#425-ordens-de-produção).
+
+### 4.2.5. Ordens de Produção
+
+![Ordens de Produção — parte 1](Assets/Images/Prototypes/OS_Part1_V1.png)
+<p align="center"><em>Figura 23a. Ordens de Produção — topo: KPIs (em produção, na fila, atrasadas, concluídas hoje), filtros e tabela de ordens com progresso por OP.</em></p>
+
+![Ordens de Produção — parte 2](Assets/Images/Prototypes/OS_Part2_V1.png)
+<p align="center"><em>Figura 23b. Ordens de Produção — rolagem: linhas adicionais com estados PARADA, SETUP, NA FILA, CONCLUÍDA e ATRASADA; status de sincronização ERP por linha (sincronizado, pendente, erro – retry).</em></p>
+
+- **Propósito:** Listagem operacional das ordens lidas e gravadas no _ERP_ corporativo (RF13, RF14), permitindo cruzar produção real com ordens cadastradas. Cada linha exibe progresso, máquina, molde, prazo e _status_ ERP individual;
+- **Acessada por:** Marina (RN03 — ordens do seu setor), Jair (RN04 — visão global);
+- **UCs / RFs cobertos:** UC05 (suporte ao histórico), UC11 (visibilidade da sincronização); RF12, RF13, RF14; RN07, RN08;
+- **Ações principais:**
+  - Filtrar por máquina, cliente, prazo e _status_ (Todas / Em produção / Atrasadas / Concluídas);
+  - Acionar "Sincronizar agora" — força janela de sincronização imediata (RF14);
+  - Acionar "+ Nova ordem" (_Cobalt_) — formulário de criação manual de ordem (escopo Marina/Jair);
+  - Acionar "Exportar CSV" — gera relatório consolidado de ordens;
+  - Clicar em uma OP — abre detalhe da ordem com apontamentos vinculados.
+
+### 4.2.6. Relatórios
+
+![Relatórios — parte 1](Assets/Images/Prototypes/Reports_Part1_V1.png)
+<p align="center"><em>Figura 24a. Relatórios (UC06) — topo: modelos pré-prontos (Turno, OEE Consolidado, Paradas e Pausas, Auditoria ERP), formulário de configuração do relatório, pré-visualização ao vivo e cards de agendamentos.</em></p>
+
+![Relatórios — parte 2](Assets/Images/Prototypes/Reports_Part2_V1.png)
+<p align="center"><em>Figura 24b. Relatórios — rolagem: lista de seções inclusas (resumo, pausas manuais, paradas automáticas com mensagem atual e autor da última edição — RF20, linha do tempo, histórico de auditoria — RN12) e biblioteca de relatórios recentes com status (concluído, em geração, erro – retry agendado).</em></p>
+
+- **Propósito:** Geração, exportação e agendamento de relatórios consolidados — turno, _OEE_, paradas, auditoria. Cada relatório lista pausas manuais (`tipo = PAUSA`) e paradas automáticas (`tipo = PARADA_AUTOMATICA`) em seções separadas, com mensagem atual e autor da última edição (RF15, RF20);
+- **Acessada por:** Marina (escopo RN03), Jair (escopo RN04);
+- **UCs / RFs cobertos:** UC06; RF15, RF16, RF20; RN12;
+- **Ações principais:**
+  - Selecionar modelo (Turno, OEE, Paradas, Auditoria ERP) ou _Novo modelo personalizado_;
+  - Ajustar período, turno, setor e seções inclusas via _checkbox_;
+  - Escolher formato de saída (PDF / CSV / XLSX) e modo de entrega (Apenas _download_ / _E-mail_ / Agendar);
+  - Acionar "Gerar relatório" (_Cobalt_) — relatório passa a estado _em geração_ e entra na lista de _Relatórios recentes_;
+  - Acessar _biblioteca completa_ para histórico (retenção 90 dias).
+
+### 4.2.7. Usuários e Perfis
+
+![Usuários e Perfis — parte 1](Assets/Images/Prototypes/Users_Part1_V1.png)
+<p align="center"><em>Figura 25a. Usuários e Perfis (UC09) — topo: cards dos três perfis (Gestor, Líder de Turno, Operador) com lista de RNs/UCs herdados, e tabela paginada de usuários cadastrados com perfil, setor/turno e status.</em></p>
+
+![Usuários e Perfis — parte 2](Assets/Images/Prototypes/Users_Part2_V1.png)
+<p align="center"><em>Figura 25b. Usuários e Perfis — rolagem: linhas adicionais com status ATIVO, CONVITE PENDENTE e DESATIVADO; ações de Editar, Reativar e Reenviar convite por linha.</em></p>
+
+- **Propósito:** Administração de usuários — cadastrar pessoa nova, atribuir perfil (Gestor / Líder de Turno / Operador), vincular a setor / turno e gerenciar ciclo de vida (ativo, convite pendente, desativado);
+- **Acessada por:** Jair (Gestor — RN04, exclusivo);
+- **UCs / RFs cobertos:** UC09; RF04, RF05;
+- **Ações principais:**
+  - Acionar "+ Adicionar usuário" (_Cobalt_) — abre formulário de cadastro e envia convite por _e-mail_;
+  - Filtrar por setor, turno e perfil (Todos / Gestores / Líderes / Operadores / Inativos);
+  - Editar permissões herdadas por perfil — atalho "Editar →" no _card_ de cada perfil;
+  - Acionar "Reenviar" em convites pendentes ou "Reativar" em usuários desativados;
+  - Exportar lista completa de usuários e perfis para auditoria.
+
+### 4.2.8. Integração ERP
+
+![Integração ERP — parte 1](Assets/Images/Prototypes/ERP_Part1_V1.png)
+<p align="center"><em>Figura 26a. Integração ERP (UC08) — topo: status OPERACIONAL, KPIs de sincronização (última sync, próxima janela, taxa de sucesso 24h, latência média), gráfico de apontamentos enviados / ordens lidas / falhas, e painel JDBC com driver, host, porta, banco e janela de sync.</em></p>
+
+![Integração ERP — parte 2](Assets/Images/Prototypes/ERP_Part2_V1.png)
+<p align="center"><em>Figura 26b. Integração ERP — rolagem: log de execuções recentes idempotente por ID (RN08) com tipo WRITE/READ, operação, latência e status (sucesso, retry – ok, falhou); mapeamento de campos NJPlastic ↔ ERP; bloco de segurança e auditoria (TLS, credencial em vault, rotação de senha, retenção de logs).</em></p>
+
+- **Propósito:** Monitorar e configurar a integração _JDBC_ direta com o _ERP_ corporativo (sem _middleware_ proprietário, conforme [1.3.1.1](#1311-integração-erp-real-e-bidirecional)). Exibe saúde da conexão, log de execuções idempotentes, mapeamento de campos e parâmetros de segurança;
+- **Acessada por:** Jair (Gestor — RN04, exclusivo);
+- **UCs / RFs cobertos:** UC08, UC11; RF12, RF13, RF14; RN07, RN08, RNF13;
+- **Ações principais:**
+  - Acionar "Forçar sync agora" — dispara execução fora da janela configurada;
+  - Acionar "Configurar conexão" (_Cobalt_) — abre formulário de credenciais JDBC, janela de sync (RF14) e _pool_;
+  - Acionar "Testar conexão" — validação do _datasource_ sem efetuar _writes_;
+  - Acionar "Pausar sync" — interrompe execução periódica preservando registros _confirmados_ (RN08);
+  - Inspecionar e mapear campos NJPlastic ↔ ERP via painel _Mapeamento de campos_.
+
+### 4.2.9. _Modal_ Registrar Pausa Manual
+
+![Modal Registrar Pausa Manual](Assets/Images/Prototypes/Modal_Register_Pause_Operator_V1.png)
+<p align="center"><em>Figura 27. Modal Registrar Pausa Manual (UC03, RF09) — bloco read-only com máquina, ordem em execução e timestamp; seletor de motivo com 4 opções exatas; campo Observação livre opcional; rótulo de escopo "Pausa registrada como tipo PAUSA (RN07) · escopo RN02".</em></p>
+
+- **Propósito:** Registrar o motivo de uma **pausa isolada** (não escalona para `PARADA_AUTOMATICA`), com classificação rápida em quatro motivos pré-definidos. O _timestamp_ de início da pausa é pré-preenchido a partir da detecção automática (RF08, RN06);
+- **Acessada por:** Carlos (Operador, escopo RN02), invocável a partir de [4.2.2](#422-dashboard-do-operador-carlos) ou [4.2.4](#424-detalhe-da-máquina);
+- **UCs / RFs cobertos:** UC03; RF09; RN02, RN06, RN07;
+- **Ações principais:**
+  - Conferir bloco _read-only_ — Máquina (ID + tonelagem/modelo), Ordem em execução, Início da pausa;
+  - Selecionar motivo entre **Refugo** (default em _Cobalt_), **Setup**, **Manutenção** ou **Outro** — ao escolher _Outro_, um campo de texto livre aparece dinamicamente;
+  - Preencher Observação opcional (auxilia a líder na consolidação do turno);
+  - Acionar "Confirmar" (_Cobalt_) — pausa persistida com `tipo = PAUSA` e motivo classificado;
+  - Acionar "Cancelar" (_ghost_) — pausa permanece com `motivo = null` e aparece como _pendente de classificação_ no relatório de turno (ver fluxo alternativo §3.2.3).
+
+### 4.2.10. _Modal_ Editar Mensagem de Parada Automática
+
+Este _modal_ é compartilhado pelas três _personas_, mas apresenta variações por escopo (RN02 / RN03 / RN04) — apresentadas abaixo lado a lado. Em todas as variantes, salvar a edição grava uma entrada imutável no log de auditoria (RN12, RF20).
+
+**(a) Variante Operador** (Carlos — escopo RN02)
+
+![Modal Editar Mensagem da Parada — variante Operador](Assets/Images/Prototypes/Modal_Change_Stop_Operator_V1.png)
+<p align="center"><em>Figura 28a. Modal Editar Mensagem da Parada — variante Operador (UC12, RF19, escopo RN02): mensagem atual read-only com nota "não editada anteriormente"; 5 categorias do motivo real; textarea com limite de 500 caracteres e contador; callout amarelo de auditoria; rodapé identifica o autor da edição.</em></p>
+
+**(b) Variante Líder de Turno / Gestor** (Marina — RN03, Jair — RN04)
+
+![Modal Editar Mensagem da Parada — variante Líder/Gestor (topo)](Assets/Images/Prototypes/Modal_Change_Stop_Part1_V1.png)
+<p align="center"><em>Figura 28b. Modal Editar Mensagem da Parada — variante Líder/Gestor (UC12, RF19): adiciona categoria "Falta de operador" como opção (não disponível ao Operador); cabeçalho indica permissão herdada do perfil; bloco read-only com visibilidade ampliada.</em></p>
+
+![Modal Editar Mensagem da Parada — histórico de edições](Assets/Images/Prototypes/Modal_Change_Stop_Part2_V1.png)
+<p align="center"><em>Figura 28c. Modal Editar Mensagem da Parada — bloco "Histórico de edições · auditável (RN12)" com timeline de edições anteriores (autor, timestamp, conteúdo); rótulo de escopo "Setor 1 · Turno A (RN03)" para Marina ou "Visão completa (RN04)" para Jair.</em></p>
+
+- **Propósito:** Editar a mensagem _default_ gerada pelo sistema em uma `PARADA_AUTOMATICA`, classificando a causa real e adicionando contexto operacional. Cada salvamento gera entrada imutável no log de auditoria (RN12, RF20) e dispara recálculo dos relatórios de turno e auditoria;
+- **Acessada por:** Carlos (RN02 — apenas suas máquinas), Marina (RN03 — seu setor/turno), Jair (RN04 — visão completa); invocável a partir de [4.2.2](#422-dashboard-do-operador-carlos), [4.2.3](#423-dashboard-de-chão-de-fábrica-marina-e-jair) ou [4.2.4](#424-detalhe-da-máquina);
+- **UCs / RFs cobertos:** UC12; RF19, RF20; RN12;
+- **Ações principais:**
+  - Conferir bloco _read-only_ — Máquina, Detectada, Duração corrente; e a mensagem atual com autor / _timestamp_ da última edição (ou nota "não editada anteriormente · mensagem padrão do sistema");
+  - Escolher categoria do motivo real — 5 opções para Carlos (_Refugo / qualidade_, _Setup / troca de molde_, _Manutenção corretiva_, _Falta de matéria-prima_, _Outros_), +1 opção _Falta de operador_ para Marina e Jair;
+  - Digitar nova mensagem na _textarea_ (mínimo 8 caracteres, **limite 500**);
+  - Ler o _callout_ amarelo de auditoria — "Esta edição entra no log imutável de auditoria (RN12 · RF20). Seu nome, o horário e o conteúdo anterior ficam registrados permanentemente";
+  - Acionar "Salvar e registrar em auditoria" (_Cinnabar_) — reforça a criticidade do evento e dispara o _write_ no log; ou "Cancelar" (_ghost_).
+
+### 4.2.11. Cadastro de Máquinas (Administração)
+
+![Cadastro de Máquinas — tela principal](Assets/Images/Prototypes/Machine_Register_V1.png)
+<p align="center"><em>Figura 29. Cadastro de Máquinas (RF06, RN04) — exclusivo de Gestor: 4 KPIs (cadastradas, tonelagem total, fator tol. médio, pausas/parada padrão), filtros por ID/modelo/tópico/setor/status, tabela com parâmetros operacionais.</em></p>
+
+![Cadastro de Máquinas — drawer (Identificação + Captura IoT + Parâmetros de ciclo)](Assets/Images/Prototypes/Machine_Register_Modal_Part1_V1.png)
+<p align="center"><em>Figura 30a. Drawer Cadastrar/Editar Máquina — topo: seções Identificação (ID, status inicial, descrição), Captura IoT · MQTT (tópico auto-gerado a partir do ID) e Parâmetros de ciclo (tempo padrão + fator de tolerância default 1,30).</em></p>
+
+![Cadastro de Máquinas — drawer (Escalonamento + Lotação + Pré-visualização)](Assets/Images/Prototypes/Machine_Register_Modal_Part2_V1.png)
+<p align="center"><em>Figura 30b. Drawer Cadastrar/Editar Máquina — rolagem: seção Escalonamento para Parada (stepper pausas_consecutivas_para_parada — RN09, política de reset do contador — RN11) e Lotação (setor + turnos chips A/B/C multi-escolha).</em></p>
+
+![Cadastro de Máquinas — drawer (pré-visualização ao vivo)](Assets/Images/Prototypes/Machine_Register_Modal_Part3_V1.png)
+<p align="center"><em>Figura 30c. Drawer Cadastrar/Editar Máquina — pré-visualização ao vivo dos parâmetros calculados: "ciclo 29,9s × 1,30 → pausa > 38,9s · Aplica 3 pausas consecutivas sem pulso intermediário, a máquina é classificada automaticamente como PARADA_AUTOMATICA (RN09)".</em></p>
+
+- **Propósito:** Cadastrar e editar máquinas com os parâmetros consumidos por RF17, RN06 e RN09 — `pausas_consecutivas_para_parada`, fator de tolerância e tempo de ciclo padrão. Edições posteriores aos parâmetros não apagam dados de ciclos já registrados (histórico preservado);
+- **Acessada por:** Jair (Gestor — RN04, exclusivo). O _sider_ ganha um item "Cadastro de Máquinas" no grupo _Administração_, posicionado entre _Usuários e Perfis_ e _Integração ERP_;
+- **UCs / RFs cobertos:** parte de UC09 (administração); RF06; RN04, RN06, RN09, RN11;
+- **Ações principais (tela):**
+  - Conferir KPIs do parque (cadastradas, tonelagem total, fator tol. médio, pausas/parada padrão);
+  - Filtrar por ID / modelo / tópico MQTT, setor e _status_ (Todas / Ativas / Manutenção);
+  - Acionar "+ Cadastrar nova máquina" (_Cobalt_) — abre o _drawer_ de cadastro;
+  - Acionar "Editar" em uma linha — abre o mesmo _drawer_ pré-preenchido;
+  - Inspecionar coluna _Tópico MQTT_ (em mono) para diagnóstico rápido de _broker_.
+- **Ações principais (_drawer_ — 560 px lateral):**
+  - Seção 1 — **Identificação:** Identificador (INJ-XX, único, usado em tópicos MQTT e relações), Status inicial (Ativa / Manutenção / Desativada), Descrição livre;
+  - Seção 2 — **Captura IoT · MQTT:** Tópico MQTT auto-gerado a partir do ID (`maquina/inj-13`), _check_ de disponibilidade, _QoS_ 1 _at-least-once_ (RNF05);
+  - Seção 3 — **Parâmetros de ciclo:** Tempo de ciclo padrão (segundos, consumido por RF07, RF08, RN06) + Fator de tolerância (multiplicador, _default_ 1,30);
+  - Seção 4 — **Escalonamento para parada:** _stepper_ `pausas_consecutivas_para_parada` (_default_ 3, RN09) + política de Reset do contador (A cada pulso — RN11 / Manual);
+  - Seção 5 — **Lotação · Setor e turnos:** Setor + Turnos padrão (chips A / B / C selecionáveis multi-escolha);
+  - Conferir a **pré-visualização ao vivo** no rodapé do _drawer_ antes de salvar — exibe o cálculo derivado dos parâmetros (limite de pausa em segundos, regra de classificação como `PARADA_AUTOMATICA`);
+  - Acionar "Salvar máquina" (_Cobalt_) ou "Cancelar" (_ghost_).
+
+> **Nota:** Não há _fluxograma_ dedicado a "cadastrar nova máquina" em §4.3 — o caminho é trivial (sider _Administração → Cadastro de Máquinas_ → "+ Cadastrar nova máquina" → preencher _drawer_ → Salvar) e está totalmente coberto pelas Figuras 29 e 30a–c.
 
 ## 4.3. Fluxo de Interação do Usuário
 
-Demonstre passo a passo um fluxo importante.
+Esta subseção detalha quatro fluxos representativos passo-a-passo, cobrindo: registro manual de pausa (UC03 — Carlos), edição _cross-persona_ de mensagem de parada automática (UC12 — Carlos / Marina / Jair), geração e exportação de relatório de turno (UC06 — Marina) e cadastro de usuário (UC09 — Jair). Cada fluxo cita explicitamente as telas envolvidas, os RFs aplicados e as RNs vigentes.
 
-Exemplo:
+### 4.3.1. Carlos Registra uma Pausa Isolada (UC03)
 
-1. usuário acessa o sistema  
-2. cria conta  
-3. registra dados  
-4. visualiza resultados  
+1. Carlos acessa o sistema e autentica-se em [4.2.1 _Login_](#421-login) — credenciais validadas (RF03, RN01);
+2. Sistema redireciona Carlos para [4.2.2 _Dashboard_ do Operador](#422-dashboard-do-operador-carlos), exibindo apenas as máquinas atribuídas ao seu turno (RN02);
+3. O _backend_ detecta automaticamente uma pausa em INJ-04 — o intervalo entre dois pulsos excedeu `tempo_padrão × fator_tolerância` (RF08, RN06) — e incrementa o contador de pausas consecutivas;
+4. Carlos visualiza no _card_ da INJ-04 o estado _PAUSA_ pendente de classificação;
+5. Carlos aciona o botão "Registrar pausa" (_Cobalt_) — abre o [_Modal_ Registrar Pausa Manual](#429-modal-registrar-pausa-manual) (Figura 27);
+6. Carlos seleciona o motivo (_Refugo_, _Setup_, _Manutenção_ ou _Outro_ com texto livre) e confirma;
+7. Sistema persiste a pausa com `tipo = PAUSA` e motivo informado; emite _toast_ de sucesso; o _card_ da INJ-04 atualiza exibindo o motivo registrado e o relatório de turno (RF15) passa a refletir a classificação.
 
-Inclua **sequência de telas ou fluxo visual**.
+### 4.3.2. Edição _Cross-Persona_ de Mensagem de Parada Automática (UC12)
 
----
+A edição da mensagem de uma `PARADA_AUTOMATICA` pode ser disparada por três caminhos distintos, conforme a _persona_. Todos convergem para o mesmo [_Modal_ Editar Mensagem da Parada](#4210-modal-editar-mensagem-de-parada-automática) — Trigger A (Carlos) usa a **variante Operador** (Figura 28a), enquanto Triggers B (Marina) e C (Jair) usam a **variante Líder/Gestor** (Figuras 28b–28c), que exibe o bloco _Histórico de edições_ e habilita a categoria adicional _Falta de operador_. O log imutável de auditoria (RN12, RF20) é gerado em todas as variantes.
 
-## 4.4. Feedback Inicial de Usuários (Opcional)
+**Trigger A — Carlos (Operador, escopo RN02)**
+1. Carlos está em [4.2.2 _Dashboard_ do Operador](#422-dashboard-do-operador-carlos);
+2. Um banner em destaque no topo sinaliza "INJ-07 está em parada automática há 14 min 38s · A mensagem padrão do sistema ainda não foi revisada";
+3. Carlos aciona "Editar mensagem" (_Cinnabar_) — abre o _modal_;
+4. Substitui a mensagem _default_ por contexto real (ex.: "Troca de molde MD-082 antecipada por refugo"); confirma;
+5. Sistema persiste a nova mensagem, registra autor / _timestamp_ / texto anterior no log imutável (RN12) e fecha o _modal_.
 
-Se possível, inclua:
+**Trigger B — Marina (Líder de Turno, escopo RN03)**
+1. Marina está em [4.2.4 Detalhe da Máquina](#424-detalhe-da-máquina) de uma máquina do seu setor;
+2. _Header_ exibe o _badge_ "PARADA_AUTOMATICA" e o botão "Editar parada ativa" (_Cinnabar_);
+3. Marina aciona o botão — abre a **variante Líder/Gestor** do _modal_ (Figuras 28b–28c) com a mensagem atual, a categoria adicional _Falta de operador_ e o bloco _Histórico de edições · auditável_ visível;
+4. Edita e confirma — log de auditoria é incrementado (RN12); o registro fica visível em [4.2.6 Relatórios](#426-relatórios) na seção _Auditoria_ e na tabela de pausas / paradas de [4.2.4](#424-detalhe-da-máquina).
 
-- comentários de usuários
-- sugestões de melhoria
-- validação inicial do mockup
+**Trigger C — Jair (Gestor, escopo RN04)**
+1. Jair está em [4.2.3 _Dashboard_ de Chão de Fábrica](#423-dashboard-de-chão-de-fábrica-marina-e-jair) com visão global;
+2. Identifica um _card_ vermelho (_Cinnabar_) sinalizando uma `PARADA_AUTOMATICA` em qualquer setor / turno;
+3. Clica no _card_ — navega para [4.2.4 Detalhe da Máquina](#424-detalhe-da-máquina);
+4. Aciona "Editar parada ativa" — abre a mesma **variante Líder/Gestor** do _modal_ (Figuras 28b–28c) com escopo "Visão completa (RN04)", edita e confirma — auditoria registrada.
+
+### 4.3.3. Marina Gera e Exporta o Relatório de Turno (UC06)
+
+1. Marina autentica-se em [4.2.1 _Login_](#421-login);
+2. _Dashboard_ ([4.2.3](#423-dashboard-de-chão-de-fábrica-marina-e-jair)) carrega — Marina aciona "Relatórios" no _sider_ lateral;
+3. Em [4.2.6 Relatórios](#426-relatórios), Marina seleciona o modelo "Relatório de Turno";
+4. Configura período (turno atual ou personalizado), turno e setor — a pré-visualização lateral atualiza com os KPIs reais (ciclos, OEE, perdas, ordens concluídas);
+5. Marca as seções a incluir (_checkboxes_): resumo do turno, pausas manuais (RF15), paradas automáticas com mensagem atual e autor da última edição (RF20), linha do tempo por máquina, histórico de auditoria (RN12);
+6. Escolhe formato (PDF / CSV / XLSX) e modo de entrega (Apenas _download_ / _E-mail_ / Agendar);
+7. Aciona "Gerar relatório" (_Cobalt_) — o relatório entra na lista de _Relatórios recentes_ com _status_ _em geração_, depois _concluído_, e o arquivo fica disponível para _download_ (RF16);
+8. Em caso de falha (ex.: ERP fora durante a consulta), o relatório aparece com _status_ _erro – retry agendado_ — Marina pode reexecutar manualmente.
+
+### 4.3.4. Jair Cadastra Novo Usuário (UC09)
+
+1. Jair autentica-se em [4.2.1 _Login_](#421-login);
+2. No _sider_ de [4.2.3](#423-dashboard-de-chão-de-fábrica-marina-e-jair), navega para _Administração → Usuários e Perfis_ ([4.2.7](#427-usuários-e-perfis));
+3. Confere a tabela atual (24 usuários, 3 perfis) e aciona "+ Adicionar usuário" (_Cobalt_);
+4. Preenche nome, _e-mail_ corporativo, matrícula, perfil (_Gestor_ / _Líder de Turno_ / _Operador_) e — se aplicável — setor e turno padrão;
+5. Confirma — sistema envia convite por _e-mail_ com _link_ de definição de senha e cria o registro com _status_ _convite pendente_;
+6. A nova linha aparece imediatamente na tabela paginada — Jair pode acionar "Reenviar" se o convite expirar;
+7. Ao primeiro _login_ do convidado, o registro transita para _ativo_ e as permissões herdadas do perfil (RF05, RN02–RN04) passam a vigorar imediatamente.
 
 ## 4.5. Identidade Visual e Paleta de Cores
 
@@ -773,6 +1011,21 @@ A paleta oficial da NJPlastic foi definida em [https://coolors.co/1168bd-2596be-
 - O contraste _Cobalt_ × _Bone_ (~4,6:1) e _Charcoal_ × _Bone_ (~13:1) atende ao critério WCAG AA para texto normal;
 - Operações destrutivas (_delete_, _cancel_) seguem o _token_ `colorError` da paleta;
 - O tema deve ser instanciado uma única vez em `app/layout.tsx` via `<ConfigProvider theme={{ token: { ... } }} />` para evitar _flash_ de tema padrão durante a hidratação do React Server Components.
+
+### 4.5.3. Tipografia
+
+A NJPlastic adota o par tipográfico oficial **IBM Plex Sans** (UI geral) + **IBM Plex Mono** (números, IDs e telemetria) — combinação industrial de alta legibilidade, licença _OFL_ (uso comercial livre) e excelente cobertura latina. Ambas devem ser carregadas via `next/font/google` em `app/layout.tsx` para evitar _layout shift_ durante a hidratação.
+
+| Família | Uso | Exemplos nos _mockups_ |
+|---------|-----|-------------------------|
+| _IBM Plex Sans_ | Cabeçalhos, _labels_, parágrafos, botões, _badges_, navegação lateral, _breadcrumbs_ | "Cadastro de Máquinas", "Olá, Carlos", "Registrar pausa", "Gerar relatório" |
+| _IBM Plex Mono_ | Contadores de ciclo, IDs de máquina/ordem/molde, tópicos _MQTT_, _timestamps_ e durações, valores numéricos em KPIs | "412 / 980", "INJ-07", "#48217", "maquina/inj-04", "11:27:30", "00:14:38" |
+
+Notas de aplicação:
+- _IBM Plex Mono_ preserva alinhamento vertical em colunas numéricas de tabelas — exemplificado na tela [Cadastro de Máquinas](#4211-cadastro-de-máquinas-administração), em [Ordens de Produção](#425-ordens-de-produção) e na lista de pausas / paradas em [Detalhe da Máquina](#424-detalhe-da-máquina);
+- IDs de máquina, molde e ordem aparecem sempre em _Mono_ para reforçar a leitura técnica e diferenciá-los de texto narrativo;
+- Pesos sugeridos: _Sans_ em 400 / 500 / 600 (regular, _medium_, _semibold_), _Mono_ em 400 / 500 — evitar pesos extremos (100 / 200 / 800 / 900) para não comprometer a legibilidade em telas industriais e _displays_ de chão de fábrica;
+- O `ConfigProvider` do _Ant Design_ recebe `theme.token.fontFamily = "var(--font-ibm-plex-sans)"`; componentes _Typography_ com `code` ou via classe utilitária customizada usam `var(--font-ibm-plex-mono)`.
 
 # 5. Arquitetura do Sistema
 
