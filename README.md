@@ -902,10 +902,10 @@ Este _modal_ é compartilhado pelas três _personas_, mas apresenta variações 
 ![Cadastro de Máquinas — drawer (Identificação + Captura IoT + Parâmetros de ciclo)](Assets/Images/Prototypes/Machine_Register_Modal_Part1_V1.png)
 <p align="center"><em>Figura 30a. Drawer Cadastrar/Editar Máquina — topo: seções Identificação (ID, status inicial, descrição), Captura IoT · MQTT (tópico auto-gerado a partir do ID) e Parâmetros de ciclo (tempo padrão + fator de tolerância default 1,30).</em></p>
 
-![Cadastro de Máquinas — drawer (Escalonamento + Lotação + Pré-visualização)](Assets/Images/Prototypes/Machine_Register_Modal_Part2_V1.png.png)
+![Cadastro de Máquinas — drawer (Escalonamento + Lotação + Pré-visualização)](Assets/Images/Prototypes/Machine_Register_Modal_Part2_V1.png)
 <p align="center"><em>Figura 30b. Drawer Cadastrar/Editar Máquina — rolagem: seção Escalonamento para Parada (stepper pausas_consecutivas_para_parada — RN09, política de reset do contador — RN11) e Lotação (setor + turnos chips A/B/C multi-escolha).</em></p>
 
-![Cadastro de Máquinas — drawer (pré-visualização ao vivo)](Assets/Images/Prototypes/Machine_Register_Modal_Part3_V1.png.png)
+![Cadastro de Máquinas — drawer (pré-visualização ao vivo)](Assets/Images/Prototypes/Machine_Register_Modal_Part3_V1.png)
 <p align="center"><em>Figura 30c. Drawer Cadastrar/Editar Máquina — pré-visualização ao vivo dos parâmetros calculados: "ciclo 29,9s × 1,30 → pausa > 38,9s · Aplica 3 pausas consecutivas sem pulso intermediário, a máquina é classificada automaticamente como PARADA_AUTOMATICA (RN09)".</em></p>
 
 - **Propósito:** Cadastrar e editar máquinas com os parâmetros consumidos por RF17, RN06 e RN09 — `pausas_consecutivas_para_parada`, fator de tolerância e tempo de ciclo padrão. Edições posteriores aos parâmetros não apagam dados de ciclos já registrados (histórico preservado);
