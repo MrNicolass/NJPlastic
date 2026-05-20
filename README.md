@@ -913,13 +913,13 @@ Este _modal_ é compartilhado pelas três _personas_, mas apresenta variações 
 - **UCs / RFs cobertos:** parte de UC09 (administração); RF06; RN04, RN06, RN09, RN11;
 - **Ações principais (tela):**
   - Conferir KPIs do parque (cadastradas, tonelagem total, fator tol. médio, pausas/parada padrão);
-  - Filtrar por ID / modelo / canal MQTT (`njplastic/pulso`) / `machine_code`, setor e _status_ (Todas / Ativas / Manutenção);
+  - Filtrar por ID / modelo / tópico MQTT, setor e _status_ (Todas / Ativas / Manutenção);
   - Acionar "+ Cadastrar nova máquina" (_Cobalt_) — abre o _drawer_ de cadastro;
   - Acionar "Editar" em uma linha — abre o mesmo _drawer_ pré-preenchido;
-  - Inspecionar colunas de canal MQTT e `machine_code` (em mono) para diagnóstico rápido de _broker_.
+  - Inspecionar coluna _Tópico MQTT_ (em mono) para diagnóstico rápido de _broker_.
 - **Ações principais (_drawer_ — 560 px lateral):**
-  - Seção 1 — **Identificação:** Identificador (INJ-XX, único, usado como `machine_code` no payload MQTT e nas relações internas), Status inicial (Ativa / Manutenção / Desativada), Descrição livre;
-  - Seção 2 — **Captura IoT · MQTT:** Tópico MQTT fixo `njplastic/pulso`, identificação da máquina via campo `machine_code` no payload, _check_ de disponibilidade, _QoS_ 1 _at-least-once_ (RNF05);
+  - Seção 1 — **Identificação:** Identificador (INJ-XX, único, usado em tópicos MQTT e relações), Status inicial (Ativa / Manutenção / Desativada), Descrição livre;
+  - Seção 2 — **Captura IoT · MQTT:** Tópico MQTT auto-gerado a partir do ID (`maquina/inj-13`), _check_ de disponibilidade, _QoS_ 1 _at-least-once_ (RNF05);
   - Seção 3 — **Parâmetros de ciclo:** Tempo de ciclo padrão (segundos, consumido por RF07, RF08, RN06) + Fator de tolerância (multiplicador, _default_ 1,30);
   - Seção 4 — **Escalonamento para parada:** _stepper_ `pausas_consecutivas_para_parada` (_default_ 3, RN09) + política de Reset do contador (A cada pulso — RN11 / Manual);
   - Seção 5 — **Lotação · Setor e turnos:** Setor + Turnos padrão (chips A / B / C selecionáveis multi-escolha);
