@@ -1352,6 +1352,37 @@ Escolhido pela capacidade de lidar com alto volume de requisições I/O. -->
 
 > **Pendências no `package.json` (_Frontend_):** o _scaffolding_ atual de `Frontend/NJPlastic-Front/` já contém Next.js 16.2.4, React 19.2.4, TypeScript 5 e `eslint-config-next`. As seguintes dependências estão planejadas mas ainda não adicionadas — devem ser incluídas no início da _Sprint_ 5: `antd`, `@ant-design/icons`, `@ant-design/nextjs-registry`, `axios` (ou _wrapper_ sobre `fetch`), e a biblioteca de gerenciamento de estado a definir (_React Context_ nativo, _Zustand_ ou _TanStack Query_ — decisão pendente, ver [Seção 7.5](#75-riscos-e-marcos-críticos)).
 
+## 5.5. Geração Automatizada de Testes
+
+O projeto adota geração de testes assistida por IA via Claude Code, disparada em CI a cada _push_ de _feature branch_. A decisão de _o que testar_ e _como testar_ vive em _skills_ versionadas — instruções determinísticas para o agente — e não em _prompts_ _ad-hoc_, garantindo reprodutibilidade entre execuções.
+
+### 5.5.1. Visão Geral
+
+- Testes unitários do _backend_ (_JUnit 5_ + _Mockito_) e do _frontend_ (_Jest_ + _React Testing Library_) são produzidos pelo agente após qualquer alteração em código de produção;
+- O agente itera no máximo 5 ciclos editar→rodar; se não conseguir fazer o teste passar, deixa o arquivo no estado mais próximo de passar e reporta o motivo no _log_ do _workflow_ — o _pipeline_ segue sem bloquear o _merge_;
+- O agente **não** executa `git add`, `git commit` ou `git push`. O _workflow_ é o único responsável pelo ciclo de vida do _git_, evitando _commits_ órfãos em caso de falha na publicação.
+
+### 5.5.2. Componentes
+
+- **_Skills_** (arquivos `.md` com _YAML frontmatter_): definem _framework_, padrões por tipo de classe, exclusões e limites por _stack_. Uma _skill_ para Java (`java-tests`), outra para React (`react-tests`);
+- **_Workflows_ GitHub Actions** (`.github/workflows/generate-tests.yml`, um por repositório): disparam o agente, comitam os testes gerados e fazem _push_ na _branch_ de origem;
+- **_Self-hosted runners_** (um por repositório): necessários porque o agente carrega o _Vault_ Obsidian do mantenedor como contexto (`--add-dir`) e usa o _wrapper_ `claude-smart` para resolver o caminho do _Vault_ por projeto.
+
+### 5.5.3. Escopo e Limites
+
+- O agente **não** gera testes para DTOs sem comportamento, classes anotadas apenas com `@Configuration`/`@ConfigurationProperties`, _enums_ sem métodos, `NjplasticApiApplication.java`, `package-info.java`, _Server Components_ puros do Next.js (sem `"use client"`), arquivos `next.config.*`/`eslint.config.*`/`tsconfig.json` ou arquivos já dentro de `src/test/` ou `src/__tests__/`;
+- O agente escolhe o _slice_ Spring mais leve por tipo de classe: `@WebMvcTest` para `@RestController`, `@DataJpaTest` para _repositories_ JPA, JUnit 5 + Mockito puro (`@ExtendWith(MockitoExtension.class)`) para _services_, sem `@SpringBootTest` por padrão;
+- Testes não podem depender de infraestrutura externa real (_PostgreSQL_, _broker_ MQTT, _backend_ HTTP) — devem usar _slices_ Spring, _mocks_ (`@MockitoBean`, `jest.mock`) ou _testcontainers_.
+
+### 5.5.4. Trigger e Branches Protegidas
+
+- O _workflow_ dispara em _push_ para qualquer _branch_ **exceto** `release/qa`, `main` e `develop`;
+- O nome da _branch_ (padrão `feature/TAPIEMS-XXX-...`) é parseado para extrair o código de _issue_ usado na mensagem de _commit_ (`TAPIEMS-XXX: Generated tests by Claude Code agent`).
+
+### 5.5.5. Referências de Implementação
+
+Detalhes operacionais, _bugs_ resolvidos e estado atual dos _runners_ estão documentados na nota `GitHub Actions - Geração Automática de Testes` do _Vault_ Obsidian do projeto. As _skills_ ficam em `Claude/Skills/java-tests-skill.md` e `Claude/Skills/react-tests-skill.md` no mesmo _Vault_, com _symlinks_ ativos em `.claude/skills/{java,react}-tests/SKILL.md` para que o Claude Code as carregue como _skills_ reais.
+
 # 6. Segurança e Privacidade
 
 <!-- Inclua preocupações básicas de segurança.
