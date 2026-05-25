@@ -1080,7 +1080,7 @@ Os contêineres e seus protocolos são:
 |-----------|------------|----------------------|-----------------|
 | Microcontrolador | Arduino | — (sinal elétrico da injetora) | Captura o pulso e publica o _timestamp_ via MQTT QoS 1 (RF01, RNF05) |
 | _MQTT Broker_ | Mosquitto 2.x | MQTT Publish | Intermedeia mensagens _pub/sub_ entre microcontrolador e API (RF02) |
-| API | Java / Spring Boot 3.5.x | MQTT Subscribe + JSON/HTTPS | Calcula ciclos, detecta pausas, sincroniza ERP e expõe _endpoints_ REST (RF07–RF14) |
+| API | Java / Spring Boot 4.0.x | MQTT Subscribe + JSON/HTTPS | Calcula ciclos, detecta pausas, sincroniza ERP e expõe _endpoints_ REST (RF07–RF14) |
 | Banco de Dados | PostgreSQL 16 | JDBC / JPA | Armazena ciclos, estados de máquina, usuários e auditoria de requisições (RN07) |
 | _Frontend_ | React (SPA) | JSON/HTTPS | Exibe _dashboards_ em tempo real por perfil de usuário (RF11, RF15, RF16) |
 | ERP | externo (_SQL Server_ / _Oracle_ / _PostgreSQL_) | JDBC direto | Repositório corporativo de produção (RF12–RF14, RNF13) |
@@ -1328,7 +1328,7 @@ Escolhido pela capacidade de lidar com alto volume de requisições I/O. -->
 | IoT — Hardware | Arduino (UNO) | — | Hardware acessível, amplamente documentado, sem _vendor lock-in_; substituível por ESP32 via RF-F01 no _roadmap_ | 1.3.1.3 |
 | IoT — Conectividade | ESP8266 (Wi-Fi) | — | Adaptador de baixo custo | RF01 |
 | Linguagem _Backend_ | Java | 25 (LTS) | Ecossistema Spring maduro, vasta disponibilidade de profissionais, tipagem estática reduz erros em domínio de regras complexas | — |
-| Framework _Backend_ | Spring Boot | 3.5.x | Convenção sobre configuração, _starter_ para todos os módulos necessários (Web, Security, Data JPA, Scheduling); ampla documentação; suporte de longo prazo | RNF12 |
+| Framework _Backend_ | Spring Boot | 4.0.x | Convenção sobre configuração, _starter_ para todos os módulos necessários (Web, Security, Data JPA, Scheduling); ampla documentação; suporte de longo prazo | RNF12 |
 | Segurança | Spring Security + JWT | Spring Security 6.x / JWT 0.12.x | JWT _stateless_ elimina sessão no servidor, facilitando escalabilidade horizontal (RNF11); Spring Security integra nativamente com Spring Boot | RNF06, RNF07, RNF08, RN01 |
 | ORM (_PostgreSQL_ local) | Spring Data JPA (Hibernate) | Gerenciado pelo Spring Boot | Reduz _boilerplate_ de _query_ para as entidades do domínio NJPlastic (`user`, `machine`, `production_cycle`, `machine_status`, `audit_log`); alinhado com o C4 Component Diagram (§5.1.3) | RN07 |
 | Acesso ERP | JDBC nativo (`DriverManager`) | Driver por fornecedor | Agnóstico de fornecedor de ERP (_SQL Server_, _Oracle_, _PostgreSQL_); sem abstração JPA — exigência arquitetural firme para compatibilidade com bancos legados | RNF13, RF12 |
@@ -1347,10 +1347,6 @@ Escolhido pela capacidade de lidar com alto volume de requisições I/O. -->
 | Biblioteca de componentes _Frontend_ | Ant Design (`antd`) | 5.x | Conjunto maduro de componentes prontos para _dashboards_ industriais (`Table`, `Form`, `Modal`, `DatePicker`, `Badge`, `Statistic`); tema customizável via `ConfigProvider` (_design tokens_ v5) — permite mapear a paleta da [Seção 4.5](#45-identidade-visual-e-paleta-de-cores) sem CSS manual; tipagem TypeScript nativa; integração com Next.js _App Router_ via `@ant-design/nextjs-registry` para evitar _flash_ de estilo em SSR; reduz tempo de implementação das telas das três _personas_ (UC02 a UC09) | RF11, RF15, RF16, RNF09, RNF10 |
 | Empacotamento / _Deployment_ | Docker + Docker Compose | Docker 26+ / Compose v2 | Um único `docker-compose.yml` por _deployment_ de cliente (PostgreSQL + Mosquitto + _backend_ + _frontend_); alinhado com o modelo de isolamento por infraestrutura — sem _multi-tenant_ (Seção 2.6) | RNF04, Seção 2.6 |
 | Observabilidade | SLF4J + Logback | Padrão Spring Boot | _Logging_ estruturado; base suficiente para o MVP; extensível para Loki/Grafana na Seção 7 | RNF04 |
-
-> **Pendências no `pom.xml`:** as seguintes dependências estão planejadas mas ainda não adicionadas ao `pom.xml` atual — devem ser incluídas antes do desenvolvimento das respectivas funcionalidades: `spring-boot-starter-security` (Spring Security + JWT), `spring-boot-starter-data-jpa` (Hibernate / Spring Data JPA), `org.eclipse.paho:org.eclipse.paho.client.mqttv3` (Eclipse Paho MQTT), e o _driver_ JDBC do ERP do cliente (_mssql-jdbc_ ou _ojdbc11_). O `pom.xml` atual também contém um conflito de versão entre o _parent_ (`4.0.6`) e dependências explicitamente pinadas em `3.5.3` — padronizar para Spring Boot 3.5.x antes do início do desenvolvimento.
-
-> **Pendências no `package.json` (_Frontend_):** o _scaffolding_ atual de `Frontend/NJPlastic-Front/` já contém Next.js 16.2.4, React 19.2.4, TypeScript 5 e `eslint-config-next`. As seguintes dependências estão planejadas mas ainda não adicionadas — devem ser incluídas no início da _Sprint_ 5: `antd`, `@ant-design/icons`, `@ant-design/nextjs-registry`, `axios` (ou _wrapper_ sobre `fetch`), e a biblioteca de gerenciamento de estado a definir (_React Context_ nativo, _Zustand_ ou _TanStack Query_ — decisão pendente, ver [Seção 7.5](#75-riscos-e-marcos-críticos)).
 
 ## 5.5. Geração Automatizada de Testes
 
@@ -1536,7 +1532,7 @@ A tabela abaixo mapeia cada uma das categorias do _OWASP Top 10:2021_<sup>[[12]]
 | A03 — _Injection_ | SQL _injection_ no `ErpDatabaseRepository` (JDBC nativo, sem JPA — RNF13); injection em _payload_ MQTT | _PreparedStatement_ obrigatório em todas as _queries_ JDBC; validação de DTOs com _Bean Validation_; _whitelist_ de `machine_code` antes de executar _lookup_ | RNF13, RF01 |
 | A04 — _Insecure Design_ | Lógica de detecção replicada em camadas; cálculo de pausa fora do _service_ | `ProductionService` é o **único** ponto que conhece RN05–RN12 ([5.3](#camada-backend--produção--mqtt)); padrão _Controller → Service → Repository_ rigoroso | RNF12, RNF13 |
 | A05 — _Security Misconfiguration_ | Swagger UI exposto em produção; CORS permissivo; cabeçalhos de segurança ausentes | Swagger desabilitado em _profile_ `prod`; CORS restrito ao domínio do _Frontend_ do Controlador; cabeçalhos `X-Content-Type-Options`, `Strict-Transport-Security`, `Content-Security-Policy` configurados via Spring Security<sup>[[17]](#ref-17)</sup> | RNF04 |
-| A06 — _Vulnerable and Outdated Components_ | Dependência com CVE conhecida (ex.: Log4Shell, Jackson) | Maven _Dependency Check_ no pipeline de CI; _pinning_ explícito de versões; correção da pendência atual de `pom.xml` (parent 4.0.6 vs deps 3.5.3) antes da Sprint 5 (ver fim da [Seção 5.4](#54-stack-tecnológica)) | RNF04 |
+| A06 — _Vulnerable and Outdated Components_ | Dependência com CVE conhecida (ex.: Log4Shell, Jackson) | Maven _Dependency Check_ no pipeline de CI; _pinning_ explícito de versões; | RNF04 |
 | A07 — _Identification and Authentication Failures_ | Enumeração de _login_; força bruta em `/auth/login` | Mensagem 401 genérica (Fluxo Alt. [3.2.1](#321-falha-de-autenticação-uc01)); _rate limit_ por IP no _endpoint_ de _login_; expiração curta de JWT; política de senha conforme NIST<sup>[[16]](#ref-16)</sup> | RNF08, RF03 |
 | A08 — _Software and Data Integrity Failures_ | JAR não-assinado em produção; _supply chain_ via dependência Maven; _payload_ MQTT adulterado | _Build_ reproduzível via Maven _wrapper_; imagem Docker assinada e versionada; verificação opcional de assinatura HMAC no _payload_ MQTT em redes industriais hostis | RNF04 |
 | A09 — _Security Logging and Monitoring Failures_ | Falta de trilha para detectar acesso indevido | `AuditFilter` _append-only_ na `audit_log`, persistindo todas as requisições — ver [5.2](#52-modelo-de-dados) e [6.5](#65-auditoria-e-monitoramento) | RF20, RN12, RNF08 |
@@ -1736,7 +1732,7 @@ As tarefas marcadas como `[PROPOSTA]` em [7.2](#72-panorama-das-sprints) cobrem 
 
 ## 7.5. Riscos e Marcos Críticos
 
-- **Conflito de versão no `pom.xml`** — _parent_ 4.0.6 vs. dependências diferentes em 3.5.3 (declarado no fim da [Seção 5.4](#54-stack-tecnológica)). **Bloqueador** para a _Sprint_ 5: deve ser resolvido até **25/05/26** (encerramento da _Sprint_ 4);
+- **Conflito de versão no `pom.xml`** — _parent_ 4.0.6 vs. dependências pinadas em 3.5.3 (declarado no fim da [Seção 5.4](#54-stack-tecnológica)). **Resolvido em 24/05/26** pela tarefa `868jq8x10`: pins `3.5.3` removidos (herdam do BOM 4.0.6), `spring-boot-starter-web` redundante eliminado em favor de `spring-boot-starter-webmvc`, _parent_ confirmado em `4.0.6` conforme decisão do _commit_ `NJP-868jdc4jv`. `EP-BE-01` desbloqueado para a _Sprint_ 5;
 - **Disponibilidade do banco do _ERP_ no piloto** — entregue pelo Cliente; sem ele, o _ErpSyncScheduler_ não pode ser validado contra dados reais. Mitigação descrita em [7.4](#74-observações-de-capacidade);
 - **Concorrência entre RFC e código nas _Sprints_ 5–6** — risco de uma trilha atrasar a outra. Mitigação: priorizar a entrega documental (RFC) e mover excedente de código para _backlog_ pós-22/06;
 - **Observabilidade ainda em fase inicial** — _stack_ Loki/Grafana mencionado em [Seção 5.4](#54-stack-tecnológica) é planejado, mas não foi escopado para o MVP. O monitoramento descrito em [6.5](#65-auditoria-e-monitoramento) será implementado em nível básico (logs Logback + tabela `audit_log`) e estendido em release posterior ao MVP;
