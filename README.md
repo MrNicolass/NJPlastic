@@ -26,6 +26,13 @@
         <td><strong>Versão</strong></td>
         <td>1.0.0</td>
     </tr>
+    <tr>
+        <td><strong>Repositórios</strong></td>
+        <td>
+            <a href="https://github.com/MrNicolass/NJPlastic-Front">Frontend</a>
+            <a href="https://github.com/MrNicolass/NJPlastic-Back">Backend</a>
+        </td>
+    </tr>
 </table>
 
 # 1. Visão do Produto e Impacto (O Problema)
