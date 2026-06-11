@@ -43,6 +43,7 @@ Com isso em mente, a NJPlastic vem com objetivo de integrar máquinas injetoras 
 - Cruzar a retirada de um dado analógico das injetoras com dados de produção cadastrados no ERP (agora, podendo ser cadastrados na NJPlastic primeiro caso desejado);
 - Permitir a visualização de produção para gestores em tempo real;
 - Unificar operações que são feitas em diversas telas no ERP, em um só lugar.
+
 Atualmente já existem sistemas parecidos, porém não fazem integração com ERPs (ou fazem pouca integração - geralmente apenas leituras), são caros (comparado com o quê entregam), não são intuitivos e aparentam ter sido desenvolvidos com auxílio de IA puramente, o que pode ser um problema.
 
 ## 1.1. Contexto e Problema
